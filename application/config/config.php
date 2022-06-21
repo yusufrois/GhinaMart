@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 
 // e.g https://pencil.gigabyteltd.net/
-$config['base_url'] = "http://localhost/akuntansi/";
+$config['base_url'] = "http://localhost/GhinaMart/";
 
 date_default_timezone_set('Asia/Jakarta');
 
