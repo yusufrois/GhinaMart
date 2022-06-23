@@ -30,7 +30,7 @@ class Forget_password extends CI_Controller
 				$cname = $this->db->get_where('mp_langingpage', array(
 					'id' => 1
 				))->result_array() [0]['companyname'];
-				$this->email->from('isya40@gmail.com', $cname);
+				$this->email->from('anaksoleh07.pro@gmail.com', $cname);
 				$this->email->to($user_email);
 				$this->email->subject("Lupa Password ");
 				$this->email->message($email_desc);
@@ -92,7 +92,7 @@ class Forget_password extends CI_Controller
 
 				$cname = $this->db->get_where('mp_langingpage', array(
 					'id' => 1))->result_array() [0]['companyname'];
-				$this->email->from('isya40@gmail.com', $cname);
+				$this->email->from('anaksoleh07.pro@gmail.com', $cname);
 				$this->email->to($user_email);
 				$this->email->subject("Lupa Kata Sandi ");
 				$this->email->message($email_desc);
