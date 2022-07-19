@@ -145,6 +145,10 @@ class Purchase extends CI_Controller
 		//DEFINES TO FETCH THE LIST OF BANK ACCOUNTS 
 		$data['bank_list'] = $this->Crud_model->fetch_record('mp_banks','status');
 
+		//DEFINES TO LOAD BANK AKUN OR COA MP_HEAD
+		$result = $this->Crud_model->fetch_record('mp_head','pembayaran');
+		$data['akun_list'] = $result;
+		
 		// DEFINES WHICH PAGE TO RENDER
 		$data['main_view'] = 'create_purchase';
 
@@ -210,7 +214,8 @@ class Purchase extends CI_Controller
 				'cus_picture' => $picture,
 				'status' => $status,
 				'bank_id' => $bank_id,
-				'credithead' => ($pur_method == 'Cash' ? '2' : '16'),
+				//'credithead' => ($pur_method == 'Cash' ? '2' : '16'),
+				'credithead' => $pur_method,
 				'ref_no' => $ref_no
 			);
 

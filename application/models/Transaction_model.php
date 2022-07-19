@@ -644,7 +644,7 @@ class Transaction_model extends CI_Model
         { 
             $data1  = array(
                 'date'             => date('Y-m-d'), 
-                'naration'         => 'Transaksi dilakukan dari Pembelian ke Supplier', 
+                'naration'         => 'Transaksi dilakukan dari Pembelian ke Supplier - '.$data_fields['invoice_id'], 
                 'generated_source'     => 'create_purchases'
                 );
 
@@ -681,9 +681,9 @@ class Transaction_model extends CI_Model
             }
             else if($data_fields['total_amount'] > $data_fields['cash'])
             {   
-                $debithead     = 21; 
-                $credithead    =  $data_fields['credithead'];  
-                $credithead2   = 5;  
+                $debithead     = 21; // akun bank pembelian
+                $credithead    =  $data_fields['credithead']; // akun bank kas  
+                $credithead2   = 5; // akun bank hutang usaha AP
 
                 $debitamount  = $data_fields['total_amount'];
                 $creditamount = $data_fields['cash'];
@@ -720,7 +720,7 @@ class Transaction_model extends CI_Model
                 $this->db->insert('mp_sub_entry',$sub_data);
             }
 
-            if($data_fields['credithead'] == 16)
+            if($data_fields['credithead'] == 16) //jika pilih akun bank
             {
                //TRANSACTION DETAILS 
                 $sub_data  = array(
@@ -728,7 +728,7 @@ class Transaction_model extends CI_Model
                 'bank_id'             => $data_fields['bank_id'], 
                 'payee_id'            => $data_fields['supplier_id'], 
                 'method'              => $data_fields['payment_type_id'],
-                'cheque_amount'              => $data_fields['cash'],
+                'cheque_amount'       => $data_fields['cash'],
                 'ref_no'              => $data_fields['ref_no'],
                 'transaction_status'  => 1,
                 'transaction_type'    => 'paid'
@@ -737,6 +737,7 @@ class Transaction_model extends CI_Model
 
             }
         }
+        //batas pembelian
 
         else if($data_fields['status'] == 1)
         { 
@@ -837,6 +838,16 @@ class Transaction_model extends CI_Model
             }
         }
         // ASSIGN THE VALUES OF TEXTBOX TO ASSOCIATIVE ARRAY
+        if($data_fields['total_amount'] == $data_fields['cash'])
+        {
+            //$payment_type = 'Cash';
+            $payment_type = $data_fields['payment_type_id'];
+        }
+        else
+        {
+            //$payment_type = 'Cheque';
+            $payment_type = 4;
+        }
         $args = array(
             'transaction_id' => $tran_id,
             'date' => $data_fields['date'],
@@ -844,7 +855,8 @@ class Transaction_model extends CI_Model
             'store' => $data_fields['store'],
             'invoice_id' => $data_fields['invoice_id'],
             'total_amount' => $data_fields['total_amount'],
-            'payment_type_id' => $data_fields['payment_type_id'],
+            //'payment_type_id' => $data_fields['payment_type_id'],
+            'payment_type_id' => $payment_type,
             'payment_date' => $data_fields['payment_date'],
             'cash' => $data_fields['cash'],
             'description' => $data_fields['description'],
@@ -871,6 +883,7 @@ class Transaction_model extends CI_Model
 
         return $data_fields;
     }
+    //batas
 
     //USED TO INSERT SALE AND ACCOUNTS TRANSACTION
     function single_supply_transaction($data)

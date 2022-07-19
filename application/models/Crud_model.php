@@ -103,7 +103,12 @@ class Crud_model extends CI_Model
 
     public function fetch_record($tablename, $args)
     {
-        if ($args != NULL)
+        if($args == 'pembayaran')
+        {
+            $this->db->where(['expense_type' => $args]);
+            $query = $this->db->get($tablename);
+        }
+        else if ($args != NULL)
         {
             $this->db->where(['status' => 0]);
             $query = $this->db->get($tablename);

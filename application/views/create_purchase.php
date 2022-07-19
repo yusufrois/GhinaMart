@@ -98,8 +98,23 @@
                             <div class="form-group">
                                 <?php echo form_label('Metode Pembayaran'); ?>
                                 <select name="pur_method" id="payment_id" class="form-control input-lg">
-                                    <option value="Cash">Tunai</option>
-                                    <option value="Cheque">Cek</option>
+                                        <?php
+                                        //category_names from mp_category table;
+                                        if($akun_list != NULL)
+                                        {       
+                                            foreach ($akun_list as $single_akun)
+                                            {
+                                        ?>
+                                            <option value="<?php echo $single_akun->id; ?>" ><?php echo $single_akun->name; ?> 
+                                            </option>
+                                        <?php
+                                                }
+                                            }
+                                            else
+                                            {
+                                                echo "No Record Found";
+                                            }
+                                        ?>
                                 </select>
                             </div>
                             
@@ -143,6 +158,26 @@
                             <div class="col-md-9">
                                 <div class="form-group ">
                                     <label>Bank account: </label>               
+                                    <select class="form-control select2" name="bank_id" id="bank_id"  style="width: 100%;">
+                                        <option value="0"> Akun Bank</option>
+                                        <?php
+                                        //category_names from mp_category table;
+                                        if($bank_list != NULL)
+                                        {       
+                                            foreach ($bank_list as $single_bank)
+                                            {
+                                        ?>
+                                            <option value="<?php echo $single_bank->id; ?>" ><?php echo $single_bank->bankname.' | Nama '.$single_bank->title.' | Akun '.$single_bank->accountno.' | Cabang '.$single_bank->branch.' | Kode '.$single_bank->branchcode; ?> 
+                                            </option>
+                                        <?php
+                                                }
+                                            }
+                                            else
+                                            {
+                                                echo "No Record Found";
+                                            }
+                                        ?>  
+                                    </select>
                                     <select class="form-control select2" name="bank_id" id="bank_id"  style="width: 100%;">
                                         <option value="0"> Akun Bank</option>
                                         <?php
