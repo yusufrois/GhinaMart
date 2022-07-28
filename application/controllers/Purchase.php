@@ -18,6 +18,7 @@ class Purchase extends CI_Controller
 		// DEFINES WHICH PAGE TO RENDER
 		$data['main_view'] = 'purchase';
 
+		
 		// DEFINES THE TABLE HEAD
 		$data['table_heading_names_of_coloums'] = array(
 			'ID Transaksi ',
@@ -48,6 +49,7 @@ class Purchase extends CI_Controller
 		$this->load->model('Crud_model');
 		$result = $this->Crud_model->fetch_record_purchased(0,$date1,$date2);
 		$data['purchase_list'] = $result;
+
 
 		// DEFINES GO TO MAIN FOLDER FOND INDEX.PHP  AND PASS THE ARRAY OF DATA TO THIS PAGE
 		$this->load->view('main/index.php', $data);
@@ -133,7 +135,7 @@ class Purchase extends CI_Controller
 	{
 		// DEFINES PAGE TITLE
 		$data['title'] = 'Tambah Pembelian';
-
+		$user_name = $this->session->userdata('user_id');
 		// DEFINES TO LOAD THE CATEGORY LIST FROM DATABSE TABLE mp_Categoty
 		$this->load->model('Crud_model');
 		$result = $this->Crud_model->fetch_payee_record('supplier','status');
@@ -152,6 +154,10 @@ class Purchase extends CI_Controller
 		// DEFINES WHICH PAGE TO RENDER
 		$data['main_view'] = 'create_purchase';
 
+		// load purchase template 
+		//LOAD FRESH CONTENT AVAILABLE IN TEMP TABLE
+		$data['temp_data'] = $this->Crud_model->fetch_userid_source_purchase('mp_temp_barcoder_purchase','pos',$user_name['id']);
+		$data['temp_view'] = 'purchase_template';
 		// DEFINES GO TO MAIN FOLDER FOND INDEX.PHP  AND PASS THE ARRAY OF DATA TO THIS PAGE
 		$this->load->view('main/index.php', $data);
 	}
@@ -370,6 +376,20 @@ class Purchase extends CI_Controller
 			$data['single_purchase'] = $this->Crud_model->fetch_record_by_id('mp_purchase',$param);
 			//model name available in admin models folder
 			$this->load->view( 'admin_models/view_purchase_detail.php',$data);
+		}
+		else if($page_name  == 'add_customer_payment_pos_model')
+		{
+			$this->load->model('Accounts_model');
+
+			$data['previous_amt'] = $this->Accounts_model->previous_balance($param);
+
+			$data['cus_id'] = $param;
+
+			$data['customer_list'] = $this->Crud_model->fetch_payee_record('customer',NULL);
+			//DEFINES TO FETCH THE LIST OF BANK ACCOUNTS 
+			$data['bank_list'] = $this->Crud_model->fetch_record('mp_banks','status');
+			
+			$this->load->view( 'admin_models/add_models/add_customer_payment_pos_model.php',$data);
 		}		
 	}
 
@@ -410,5 +430,485 @@ class Purchase extends CI_Controller
 		}
 
 		redirect('customers');
+	}
+
+
+	//purchase/add_barcode_item
+	//USED TO ADD ITEM INTO TEMP INVOICE TABLE USING BARCODE
+	function add_barcode_item($barcode)
+	{
+		// DEFINES LOAD CRUDS_MODEL FORM MODELS FOLDERS
+		$this->load->model('Crud_model');
+
+		$user_name = $this->session->userdata('user_id');
+
+		$result = $this->Crud_model->fetch_attr_record_by_id('mp_productslist','barcode',$barcode);
+		if($result != NULL)
+		{
+
+			$check_item_in_temp = $this->Crud_model->fetch_attr_record_by_userid_source('mp_temp_barcoder_purchase','barcode',$barcode,$user_name['id'],'pos');
+
+			if($result[0]->quantity > 0)
+			{
+				$stockargs   = array(
+					'table_name' =>'mp_productslist', 
+					'id' =>$result[0]->id, 
+				);
+
+				$stockdata = array(
+					'quantity' => $result[0]->quantity-1
+				);
+
+				$this->Crud_model->edit_record_id($stockargs, $stockdata);
+
+				if($check_item_in_temp != NULL)
+				{
+					$qty = '';
+
+					$qty = $check_item_in_temp[0]->qty+1;
+
+					$args = array(
+						'table_name' => 'mp_temp_barcoder_purchase',
+						'id' => $check_item_in_temp[0]->id
+					);
+
+					$data = array(
+						'qty' => $qty
+					);
+
+					$this->Crud_model->edit_record_id($args, $data);
+				}
+				else
+				{
+					$tax_amount = ($result[0]->tax/100)*$result[0]->retail;
+
+					// ASSIGN THE VALUES OF TEXTBOX TO ASSOCIATIVE ARRAY FOR EVERY ITERATION
+					$temp_data = array(
+					'barcode' => $result[0]->barcode,
+					'product_no' => $result[0]->sku,
+					'product_id' => $result[0]->id,
+					'product_name' => $result[0]->product_name,
+					'mg' => $result[0]->mg,
+					'price' => $result[0]->retail,
+					'purchase' => $result[0]->purchase,
+					'qty' => 1,
+					'tax' => $tax_amount,
+					'agentid' => $user_name['id'],
+					'source' => 'pos'
+					);
+
+					// DEFINES CALL THE FUNCTION OF insert_data FORM Crud_model CLASS
+					$result = $this->Crud_model->insert_data('mp_temp_barcoder_purchase', $temp_data);
+				}
+			}
+		}
+		//LOAD FRESH CONTENT AVAILABLE IN TEMP TABLE
+		$data['temp_data'] = $this->Crud_model->fetch_userid_source_purchase('mp_temp_barcoder_purchase','pos',$user_name['id']);
+		
+		$this->load->view('purchase_template.php',$data);
+	}
+
+
+	//Purchase/clear_temp_invoice
+	//USED TO CLEAR TEMP INVOICE
+	function clear_temp_invoice()
+	{
+		// DEFINES LOAD CRUDS_MODEL FORM MODELS FOLDERS
+		$this->load->model('Crud_model');
+
+		//GET THE CURRENT USER
+		$user_name = $this->session->userdata('user_id');
+
+		//FETCH THE ITEM FROM DATABSE TABLE TO ADD AGAIN TO STOCK
+		$result = $this->Crud_model->fetch_userid_source_purchase('mp_temp_barcoder_purchase','pos',$user_name['id']);
+
+		if($result  != NULL)
+		{
+
+			foreach ($result as $single_item) 
+			{
+				//FETCH THE ITEM FROM STOCK TABLE 
+				$result_stock = $this->Crud_model->fetch_record_by_id('mp_productslist',$single_item->product_id);
+
+				// TABLENAME AND ID FOR DATABASE Actions
+				$args = array(
+					'table_name' => 'mp_productslist',
+					'id' => $single_item->product_id
+				);
+
+
+				$data = array(
+					'quantity' => $result_stock[0]->quantity+$single_item->qty
+				);
+
+				// CALL THE METHOD FROM Crud_model CLASS FIRST ARG CONTAINES TABLENAME AND OTHER CONTAINS DATA
+				$this->Crud_model->edit_record_id($args, $data);
+
+			}
+
+			$this->Crud_model->delete_record_by_userid('mp_temp_barcoder_purchase','pos',$user_name['id']);
+		}
+
+			//LOAD FRESH CONTENT AVAILABLE IN TEMP TABLE
+			$data['temp_data'] = $this->Crud_model->fetch_userid_source_purchase('mp_temp_barcoder_purchase','pos',$user_name['id']);
+
+			$this->load->view('purchase_template.php',$data);
+	}
+
+
+	//Purchase/search_result_manual
+	//USED TO SEARCH MANUAL ITEMS
+	function search_result_manual($search_result)
+	{
+		if($search_result != NULL)
+		{
+			// DEFINES LOAD CRUDS_MODEL FORM MODELS FOLDERS
+			$this->load->model('Crud_model');
+
+			$result = $this->Crud_model->search_items_stock($search_result);
+			//LOAD FRESH CONTENT AVAILABLE IN TEMP TABLE
+			$data['search_result'] = $result;
+			$this->load->view('search_list.php',$data);
+		}
+	}
+
+
+	//Purchase/add_selected_item
+	//USED TO ADD ITEM INTO TEMP INVOICE TABLE USING BARCODE
+	function add_selected_item($id)
+	{
+		// DEFINES LOAD CRUDS_MODEL FORM MODELS FOLDERS
+		$this->load->model('Crud_model');
+		$user_name = $this->session->userdata('user_id');
+
+		if($id != '')
+		{
+			$result = $this->Crud_model->fetch_record_by_id('mp_productslist',$id);
+
+			$check_item_in_temp = $this->Crud_model->fetch_attr_record_by_userid_source('mp_temp_barcoder_purchase','product_id',$id,$user_name['id'],'pos');
+
+
+				if($result[0]->quantity >= 0)
+				{
+					$stockargs   = array(
+						'table_name' =>'mp_productslist', 
+						'id' =>$result[0]->id, 
+					);
+
+					$stockdata = array(
+						'quantity' => $result[0]->quantity-1
+					);
+
+					$this->Crud_model->edit_record_id($stockargs, $stockdata);
+
+					if($check_item_in_temp != NULL)
+					{
+						$qty = $check_item_in_temp[0]->qty+1;
+
+						$args = array(
+							'table_name' => 'mp_temp_barcoder_purchase',
+							'id' => $check_item_in_temp[0]->id
+						);
+
+						$data = array(
+							'qty' => $qty
+						);
+
+						$this->Crud_model->edit_record_id($args, $data);
+					}
+					else
+					{
+						if($result != NULL)
+						{
+							$tax_amount = ($result[0]->tax/100)*$result[0]->retail;
+
+							// ASSIGN THE VALUES OF TEXTBOX TO ASSOCIATIVE ARRAY FOR EVERY ITERATION
+								$args = array(
+									'barcode' => $result[0]->barcode,
+									'product_no' => $result[0]->sku,
+									'product_id' => $result[0]->id,
+									'product_name' => $result[0]->product_name,
+									'mg' => $result[0]->mg,
+									'price' => $result[0]->retail,
+									'purchase' => $result[0]->purchase,
+									'qty' => 1,
+									'tax' => $tax_amount,
+									'agentid' => $user_name['id'],
+									'source' => 'pos'
+								);
+								// DEFINES CALL THE FUNCTION OF insert_data FORM Crud_model CLASS
+								$result = $this->Crud_model->insert_data('mp_temp_barcoder_purchase', $args);
+						}
+				}
+
+			}
+				//LOAD FRESH CONTENT AVAILABLE IN TEMP TABLE
+				$data['temp_data'] = $this->Crud_model->fetch_userid_source_purchase('mp_temp_barcoder_purchase','pos',$user_name['id']);
+
+				$this->load->view('purchase_template.php',$data);
+		}
+	}
+
+
+	// Purchase/manage
+	public function manage()
+	{
+
+		// DEFINES PAGE TITLE
+		$data['title'] = 'Pembelian';
+
+		$collection = array();
+
+		// DEFINES TO LOAD THE MODEL
+		$this->load->model('Accounts_model');
+		$first_date = html_escape($this->input->post('date1'));
+		$second_date = html_escape($this->input->post('date2'));
+		$invoice_no = html_escape($this->input->post('invoice_no'));
+		if ($invoice_no != NULL)
+		{
+			$this->load->model('Crud_model');
+			$result_invoices = $this->Crud_model->fetch_record_by_id('mp_invoices', $invoice_no);
+		}
+		else
+		{
+			
+			if ($first_date == NULL OR $second_date == NULL)
+			{
+				$first_date = date('Y-m-d');
+				$second_date = date('Y-m-d');
+
+				// FETCH SALES RECORD FROM invoices TABLE
+				$result_invoices = $this->Accounts_model->fetch_record_date('mp_invoices', $first_date, $second_date);
+			}
+			else
+			{
+
+				// FETCH SALES RECORD FROM invoices TABLE
+				$result_invoices = $this->Accounts_model->fetch_record_date('mp_invoices', $first_date, $second_date);
+			}
+		}
+
+		if ($result_invoices != NULL)
+		{
+			$count = 0;
+			// print "<pre>";
+			// print_r($result_invoices);
+			foreach($result_invoices as $obj_result_invoices)
+			{
+
+				// FETCH SALES RECORD FROM SALES TABLE
+				$result_sales = $this->Accounts_model->fetch_record_sales('mp_sales', 'order_id', $obj_result_invoices->id);
+				if ($result_sales != NULL)
+				{
+					$collection[$count] = $result_sales;
+					$count++;
+				}
+			}
+			// print "<pre>";
+			// print_r($collection);
+			// ASSIGNED THE FETCHED RECORD TO DATA ARRAY TO VIEW
+			$data['Sales_Record'] = $collection;
+			$data['Model_Title'] = "Edit invoice";
+			$data['Model_Button_Title'] = "Update invoices";
+			$data['invoices_Record'] = $result_invoices;
+
+			// DEFINES WHICH PAGE TO RENDER
+			$data['main_view'] = 'sales_invoices';
+
+			// DEFINES GO TO MAIN FOLDER FOND INDEX.PHP  AND PASS THE ARRAY OF DATA TO THIS PAGE
+			$this->load->view('main/index.php', $data);
+		}
+		else
+		{
+			// DEFINES WHICH PAGE TO RENDER
+			$data['main_view'] = 'main/error_invoices.php';
+			$data['actionresult'] = "invoice/manage";
+			$data['heading1'] = "Tidak ada faktur yang tersedia. ";
+			$data['heading2'] = "Ups! Maaf tidak ada catatan faktur yang tersedia di detail yang diberikan";
+			$data['details'] = "Kami akan segera memperbaikinya. Sementara itu, Anda dapat kembali atau mencoba menggunakan formulir pencarian.";
+			// DEFINES GO TO MAIN FOLDER FOND INDEX.PHP  AND PASS THE ARRAY OF DATA TO THIS PAGE
+			$this->load->view('main/index.php', $data);
+		}
+	}
+
+
+	//USED TO SEARCH CUSTOMERS PRIVIOUS BALANCE 
+	//Purchase/search_previous_cus_balance
+	function search_previous_cus_balance($cus_id)
+	{
+		$this->load->model('Accounts_model');
+	    $result = $this->Accounts_model->previous_balance($cus_id);
+		echo $result;
+	}
+
+
+	//USED TO UPDATE QUANTITY 
+    //Purchase/update_qty
+    function update_qty($val = '' , $id = '', $customprice = null)
+    {	
+    	
+      $this->load->model('Crud_model'); 
+      $this->load->model('Pos_transaction_model'); 
+      $user_name = $this->session->userdata('user_id');
+      $val = intval($val);
+
+      if($val != '' AND $id != '' AND  $val > -1)
+      {
+
+        $result = $this->Crud_model->fetch_attr_record_by_userid_source('mp_temp_barcoder_purchase','id',$id,$user_name['id'],'pos');
+
+        $result_stk = $this->Crud_model->fetch_record_by_id('mp_productslist',$result['0']->product_id);
+
+        $bal = 0;
+        $new_qty = 0;
+
+        if($result[0]->qty > $val)
+        {
+			
+          $bal = $result[0]->qty-$val;
+          $new_qty = $result_stk[0]->quantity+$bal;
+        }
+        else if($result[0]->qty < $val)
+        {
+           $bal = $val-$result[0]->qty;
+           $new_qty = $result_stk[0]->quantity-$bal;
+
+        }
+
+        if($result[0]->qty != $val AND $new_qty >= 0)
+        {
+	          $new_args = array(
+	            'table_name' => 'mp_productslist',
+	            'id' => $result['0']->product_id
+	          );
+
+              $new_data = array(
+                'quantity' => $new_qty
+              );
+
+              $temp_args = array(
+                  'table_name' => 'mp_temp_barcoder_purchase',
+                  'id' => $id
+                );
+
+			
+				$temp_data = array(
+					'qty' => $val
+				);	
+			
+			 
+
+            $this->Pos_transaction_model->general_pos_transaction($new_args, $new_data ,$temp_args ,$temp_data);
+        }
+
+      }
+        //LOAD FRESH CONTENT AVAILABLE IN TEMP TABLE
+		$data['temp_data'] = $this->Crud_model->fetch_userid_source_purchase('mp_temp_barcoder_purchase','pos',$user_name['id']);
+		
+        $this->load->view('purchase_template.php',$data);
+	}
+
+
+	//USED TO UPDATE QUANTITY 
+    //Purchase/update_qty
+    function update_price($val = '', $id = '')
+    {	
+    	
+      $this->load->model('Crud_model'); 
+      $this->load->model('Pos_transaction_model'); 
+      $user_name = $this->session->userdata('user_id');
+      $val = intval($val);
+
+      if($val != '' AND $id != '' AND  $val > -1)
+      {
+
+        $result = $this->Crud_model->fetch_attr_record_by_userid_source('mp_temp_barcoder_purchase','id',$id,$user_name['id'],'pos');
+
+        $result_stk = $this->Crud_model->fetch_record_by_id('mp_productslist',$result['0']->product_id);
+
+        $bal = 0;
+        $new_qty = 0;
+
+        if($result[0]->qty > $val)
+        {
+			
+          $bal = $result[0]->qty-$val;
+          $new_qty = $result_stk[0]->quantity+$bal;
+        }
+        else if($result[0]->qty < $val)
+        {
+           $bal = $val-$result[0]->qty;
+           $new_qty = $result_stk[0]->quantity-$bal;
+
+        }
+
+        if($result[0]->qty != $val AND $new_qty >= 0)
+        {
+	          $new_args = array(
+	            'table_name' => 'mp_productslist',
+	            'id' => $result['0']->product_id
+	          );
+
+              $new_data = array(
+                'quantity' => $new_qty
+              );
+
+              $temp_args = array(
+                  'table_name' => 'mp_temp_barcoder_purchase',
+                  'id' => $id
+                );
+
+				$temp_data = array(
+					'price'=>$val
+				);
+			 
+
+            $this->Pos_transaction_model->general_pos_transaction($new_args, $new_data ,$temp_args ,$temp_data);
+        }
+
+      }
+        //LOAD FRESH CONTENT AVAILABLE IN TEMP TABLE
+		$data['temp_data'] = $this->Crud_model->fetch_userid_source_purchase('mp_temp_barcoder_purchase','pos',$user_name['id']);
+		
+        $this->load->view('purchase_template.php',$data);
+	}
+
+
+	//purchase/delete_item_temporary
+	//USED TO DELETE AN ITEM FROM TEMPORARY TABLE OF BARCODE ITEMS
+	function delete_item_temporary_purc($item_id)
+	{	
+		// DEFINES LOAD CRUDS_MODEL FORM MODELS FOLDERS
+		$this->load->model('Crud_model');
+
+		//FETCH THE ITEM FROM DATABSE TABLE TO ADD AGAIN TO STOCK
+		$result = $this->Crud_model->fetch_record_by_id('mp_temp_barcoder_purchase',$item_id);		
+
+		//FETCH THE ITEM FROM STOCK TABLE 
+		$result_stock = $this->Crud_model->fetch_record_by_id('mp_productslist',$result[0]->product_id);
+
+		// TABLENAME AND ID FOR DATABASE Actions
+		$args = array(
+			'table_name' => 'mp_productslist',
+			'id' => $result[0]->product_id
+		);
+
+		$data = array(
+			'quantity' => $result_stock[0]->quantity+$result[0]->qty
+		);
+
+		// CALL THE METHOD FROM Crud_model CLASS FIRST ARG CONTAINES TABLENAME AND OTHER CONTAINS DATA
+		$this->Crud_model->edit_record_id($args, $data);
+
+		// DEFINES TO DELETE THE ROW FROM TABLE AGAINST ID
+		$this->Crud_model->delete_record('mp_temp_barcoder_purchase', $item_id);
+		
+		//USER ID
+		$user_name = $this->session->userdata('user_id');
+
+		//LOAD FRESH CONTENT AVAILABLE IN TEMP TABLE
+		$data['temp_data'] = $this->Crud_model->fetch_userid_source_purchase('mp_temp_barcoder_purchase','pos',$user_name['id']);
+		
+		$this->load->view('purchase_template.php',$data);
 	}
 }

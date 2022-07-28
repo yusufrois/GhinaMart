@@ -24,13 +24,15 @@
         </div>
 
     </div>
+    <!--Add Product-->
     <div class="col-md-6 ">
         <div class="form-group">
             <label><i class="fa fa-barcode"  aria-hidden="true"></i> SCAN BARCODE ATAU CARI ITEM</label>
             <input type="text" class="form-control input-lg " onkeyup="add_item_invoice(this.value)" id="barcode_scan_area" name="search_area" autofocus="autofocus" />
             <div id="search_id_result_manual"></div>       
         </div>                         
-    </div>        
+    </div>
+    <!--list Custommers-->        
     <div class="col-md-6 ">
         <div class="form-group">
             <label><a onclick="show_modal_page('<?php echo base_url().'invoice/popup/add_customer_model'; ?>')" href="#">Tambah Customer</a></label> <br/>

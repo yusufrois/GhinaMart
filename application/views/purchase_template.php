@@ -1,54 +1,54 @@
 <div class="col-md-6 set-no-padding">
- <table class="table table-striped table-bordered table_height_set">
-    <thead>
-        <tr> 
-            <th>Item</th>
-            <th>Weight</th>
-            <th>Harga</th>
-            <th>Qty</th>
-            <th>Tindakan</th>
-        </tr>
-    </thead>
-    <tbody>
- <?php   
-    $currency =  $this->db->get_where('mp_langingpage', array('id' => 1))->result_array()[0]['currency'];
-    $total_tax   = 0;  
-    $total_gross = 0;
-    $single_tax  = 0; 
-if($temp_data != NULL)
-{
+	<table class="table table-striped table-bordered table_height_set">
+		<thead>
+            <tr> 
+                <th>Item</th>
+                <th>Weight</th>
+                <th>Harga</th>
+                <th>Qty</th>
+                <th>Tindakan</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            $currency =  $this->db->get_where('mp_langingpage', array('id' => 1))->result_array()[0]['currency'];
+            $total_tax   = 0;  
+            $total_gross = 0;
+            $single_tax  = 0;
+            if($temp_data != NULL)
+            {
     // print "<pre>";
     // print_r($temp_data);
-    foreach ($temp_data as $single_val) 
-    {
-        $sub_total_tax = $single_val->qty * $single_val->tax;
-        $total_tax = number_format($total_tax + $sub_total_tax,2,'.','');
-        $total_gross = number_format($total_gross+($single_val->price*$single_val->qty),2,'.','');
- ?>
-    <tr > 
-        <td><?php echo $single_val->product_name; ?></td>
-        <td><?php echo $single_val->mg.' '.$single_val->unit_type; ?></td>
-        <td>
-        <input type="number" onkeyup="amend_price(this.value,'<?php echo $single_val->id; ?>')"  value="<?php echo $single_val->price; ?>" />
-        
-        </td>
-         <td>
-            <input type="number"  onkeyup="amend_qty(this.value,'<?php echo $single_val->id; ?>')" class="supply_fields" value="<?php echo $single_val->qty; ?>" name="supply_qty" id="supply_qty">
-        </td>
-        <td >
-            <a onclick="delete_item('<?php echo $single_val->id; ?>')" ><i class="fa fa-trash margin" aria-hidden='true'></i>
-            </a>  
-        </td>
-    </tr>
-     <?php 
-       } 
-    } 
-      ?> 
-    </tbody>
- </table>  
+                foreach ($temp_data as $single_val) 
+                {
+                    $sub_total_tax = $single_val->qty * $single_val->tax;
+                    $total_tax = number_format($total_tax + $sub_total_tax,2,'.','');
+                    $total_gross = number_format($total_gross+($single_val->price*$single_val->qty),2,'.','');
+                    ?>
+                    <tr > 
+                        <td><?php echo $single_val->product_name; ?></td>
+                        <td><?php echo $single_val->mg.' '.$single_val->unit_type; ?></td>
+                        <td>
+                            <input type="number" onkeyup="amend_price(this.value,'<?php echo $single_val->id; ?>')"  value="<?php echo $single_val->price; ?>" />
+
+                        </td>
+                        <td>
+                            <input type="number"  onkeyup="amend_qty(this.value,'<?php echo $single_val->id; ?>')" class="supply_fields" value="<?php echo $single_val->qty; ?>" name="supply_qty" id="supply_qty">
+                        </td>
+                        <td >
+                            <a onclick="delete_item('<?php echo $single_val->id; ?>')" ><i class="fa fa-trash margin" aria-hidden='true'></i>
+                            </a>  
+                        </td>
+                    </tr>
+                    <?php 
+                } 
+            } 
+            ?> 
+        </tbody>
+    </table>
 </div>
 <div class="col-md-6">
-        <div class="row total-grid-values">
+    <div class="row total-grid-values">
             <div class="col-md-4 col-sm-12 col-xs-12">
                     Total Gross (<?php echo $currency; ?>) :
                     <input type="number" name="total_gross_amt" id="total_gross_amt" disabled="disabled" class=" amount-box  text-center outline-cls" value="<?php echo $total_gross; ?>" />
@@ -61,7 +61,7 @@ if($temp_data != NULL)
                 Diskon (<?php echo $currency; ?>) :
                <input type="number" onkeyup="checkDiscount(this.value)" name="discountfield" id="discountfield" step=".01" class=" amount-box text-right" value="0" />
             </div>  
-        </div> 
+        </div>
         <div class="row total-grid-values">
                 <div class="col-md-4 privious_balance">
                      Hutang Sebelumnya (<?php echo $currency; ?>):
@@ -80,8 +80,8 @@ if($temp_data != NULL)
                     <input type="number" name="bill_paid" id="bill_paid" class=" amount-box  text-center" value="<?php echo $total_tax+$total_gross; ?>" />
                     <input type="hidden" name="total_bill" id="total_bill"  value="<?php echo $total_tax+$total_gross; ?>" />
                 </div> 
-        </div>        
-         <div class="row total_amount_area_row">
+        </div>
+        <div class="row total_amount_area_row">
                 <div class="col-md-4 col-sm-12 col-xs-12">
                    Uang Diterima :
                     <input type="number" onkeyup="amount_refund(this.value)" name="amount_recieved" id="amount_recieved" class=" amount-box  text-center" value="0" />
@@ -103,18 +103,17 @@ if($temp_data != NULL)
                 </button> 
                 <!--<img src="<?php //echo base_url();?>/uploads/ban.jpg" width="700px" />-->
          </div>
-    </div>
+        </div>  
 </div>
 <script type="text/javascript">
-    //USED TO DELETE AN ITEM FROM DATABASE TEMP TABLE
     function delete_item(item_id)
     {
         // SHOW AJAX RESPONSE ON REQUEST SUCCESS
         $.ajax({
-            url:'<?php echo base_url('invoice/delete_item_temporary/'); ?>'+item_id,
+            url:'<?php echo base_url('invoice/delete_item_temporary_purc/'); ?>'+item_id,
             success: function(response)
             {
-                jQuery('#inner_invoice_area').html(response);
+                jQuery('#inner_purchase_area').html(response);
                  $('#barcode_scan_area').val('');
 
             }
@@ -162,6 +161,6 @@ if($temp_data != NULL)
     function open_payment_model()
     {
         var cus_id = $('#customer_id').val();
-        show_modal_page('<?php echo base_url('invoice/popup/add_customer_payment_pos_model/');?>'+cus_id)
+        show_modal_page('<?php echo base_url('Purchase/popup/add_customer_payment_pos_model/');?>'+cus_id)
     }
 </script>

@@ -228,6 +228,14 @@
                                 $data = array('type'=>'hidden','name'=>'status','value'=>'0','reqiured'=>'');
                                 echo form_input($data);
                             ?>
+                            <div class="form-group">
+                                <label><i class="fa fa-barcode"  aria-hidden="true"></i> SCAN BARCODE ATAU CARI ITEM</label>
+                                <input type="text" class="form-control input-lg " onkeyup="add_item_invoice(this.value)" id="barcode_scan_area" name="search_area" autofocus="autofocus" />
+                                <div id="search_id_result_manual"></div>       
+                            </div> 
+                            <div id="inner_purchase_area" class="col-md-12 ">
+                                <?php $this->load->view($temp_view,$temp_data); ?>
+                            </div>
                         </div>
                         
                     </div>
@@ -294,3 +302,6 @@
 <!-- Bootstrap model  -->
 <?php $this->load->view('bootstrap_model.php'); ?>
 <!-- Bootstrap model  ends--> 
+
+ <!-- AJAX FUNCTIONS   -->
+<?php $this->load->view('ajax/purchase.php'); ?>
