@@ -10,9 +10,9 @@
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/dist/js/core.js">
 
     <header class="main-header">
-        <nav style="  background-color: #d81b60; " class="navbar navbar-default">
+        <nav style="  background-color: #b0b2b2; " class="navbar navbar-default">
 
-            <div class="row header_row">
+            <div class="row header_row" style="background-color:#b0b2b2; padding-top: 5px;">
                 <div class="col-md-4 col-xs-12">
                     <div class="sn_cname">
                         <a href="<?php echo base_url('/');?>homepage">
@@ -29,7 +29,7 @@
                         <ul class="nav navbar-nav pull-right">
                             <li class="dropdown">
                                 <a class="btn account dropdown-toggle" data-toggle="dropdown" href="#">
-                            <img alt="" style="width:36px; height:36px;" src="<?php echo base_url(); ?>assets/img/male.png" class="mini_avatar img-rounded">
+                            <img alt="" style="width:36px; height:36px;" src="<?php echo base_url(); ?>assets/img/pic-2.png" class="mini_avatar img-rounded">
 
                             <div class="user">
                                 <span>Selamat Datang</span>

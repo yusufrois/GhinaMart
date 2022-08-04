@@ -4,25 +4,28 @@
     ?>
     <?php echo form_open('invoice/add_auto_invoice',$attributes); ?>
     <!-- title row -->
+
     <div class="row">
         <div class="col-md-3">
+         <img src="<?php echo base_url();?>/assets/img/GM.png" width="100%">
             <h3 >
             <i class="fa fa-globe"></i> Nomor Invoice # <?php echo $invoice; ?>
           </h3>
         </div> 
-                <div class="col-md-1 pull-right ">
-            <a class="pull-right btn-flat homescreen-icon btn btn-primary" href="<?php echo base_url('supply/create_new_supply'); ?>">   <i class="fa fa-truck"></i>    Penjualan Grosir
-            </a>
-        </div>        
-        <div class="col-md-1 pull-right ">
-            <a class="pull-right btn-flat homescreen-icon btn btn-primary" href="<?php echo base_url('dashboard'); ?>">   <i class="fa fa-dashboard"></i>    Home screen
-            </a>
-        </div>                
-        <div class="col-md-1 pull-right ">
-            <a class="pull-right btn-flat pos-invoice-btn homescreen-icon btn btn-primary" href="<?php echo base_url('invoice/manage'); ?>">   <i class="fa fa-file-text"></i>    Daftar Invoice
-            </a>
+        <div class="col-md-9">
+           <!--  <div class="pull-right ">
+                <a class="pull-right btn-flat pos-invoice-btn  homescreen-icon btn btn-primary" href="<?php echo base_url('supply/create_new_supply'); ?>">   <i class="fa fa-truck"></i>    Penjualan Grosir
+                </a>
+            </div>    -->     
+            <div class="pull-right ">
+                <a class="pull-right btn-flat pos-invoice-btn  homescreen-icon btn btn-primary" href="<?php echo base_url('dashboard'); ?>">   <i class="fa fa-dashboard"></i>    Home screen
+                </a>
+            </div>                
+            <div class="pull-right ">
+                <a class="pull-right btn-flat pos-invoice-btn homescreen-icon btn btn-primary" href="<?php echo base_url('invoice/manage'); ?>">   <i class="fa fa-file-text"></i>    Daftar Invoice
+                </a>
+            </div>
         </div>
-
     </div>
     <div class="col-md-6 ">
         <div class="form-group">

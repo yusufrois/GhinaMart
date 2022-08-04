@@ -25,7 +25,7 @@
 								<h4><label class="box-label"><b>Informasi Umum Supplier</b></label></h4>
 							</div>
 							<div class="col-md-6">
-							 <div class="col-md-8 pull-right row">	
+							 <div class="col-md-12 pull-right row">	
 							 <div class="form-group row">
 								<label for="inputEmail3" class="col-sm-3 col-form-label" style="font-size:20px;">Jenis Supplier: </label>
 								<div class="col-sm-9">
@@ -93,7 +93,7 @@
 							   <div class="form-group">
 							   <?php echo form_label('Alamat:'); ?>
 				               <?php
-										$data = array('class'=>'form-control input-lg','type'=>'text','name'=>'customer_address','placeholder'=>'Masukkan Alamat Supplier','reqiured'=>'');
+										$data = array('class'=>'form-control input-lg','type'=>'text','name'=>'customer_address','placeholder'=>'Masukkan Alamat Karyawan','reqiured'=>'');
 										echo form_input($data);
 							  ?>
 				              </div>
@@ -105,7 +105,7 @@
 							   <div class="form-group">
 							     <?php echo form_label('Perusahaan :'); ?>
 								  <?php
-										$data = array('class'=>'form-control input-lg','type'=>'text','name'=>'customer_company','placeholder'=>'e.g Rumah IT','reqiured'=>'');
+										$data = array('class'=>'form-control input-lg','type'=>'text','name'=>'customer_company','placeholder'=>'e.g Ghina Mart','reqiured'=>'');
 										echo form_input($data);
 									?>
 				              </div>
@@ -114,7 +114,7 @@
 							  <div class="form-group">
 							     <?php echo form_label('Region:'); ?>
 								  <?php
-										$data = array('class'=>'form-control input-lg','type'=>'text','name'=>'customer_region','placeholder'=>'e.g Jawa Barat','reqiured'=>'');
+										$data = array('class'=>'form-control input-lg','type'=>'text','name'=>'customer_region','placeholder'=>'e.g Jawa Timur','reqiured'=>'');
 										echo form_input($data);
 									?>
 				              </div>
@@ -124,7 +124,7 @@
 							  <div class="form-group">
 							     <?php echo form_label('Kota:'); ?>
 								  <?php
-										$data = array('class'=>'form-control input-lg','type'=>'text','name'=>'customer_town','placeholder'=>'e.g Bandung','reqiured'=>'');
+										$data = array('class'=>'form-control input-lg','type'=>'text','name'=>'customer_town','placeholder'=>'e.g Surabaya','reqiured'=>'');
 										echo form_input($data);
 									?>
 				              </div>

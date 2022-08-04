@@ -1,6 +1,6 @@
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal">&times;</button>
-    <h4 class="modal-title"><i class="fa fa-plus-square" aria-hidden="true"></i> 		Tambah Customer
+    <h4 class="modal-title"><i class="fa fa-plus-square" aria-hidden="true"></i> 		Tambah Karyawan
     </h4>
 </div>  
 <style>
@@ -13,42 +13,35 @@
             <div class="box-body">
               <div class="col-md-12">
 				<?php
-					$attributes = array('id'=>'Customer_form','method'=>'post','class'=>'');
+					$attributes = array('id'=>'karyawan_form','method'=>'post','class'=>'');
 				?>
-				<?php echo form_open_multipart($link,$attributes); ?>
+				<?php echo form_open_multipart('karyawan/add_karyawan',$attributes); ?>
 	              	<div class="row box box-default">	              		
 	              		<div class="row margin">
 
 							<div class="col-md-12">	
 								<div class="col-md-6">
-									<h4><label class="box-label"><b>INFORMASI CUSTOMER</b></label></h4>
+									<h4><label class="box-label"><b>INFORMASI KARYAWAN</b></label></h4>
 								</div>
 								<div class="col-md-6">
 							 <div class="col-md-12 pull-right row">	
 							 <div class="form-group row">
-								<label for="inputEmail3" class="col-sm-3 col-form-label" style="font-size:20px;">Jenis Customer: </label>
+								<label for="inputEmail3" class="col-sm-3 col-form-label" style="font-size:20px;">Jenis Karyawan: </label>
 								<div class="col-sm-9">
 										<select name="customer_type" class="form-control input-lg">
-											<option value="Walk in"> Walk-in</option>
+											<option value="Karyawan	"> Karyawan</option>
 											<option value="Regular"> Regular</option>
-											<option value="Reseller" > Reseller</option>
-											<option value="Higher Purchase" > Higher Purchase</option>
-											<option value="Distributor" > Distributor</option>
-											<option value="Corporate" > Corporate</option>
-											<option value="Friends" > Friends</option>
 										</select>
 									</div>
 								</div>
 								</div>
 								</div>
 							</div>
-
-	              			
 							<div class="col-md-4">	
 				              <div class="form-group">	
-								 <?php echo form_label('Nama Customer:'); ?>
+								 <?php echo form_label('Nama Karyawan:'); ?>
 								  <?php
-									$data = array('class'=>'form-control input-lg','type'=>'text','name'=>'customer_name','placeholder'=>'Masukkan Nama Customer','reqiured'=>'');
+									$data = array('class'=>'form-control input-lg','type'=>'text','name'=>'customer_name','placeholder'=>'Masukkan Nama Karyawan','reqiured'=>'');
 									echo form_input($data);
 								?>
 				              </div>
@@ -122,7 +115,7 @@
 							  <div class="form-group">
 							     <?php echo form_label('Region:'); ?>
 								  <?php
-										$data = array('class'=>'form-control input-lg','type'=>'text','name'=>'customer_region','placeholder'=>'e.g Jawa timur','reqiured'=>'');
+										$data = array('class'=>'form-control input-lg','type'=>'text','name'=>'customer_region','placeholder'=>'e.g Jawa Timur','reqiured'=>'');
 										echo form_input($data);
 									?>
 				              </div>
@@ -162,7 +155,7 @@
 								<div class="col-md-5">
 									<div class="form-group">  				
 										<?php
-											$data = array('class'=>'btn btn-info btn-outline-primary ','type' => 'submit','name'=>'btn_submit_customer','value'=>'true', 'content' => '<i class="fa fa-floppy-o" aria-hidden="true"></i> Simpan');
+											$data = array('class'=>'btn btn-info btn-outline-primary ','type' => 'submit','name'=>'btn_submit_customer','value'=>'true', 'content' => '<i class="fa fa-floppy-o" aria-hidden="true"></i> Simpan Karyawan');
 											
 											echo form_button($data);
 										?>   
