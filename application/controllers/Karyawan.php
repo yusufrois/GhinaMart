@@ -43,7 +43,7 @@ class Karyawan extends CI_Controller
 
 		// DEFINES TO LOAD THE CATEGORY LIST FROM DATABSE TABLE mp_Categoty
 		$this->load->model('Crud_model');
-		$result = $this->Crud_model->fetch_payee_record('karyawan',NULL);
+		$result = $this->Crud_model->fetch_payee_record('employee',NULL);
 		$data['karyawan_list'] = $result;
 
 		// DEFINES GO TO MAIN FOLDER FOND INDEX.PHP  AND PASS THE ARRAY OF DATA TO THIS PAGE
@@ -79,7 +79,7 @@ class Karyawan extends CI_Controller
 		);
 
     //DEFINED IN HELPER FOLDER
-		export_csv('karyawan_list',$args_fileheader,$args_table_header,'mp_payee',"type = 'karyawan'");
+		export_csv('karyawan_list',$args_fileheader,$args_table_header,'mp_payee',"type = 'employee'");
 
 		redirect('karyawan');
 
@@ -121,7 +121,7 @@ class Karyawan extends CI_Controller
 			'cus_date' => date('Y-m-d'),
 			'cus_picture' => $picture,
 			'customer_nationalid' => $customer_cnic,
-			'type' => 'karyawan'
+			'type' => 'employee'
 		);
 
 		// CHECK WEATHER EMAIL ADLREADY EXISTS OR NOT IN THE TABLE
@@ -239,7 +239,7 @@ class Karyawan extends CI_Controller
 				'cus_description' => $customer_description,
 				'cus_type' => $customer_type,
 				'cus_date' => date('Y-m-d'),
-				'type' => 'karyawan'
+				'type' => 'employee'
 			);
 		}
 		else
@@ -259,7 +259,7 @@ class Karyawan extends CI_Controller
 				'cus_type' => $customer_type,
 				'cus_date' => date('Y-m-d'),
 				'cus_picture' => $picture,
-				'type' => 'karyawan'
+				'type' => 'employee'
 			);
 
 			// DEFINES TO DELETE IMAGE FROM FOLDER PARAMETER REQIURES ARRAY OF IMAGE PATH AND ID
@@ -326,7 +326,7 @@ class Karyawan extends CI_Controller
 			//DEFINES TO FETCH THE LIST OF BANK ACCOUNTS 
 			$data['bank_list'] = $this->Crud_model->fetch_record('mp_banks','status');
 
-			$data['karyawan_list'] = $this->Crud_model->fetch_payee_record('karyawan',NULL);
+			$data['karyawan_list'] = $this->Crud_model->fetch_payee_record('employee',NULL);
 
 			$data['karyawan_payments'] = $this->Crud_model->fetch_record_by_id('mp_karyawan_payments',$param );
 			$this->load->view( 'admin_models/edit_models/edit_karyawan_payment_model.php',$data);
@@ -362,7 +362,7 @@ class Karyawan extends CI_Controller
 			'cus_address' => $importdata[8],  
 			'cus_region' => $importdata[9],
 			'cus_town' => $importdata[10],
-			'type' => 'karyawan'
+			'type' => 'employee'
 			);
 			$data2 = array(
 			'id' => $productid,  
