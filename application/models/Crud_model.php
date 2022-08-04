@@ -271,6 +271,24 @@ class Crud_model extends CI_Model
         }
     }
 
+    //USED TO FETCH THE RECORD THROUGH PROVIDED ID AND ATTTRIBUTE NAME AND SOURCE
+    public function fetch_userid_source_purchase($table_name,$source,$agentid)
+    {
+        $this->db->select('mp_temp_barcoder_purchase.*,mp_productslist.unit_type');
+        $this->db->join('mp_productslist','mp_productslist.id = mp_temp_barcoder_purchase.product_id');
+        $this->db->where(['agentid' => $agentid]);
+        $this->db->where('source',$source);
+        $query = $this->db->get('mp_temp_barcoder_purchase');
+        if ($query->num_rows() > 0)
+        {
+            return $query->result();
+        }
+        else
+        {
+            return NULL;
+        }
+    }
+
     public function fetch_temp_invoice_by_id($tablename, $id)
     {
         $this->db->select("cus_picture,discount,shippingcharges,status,cus_id,delivered_to,delivered_by,delivered_date,delivered_description,prescription_id,agentname");
