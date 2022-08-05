@@ -6,57 +6,8 @@
                     <h3 style="margin:0;">Total</h3>
                 </span>
             </div>
-
             <input type="number" class="text-right col-md-12" name="tot" id="" disabled="disabled" value="90.000" style="background-color:white; border:0; font-size:3em;">
         </div>
-
-            <div class="col-md-4 col-sm-12 col-xs-12">
-                Diskon (<?php echo $currency; ?>) :
-               <input type="number" onkeyup="checkDiscount(this.value)" name="discountfield" id="discountfield" step=".01" class=" amount-box text-right" value="0" />
-            </div>  
-        </div> 
-        <div class="row total-grid-values">
-                <div class="col-md-4 privious_balance">
-                     Hutang Sebelumnya (<?php echo $currency; ?>):
-                    <input type="number" disabled="disabled" name="privious_balance" id="privious_balance" class="text-center" step=".01" value="0.00" /> <br>
-                    <small><a onclick="open_payment_model()" href="javascript:void(0)">Bayar Hutang sebelumnya</a></small>
-                </div>
-                <div class="col-md-4 total_amount_area">
-                    <div class="">
-                        <p > Grand Total (<?php echo $currency; ?>) </p>
-                        <h4  id="net_total_amount"> <?php echo number_format($total_tax+$total_gross,'2','.',''); ?>
-                        </h4>
-                    </div>
-                </div>
-                <div class="col-md-4 col-sm-12 col-xs-12">
-                    Tagihan yg dibayar (<?php echo $currency; ?>):
-                    <input type="number" name="bill_paid" id="bill_paid" class=" amount-box  text-center" value="<?php echo $total_tax+$total_gross; ?>" />
-                    <input type="hidden" name="total_bill" id="total_bill"  value="<?php echo $total_tax+$total_gross; ?>" />
-                </div> 
-        </div>        
-         <div class="row total_amount_area_row">
-                <div class="col-md-4 col-sm-12 col-xs-12">
-                   Uang Diterima :
-                    <input type="number" onkeyup="amount_refund(this.value)" name="amount_recieved" id="amount_recieved" class=" amount-box  text-center" value="0" />
-                </div>            
-                <div class="col-md-4 col-sm-12 col-xs-12  ">
-                    Kembali : 
-                    <span id="cash_given_to_customer">0</span> 
-                </div> 
-         </div>
-         <div class="row row-buttons text-center">
-                <button  type="button" onclick="clear_invoice()" class="btn btn-primary btn-outline-primary btn-left-side-invoice"> 
-                  <i class="fa fa-paper-plane" aria-hidden="true"></i> INVOICE BARU
-                </button>                    
-                <a href="<?php echo base_url('return_items');?>"  class="btn btn-warning btn-outline-primary btn-left-side-invoice" > 
-                  <i class="fa fa-arrow-left" aria-hidden="true"></i>  RETUR ITEM
-                </a>
-                 <button type="submit"  id="submit_btn" class="btn btn-danger btn-outline-primary btn-left-side-invoice"> 
-                   <i class="fa fa-floppy-o" aria-hidden="true"></i>  SIMPAN DAN CETAK
-                </button> 
-                <!--<img src="<?php //echo base_url();?>/uploads/ban.jpg" width="700px" />-->
-         </div>
-
     </div>
 </div>
 <div class="row">

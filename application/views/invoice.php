@@ -64,7 +64,7 @@
         </div>
     </div>
     <div class="row">     
-        <div  id="inner_invoice_area" class="col-md-12 ">
+        <div id="inner_invoice_area" class="col-md-12 ">
             <?php $this->load->view($temp_view,$temp_data); ?>
 
         </div> 

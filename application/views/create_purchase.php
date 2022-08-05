@@ -32,7 +32,6 @@
                                     ?>
                                 </select>
                             </div>
-                            
                         </div>                
                         <div class="col-md-3 ">
                             <div class="form-group">
@@ -220,7 +219,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <h4 class="purchase-heading"><i class="fa fa-check-circle"></i>  Rincian Pembelian :</h4>         
+                            <h4 class="purchase-heading" style="margin-bottom:20px;"><i class="fa fa-check-circle"></i>  Rincian Pembelian :</h4>         
                             <?php
                                 $data = array('class'=>'form-control input-lg','type'=>'text','name'=>'pur_description','placeholder'=>'Pembelian untuk','reqiured'=>'');
                                 echo form_input($data);
@@ -228,7 +227,7 @@
                                 $data = array('type'=>'hidden','name'=>'status','value'=>'0','reqiured'=>'');
                                 echo form_input($data);
                             ?>
-                            <div class="form-group">
+                            <div class="form-group" style="margin-bottom:20px; margin-top: 20px;">
                                 <label><i class="fa fa-barcode"  aria-hidden="true"></i> SCAN BARCODE ATAU CARI ITEM</label>
                                 <input type="text" class="form-control input-lg " onkeyup="add_item_invoice(this.value)" id="barcode_scan_area" name="search_area" autofocus="autofocus" />
                                 <div id="search_id_result_manual"></div>       
@@ -237,7 +236,6 @@
                                 <?php $this->load->view($temp_view,$temp_data); ?>
                             </div>
                         </div>
-                        
                     </div>
                 </div>            
                 <div class="row">
