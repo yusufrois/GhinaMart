@@ -4,12 +4,12 @@
         <thead>
             <tr> 
                 <th>Item</th>
-                <th>Weight</th>
-                <th>Harga</th>
-                <th>Qty</th>
-                <th>Tanggal Produksi</th>
                 <th>Tanggal Kadaluarsa</th>
-                <th>Jumlah</th>
+                <!--<th>Weight</th>
+                <th>Harga</th>-->
+                <th>Qty</th>
+                <!--<th>Tanggal Produksi</th>-->
+                
                 <th>Ukuran Pak</th>
                 <th>Total</th>
                 <th>Total Harga Beli</th>
@@ -32,28 +32,38 @@
                 foreach ($temp_data as $single_val) 
                 {
                     $sub_total_tax = $single_val->qty * $single_val->tax;
+                    $sub_total_pembelian = $single_val->qty * $single_val->pack;
                     $total_tax = number_format($total_tax + $sub_total_tax,2,'.','');
                     $total_gross = number_format($total_gross+($single_val->price*$single_val->qty),2,'.','');
                     ?>
                     <tr > 
                         <td><?php echo $single_val->product_name; ?></td>
-                        <td><?php echo $single_val->mg.' '.$single_val->unit_type; ?></td>
                         <td>
-                            <input type="number" onkeyup="amend_price(this.value,'<?php echo $single_val->id; ?>')"  value="<?php echo $single_val->price; ?>" />
+                            <input type="date" class="supply_fields" name="supply_tgl" id="supply_tgl">
+                        </td>
+                        <!--<td><?php //echo $single_val->mg.' '.$single_val->unit_type; ?></td>-->
+                        <!--<td>
+                            <input type="number" onkeyup="amend_price(this.value,'<?php //echo $single_val->id; ?>')"  value="<?php //echo $single_val->price; ?>" />
 
+                        </td>-->
+                        <td>
+                            <input type="number"  onkeyup="amend_qty(this.value,'<?php echo $single_val->id; ?>'),hitung_pcs(this.value,<?php echo $single_val->pack; ?>)" class="supply_fields" value="<?php echo $single_val->qty; ?>" name="supply_qty" id="supply_qty">
                         </td>
                         <td>
-                            <input type="number"  onkeyup="amend_qty(this.value,'<?php echo $single_val->id; ?>')" class="supply_fields" value="<?php echo $single_val->qty; ?>" name="supply_qty" id="supply_qty">
+                            <input type="number" class="supply_fields" name="supply_pak" id="supply_pak" value="<?php echo $single_val->pack; ?>" onkeyup="hitung_pcs(this.value,this.value.('#supply_qty').val())">
                         </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>
+                            <input type="number" class="supply_fields" name="supply_total" id="supply_total" value="<?php echo $sub_total_pembelian?>">
+                        </td>
+                        <td><input type="number" class="supply_fields" name="supply_tot_beli" id="supply_tot_beli">
+                        </td>
+                        <td><input type="number" class="supply_fields" name="supply_satuan" id="supply_satuan">
+                        </td>
+                        <td><input type="number" class="supply_fields" name="supply_jual" id="supply_jual">
+                        </td>
+                        <td>
+                            <input type="number" class="supply_fields" name="supply_dis" id="supply_dis">
+                        </td>
                         <td >
                             <a onclick="delete_item('<?php echo $single_val->id; ?>')" ><i class="fa fa-trash margin" aria-hidden='true'></i>
                             </a>  
@@ -130,5 +140,21 @@
     {
         var cus_id = $('#customer_id').val();
         show_modal_page('<?php echo base_url('Purchase/popup/add_customer_payment_pos_model/');?>'+cus_id)
+    }
+
+    function hitung_pcs(nilai, nilai2)
+    {
+        //var jml_qty = $('#supply_qty').val();
+        var jml_qty = nilai;
+       // var jml_pak = $('#supply_pak').val();
+        var jml_pak = nilai2;
+        var total_item = parseInt(jml_qty)*parseInt(jml_pak); 
+        //var total_item = jml_pak;
+
+        console.log(jml_qty);
+        console.log(jml_pak);
+        console.log(total_item);
+        //$('#supply_total').html(total_item.toFixed(0));
+        document.getElementById("supply_total").value = total_item;
     }
 </script>

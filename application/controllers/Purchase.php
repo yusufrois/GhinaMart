@@ -494,7 +494,8 @@ class Purchase extends CI_Controller
 					'qty' => 1,
 					'tax' => $tax_amount,
 					'agentid' => $user_name['id'],
-					'source' => 'pos'
+					'source' => 'pos',
+					'pack' => $result[0]->packsize
 					);
 
 					// DEFINES CALL THE FUNCTION OF insert_data FORM Crud_model CLASS
@@ -634,7 +635,8 @@ class Purchase extends CI_Controller
 									'qty' => 1,
 									'tax' => $tax_amount,
 									'agentid' => $user_name['id'],
-									'source' => 'pos'
+									'source' => 'pos',
+									'pack' => $result[0]->packsize
 								);
 								// DEFINES CALL THE FUNCTION OF insert_data FORM Crud_model CLASS
 								$result = $this->Crud_model->insert_data('mp_temp_barcoder_purchase', $args);
