@@ -32,37 +32,39 @@
                 foreach ($temp_data as $single_val) 
                 {
                     $sub_total_tax = $single_val->qty * $single_val->tax;
+
                     $sub_total_pembelian = $single_val->qty * $single_val->pack;
+                    $harga_satuan = $single_val->sales / $sub_total_pembelian;
                     $total_tax = number_format($total_tax + $sub_total_tax,2,'.','');
                     $total_gross = number_format($total_gross+($single_val->price*$single_val->qty),2,'.','');
                     ?>
                     <tr > 
                         <td><?php echo $single_val->product_name; ?></td>
                         <td>
-                            <input type="date" class="supply_fields" name="supply_tgl" id="supply_tgl">
+                            <input type="date" class="supply_fields" name="supply_tgl" id="supply_tgl" value="<?php echo $single_val->date_ex; ?>" onselect="date_ex(this.value,<?php echo $single_val->id; ?>)">
                         </td>
                         <!--<td><?php //echo $single_val->mg.' '.$single_val->unit_type; ?></td>-->
                         <!--<td>
                             <input type="number" onkeyup="amend_price(this.value,'<?php //echo $single_val->id; ?>')"  value="<?php //echo $single_val->price; ?>" />
 
                         </td>-->
-                        <td>
+                        <td><!-- update jumlah -->
                             <input type="number"  onkeyup="amend_qty(this.value,'<?php echo $single_val->id; ?>'),hitung_pcs(this.value,<?php echo $single_val->pack; ?>)" class="supply_fields" value="<?php echo $single_val->qty; ?>" name="supply_qty" id="supply_qty">
                         </td>
                         <td>
-                            <input type="number" class="supply_fields" name="supply_pak" id="supply_pak" value="<?php echo $single_val->pack; ?>" onkeyup="hitung_pcs(this.value,this.value.('#supply_qty').val())">
+                            <?php echo $single_val->pack; ?>
                         </td>
                         <td>
                             <input type="number" class="supply_fields" name="supply_total" id="supply_total" value="<?php echo $sub_total_pembelian?>">
                         </td>
-                        <td><input type="number" class="supply_fields" name="supply_tot_beli" id="supply_tot_beli">
+                        <td><input type="number" class="supply_fields" name="supply_tot_beli" id="supply_tot_beli" value="<?php echo $single_val->sales; ?>" onkeyup="amend_sales(this.value,<?php echo $single_val->id; ?>)">
                         </td>
-                        <td><input type="number" class="supply_fields" name="supply_satuan" id="supply_satuan">
+                        <td><input type="number" class="supply_fields" name="supply_satuan" id="supply_satuan" value="<?php echo $harga_satuan; ?>">
                         </td>
-                        <td><input type="number" class="supply_fields" name="supply_jual" id="supply_jual">
+                        <td><input type="number" class="supply_fields" name="supply_jual" id="supply_jual" value="<?php echo $single_val->price; ?>" onkeyup="amend_jual(this.value,<?php echo $single_val->id; ?>)">
                         </td>
                         <td>
-                            <input type="number" class="supply_fields" name="supply_dis" id="supply_dis">
+                            <input type="number" class="supply_fields" name="supply_dis" id="supply_dis" value="<?php echo $single_val->disc; ?>" onkeyup="amend_disc(this.value,<?php echo $single_val->id; ?>)">
                         </td>
                         <td >
                             <a onclick="delete_item('<?php echo $single_val->id; ?>')" ><i class="fa fa-trash margin" aria-hidden='true'></i>

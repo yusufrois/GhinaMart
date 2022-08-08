@@ -168,6 +168,86 @@ var timmer;
         }, 400);
     }
 	
+    function amend_sales(val,item_id)
+    {       
+           clearTimeout(timmer);
+            timmer = setTimeout(function callback(){
+            //get_search_result(search_item);
+            var int_val = parseInt(val);
+            // SHOW AJAX RESPONSE ON REQUEST SUCCESS
+            $.ajax({
+                url: '<?php echo base_url('Purchase/update_total_beli/'); ?>'+int_val+'/'+item_id,
+                success: function(response)
+                {
+                    jQuery('#inner_purchase_area').html(response);
+                     $('#barcode_scan_area').val('');
+                     $('#barcode_scan_area').focus();
+                     $('.search_result').css("display", "none");
+                }
+            });
+        }, 400);
+    }
+
+    function amend_jual(val,item_id)
+    {       
+           clearTimeout(timmer);
+            timmer = setTimeout(function callback(){
+            //get_search_result(search_item);
+            var int_val = parseInt(val);
+            // SHOW AJAX RESPONSE ON REQUEST SUCCESS
+            $.ajax({
+                url: '<?php echo base_url('Purchase/update_harga_jual/'); ?>'+int_val+'/'+item_id,
+                success: function(response)
+                {
+                    jQuery('#inner_purchase_area').html(response);
+                     $('#barcode_scan_area').val('');
+                     $('#barcode_scan_area').focus();
+                     $('.search_result').css("display", "none");
+                }
+            });
+        }, 400);
+    }
+
+    function amend_disc(val,item_id)
+    {       
+           clearTimeout(timmer);
+            timmer = setTimeout(function callback(){
+            //get_search_result(search_item);
+            var int_val = parseInt(val);
+            // SHOW AJAX RESPONSE ON REQUEST SUCCESS
+            $.ajax({
+                url: '<?php echo base_url('Purchase/update_disc/'); ?>'+int_val+'/'+item_id,
+                success: function(response)
+                {
+                    jQuery('#inner_purchase_area').html(response);
+                     $('#barcode_scan_area').val('');
+                     $('#barcode_scan_area').focus();
+                     $('.search_result').css("display", "none");
+                }
+            });
+        }, 400);
+    }
+
+    function date_ex(val,item_id)
+    {       
+           clearTimeout(timmer);
+            timmer = setTimeout(function callback(){
+            //get_search_result(search_item);
+            var int_val = parseInt(val);
+            // SHOW AJAX RESPONSE ON REQUEST SUCCESS
+            $.ajax({
+                url: '<?php echo base_url('Purchase/date_ex/'); ?>'+int_val+'/'+item_id,
+                success: function(response)
+                {
+                    jQuery('#inner_purchase_area').html(response);
+                     $('#barcode_scan_area').val('');
+                     $('#barcode_scan_area').focus();
+                     $('.search_result').css("display", "none");
+                }
+            });
+        }, 400);
+    }
+
 	//USE TO CHANGE THE QUANTITY
     function amend_price(val,item_id)
     {       

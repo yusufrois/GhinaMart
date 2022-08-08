@@ -495,7 +495,9 @@ class Purchase extends CI_Controller
 					'tax' => $tax_amount,
 					'agentid' => $user_name['id'],
 					'source' => 'pos',
-					'pack' => $result[0]->packsize
+					'pack' => $result[0]->packsize,
+					'disc' => $result[0]->disc,
+					'date_ex' => $result[0]->expire
 					);
 
 					// DEFINES CALL THE FUNCTION OF insert_data FORM Crud_model CLASS
@@ -636,7 +638,9 @@ class Purchase extends CI_Controller
 									'tax' => $tax_amount,
 									'agentid' => $user_name['id'],
 									'source' => 'pos',
-									'pack' => $result[0]->packsize
+									'pack' => $result[0]->packsize,
+									'disc' => $result[0]->disc,
+									'date_ex' => $result[0]->expire
 								);
 								// DEFINES CALL THE FUNCTION OF insert_data FORM Crud_model CLASS
 								$result = $this->Crud_model->insert_data('mp_temp_barcoder_purchase', $args);
@@ -810,6 +814,74 @@ class Purchase extends CI_Controller
         $this->load->view('purchase_template.php',$data);
 	}
 
+	function update_total_beli($val = '' , $id = '', $customprice = null)
+    {	
+    	
+      $this->load->model('Crud_model'); 
+      $this->load->model('Pos_transaction_model'); 
+      $user_name = $this->session->userdata('user_id');
+      $val = intval($val);
+
+      $this->Pos_transaction_model->update_beli($id,$val);
+
+      
+        //LOAD FRESH CONTENT AVAILABLE IN TEMP TABLE
+		$data['temp_data'] = $this->Crud_model->fetch_userid_source_purchase('mp_temp_barcoder_purchase','pos',$user_name['id']);
+		
+        $this->load->view('purchase_template.php',$data);
+	}
+
+
+	function update_harga_jual($val = '' , $id = '', $customprice = null)
+    {	
+    	
+      $this->load->model('Crud_model'); 
+      $this->load->model('Pos_transaction_model'); 
+      $user_name = $this->session->userdata('user_id');
+      $val = intval($val);
+
+      $this->Pos_transaction_model->update_jual($id,$val);
+
+      
+        //LOAD FRESH CONTENT AVAILABLE IN TEMP TABLE
+		$data['temp_data'] = $this->Crud_model->fetch_userid_source_purchase('mp_temp_barcoder_purchase','pos',$user_name['id']);
+		
+        $this->load->view('purchase_template.php',$data);
+	}
+
+	function update_disc($val = '' , $id = '', $customprice = null)
+    {	
+    	
+      $this->load->model('Crud_model'); 
+      $this->load->model('Pos_transaction_model'); 
+      $user_name = $this->session->userdata('user_id');
+      $val = intval($val);
+
+      $this->Pos_transaction_model->update_disc($id,$val);
+
+      
+        //LOAD FRESH CONTENT AVAILABLE IN TEMP TABLE
+		$data['temp_data'] = $this->Crud_model->fetch_userid_source_purchase('mp_temp_barcoder_purchase','pos',$user_name['id']);
+		
+        $this->load->view('purchase_template.php',$data);
+	}
+
+	function date_ex($val = '' , $id = '', $customprice = null)
+    {	
+    	
+      $this->load->model('Crud_model'); 
+      $this->load->model('Pos_transaction_model'); 
+      $user_name = $this->session->userdata('user_id');
+      //$val = intval($val);
+
+      $this->Pos_transaction_model->date_ex($id,$val);
+
+      
+        //LOAD FRESH CONTENT AVAILABLE IN TEMP TABLE
+		$data['temp_data'] = $this->Crud_model->fetch_userid_source_purchase('mp_temp_barcoder_purchase','pos',$user_name['id']);
+		
+        $this->load->view('purchase_template.php',$data);
+	}
 
 	//USED TO UPDATE QUANTITY 
     //Purchase/update_qty
