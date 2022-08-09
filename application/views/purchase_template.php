@@ -35,13 +35,14 @@
 
                     $sub_total_pembelian = $single_val->qty * $single_val->pack;
                     $harga_satuan = $single_val->sales / $sub_total_pembelian;
-                    $total_tax = number_format($total_tax + $sub_total_tax,2,'.','');
-                    $total_gross = number_format($total_gross+($single_val->price*$single_val->qty),2,'.','');
+                    $total_tax = number_format($total_tax + $sub_total_tax,0,'.','');
+                    //$total_gross = number_format($total_gross+($single_val->price*$single_val->qty),0,'.','.');
+                    $total_gross = number_format($total_gross+($single_val->sales),0,',','');
                     ?>
                     <tr > 
                         <td><?php echo $single_val->product_name; ?></td>
                         <td>
-                            <input type="date" class="supply_fields" name="supply_tgl" id="supply_tgl" value="<?php echo $single_val->date_ex; ?>" onselect="date_ex(this.value,<?php echo $single_val->id; ?>)">
+                            <input type="date" class="supply_fields" name="supply_tgl" id="supply_tgl" value="<?php echo $single_val->date_ex; ?>" onchange="date_ex(<?php echo $single_val->id; ?>,this.value)">
                         </td>
                         <!--<td><?php //echo $single_val->mg.' '.$single_val->unit_type; ?></td>-->
                         <!--<td>

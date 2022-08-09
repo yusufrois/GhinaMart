@@ -32,7 +32,42 @@ class Pos_transaction_model extends CI_Model
         }
 
         return $data;
+    }
+
+    function general_beli_transaction($new_args, $new_data ,$temp_args ,$temp_data)
+    {
+        $this->db->trans_start();
+
+        /*extract($new_args);
+        $this->db->where('id', $id);
+        $this->db->update($table_name, $new_data);*/
+
+
+        extract($temp_args);
+        $this->db->where('id', $id);
+        $this->db->update($table_name, $temp_data);
+
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === FALSE)
+        {
+            $this->db->trans_rollback();
+            $data = NULL;    
+        }
+        else
+        {
+            $this->db->trans_commit();
+            $data = true; 
+        }
+
+        return $data;
     }  
+
+    function update_qty($id, $val){
+        $query = $this->db->query("update mp_temp_barcoder_purchase set qty = '".$val."' where id = '".$id."'");
+        return true;
+        //var_dump("update mp_temp_barcoder_purchase set sales = '".$val."' where id = '".$id."'");
+    }
 
     function update_beli($id, $val){
         $query = $this->db->query("update mp_temp_barcoder_purchase set sales = '".$val."' where id = '".$id."'");
@@ -48,8 +83,8 @@ class Pos_transaction_model extends CI_Model
 
     function date_ex($id, $val){
         $query = $this->db->query("update mp_temp_barcoder_purchase set date_ex = '".$val."' where id = '".$id."'");
-        //return true;
-        var_dump("update mp_temp_barcoder_purchase set sales = '".$val."' where id = '".$id."'");
+        return true;
+        //var_dump("update mp_temp_barcoder_purchase set sales = '".$val."' where id = '".$id."'");
     }
 
     function update_disc($id, $val){

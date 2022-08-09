@@ -156,7 +156,7 @@ var timmer;
             var int_val = parseInt(val);
             // SHOW AJAX RESPONSE ON REQUEST SUCCESS
             $.ajax({
-                url: '<?php echo base_url('Purchase/update_qty/'); ?>'+int_val+'/'+item_id,
+                url: '<?php echo base_url('Purchase/update_total_qty/'); ?>'+int_val+'/'+item_id,
                 success: function(response)
                 {
                     jQuery('#inner_purchase_area').html(response);

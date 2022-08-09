@@ -456,7 +456,7 @@ class Purchase extends CI_Controller
 				);
 
 				$stockdata = array(
-					'quantity' => $result[0]->quantity-1
+					'quantity' => $result[0]->quantity
 				);
 
 				$this->Crud_model->edit_record_id($stockargs, $stockdata);
@@ -541,7 +541,8 @@ class Purchase extends CI_Controller
 
 
 				$data = array(
-					'quantity' => $result_stock[0]->quantity+$single_item->qty
+					//'quantity' => $result_stock[0]->quantity+$single_item->qty
+					'quantity' => $result_stock[0]->quantity
 				);
 
 				// CALL THE METHOD FROM Crud_model CLASS FIRST ARG CONTAINES TABLENAME AND OTHER CONTAINS DATA
@@ -599,7 +600,7 @@ class Purchase extends CI_Controller
 					);
 
 					$stockdata = array(
-						'quantity' => $result[0]->quantity-1
+						'quantity' => $result[0]->quantity
 					);
 
 					$this->Crud_model->edit_record_id($stockargs, $stockdata);
@@ -783,14 +784,9 @@ class Purchase extends CI_Controller
 
         if($result[0]->qty != $val AND $new_qty >= 0)
         {
-	          $new_args = array(
-	            'table_name' => 'mp_productslist',
-	            'id' => $result['0']->product_id
-	          );
+	          $new_args = '';
 
-              $new_data = array(
-                'quantity' => $new_qty
-              );
+              $new_data = '';
 
               $temp_args = array(
                   'table_name' => 'mp_temp_barcoder_purchase',
@@ -804,10 +800,27 @@ class Purchase extends CI_Controller
 			
 			 
 
-            $this->Pos_transaction_model->general_pos_transaction($new_args, $new_data ,$temp_args ,$temp_data);
+            $this->Pos_transaction_model->general_beli_transaction($new_args, $new_data ,$temp_args ,$temp_data);
         }
 
       }
+        //LOAD FRESH CONTENT AVAILABLE IN TEMP TABLE
+		$data['temp_data'] = $this->Crud_model->fetch_userid_source_purchase('mp_temp_barcoder_purchase','pos',$user_name['id']);
+		
+        $this->load->view('purchase_template.php',$data);
+	}
+
+	function update_total_qty($val = '' , $id = '', $customprice = null)
+    {	
+    	
+      $this->load->model('Crud_model'); 
+      $this->load->model('Pos_transaction_model'); 
+      $user_name = $this->session->userdata('user_id');
+      $val = intval($val);
+
+      $this->Pos_transaction_model->update_qty($id,$val);
+
+      
         //LOAD FRESH CONTENT AVAILABLE IN TEMP TABLE
 		$data['temp_data'] = $this->Crud_model->fetch_userid_source_purchase('mp_temp_barcoder_purchase','pos',$user_name['id']);
 		
@@ -873,8 +886,8 @@ class Purchase extends CI_Controller
       $this->load->model('Pos_transaction_model'); 
       $user_name = $this->session->userdata('user_id');
       //$val = intval($val);
-
-      $this->Pos_transaction_model->date_ex($id,$val);
+      //var_dump($id);
+      $this->Pos_transaction_model->date_ex($val, $id);
 
       
         //LOAD FRESH CONTENT AVAILABLE IN TEMP TABLE
@@ -968,7 +981,8 @@ class Purchase extends CI_Controller
 		);
 
 		$data = array(
-			'quantity' => $result_stock[0]->quantity+$result[0]->qty
+			'quantity' => $result_stock[0]->quantity
+			///'quantity' => $result_stock[0]->quantity+$result[0]->qty
 		);
 
 		// CALL THE METHOD FROM Crud_model CLASS FIRST ARG CONTAINES TABLENAME AND OTHER CONTAINS DATA
