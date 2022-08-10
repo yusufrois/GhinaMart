@@ -636,6 +636,20 @@ class Transaction_model extends CI_Model
         return $data_fields;
     }
 
+    function update_stock($expire,$qty, $purc,$retail, $disc,$location, $nama)
+    {
+        $this->db->where(['id' =>$location]);
+        $query = $this->db->get('mp_stores');
+        $stock_med = $query->result();
+        $query = $this->db->query("UPDATE mp_productslist SET expire = ".$expire.", quantity = quantity + ".$qty.", purchase = ".$purc.", retail = ".$retail." , disc = ".$disc." , location = '".$stock_med[0]->name."' WHERE product_name = '".$nama."' ");
+        return true;
+    }
+
+    function delete_tmp_barcode($id){
+        $query = $this->db->query("DELETE FROM mp_temp_barcoder_purchase WHERE agentid = ".$id."");
+        return true;
+    }
+
     public function purchase_transaction($data_fields)
     {
         $this->db->trans_start();

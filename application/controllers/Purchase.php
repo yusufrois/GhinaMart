@@ -167,6 +167,15 @@ class Purchase extends CI_Controller
 	public function add_purchase()
 	{
 		// DEFINES LOAD CRUDS_MODEL FORM MODELS FOLDERS
+		
+		// var_dump(count($this->input->post('supply_jual')));
+		/*for($i=0; $i<count($this->input->post('supply_jual')); $i++){
+				
+				$nama = html_escape($this->input->post('supply_nama['.$i.']'));
+				var_dump($nama);
+			}*/
+			
+			//var_dump($user_name);
 		$this->load->model('Crud_model');
 		$this->load->model('Transaction_model');
 
@@ -227,6 +236,19 @@ class Purchase extends CI_Controller
 
 			// DEFINES CALL THE FUNCTION OF insert_data FORM Crud_model CLASS
 			$result = $this->Transaction_model->purchase_transaction($args);
+
+			for($i=0; $i<count($this->input->post('supply_jual')); $i++){
+				$expire = html_escape($this->input->post('supply_tgl['.$i.']'));
+				$qty = html_escape($this->input->post('supply_total['.$i.']'));
+				$purc = html_escape($this->input->post('supply_satuan['.$i.']'));
+				$retail = html_escape($this->input->post('supply_jual['.$i.']'));
+				$disc = html_escape($this->input->post('supply_dis['.$i.']'));
+				$nama = html_escape($this->input->post('supply_nama['.$i.']'));
+				$this->Transaction_model->update_stock($expire,$qty,$purc,$retail,$disc, $pur_store,$nama);
+			}
+			$user_name = $this->session->userdata('user_id')['id'];
+			$this->Transaction_model->delete_tmp_barcode($user_name);
+
 			if ($result != NULL)
 			{
 				$array_msg = array(
