@@ -245,8 +245,7 @@
                                 $data = array('class'=>'btn btn-info btn-flat margin btn-lg pull-right ','type' => 'submit','name'=>'btn_submit_customer','value'=>'true', 'content' => '<i class="fa fa-floppy-o" aria-hidden="true"></i> Simpan');
                                 
                                 echo form_button($data);
-                             ?>
-                             <button onclick="tes()">coba</button>  
+                             ?> 
                         </div>
                     </div>
                 </div>

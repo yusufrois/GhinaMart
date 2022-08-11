@@ -198,6 +198,41 @@ class Statements extends CI_Controller
 		$this->load->view('main/index.php', $data);
 	}
 
+	//Vouchers/journal_purchase
+	function journal_purchase($no_inv)
+	{
+
+		$this->load->model('Crud_model');
+		
+		$data['currency'] = $this->Crud_model->fetch_record_by_id('mp_langingpage',1)[0]->currency;
+
+		//$ledger
+		$from = html_escape($this->input->post('from'));
+		$to   = html_escape($this->input->post('to'));
+
+		if($from == NULL OR $to == NULL)
+		{
+			
+			$from = date('Y-m-').'1';
+			$to =  date('Y-m-').'31';
+
+		}
+
+		$data['no_invoice'] = $no_inv;
+		//$data['bayar'] = '100000';
+		// DEFINES PAGE TITLE
+		$data['title'] = 'Entri Jurnal';
+
+		$this->load->model('Statement_model');
+		$data['accounts_records'] = $this->Statement_model->chart_list();
+
+		// DEFINES WHICH PAGE TO RENDER
+		$data['main_view'] = 'journal_purchase';
+
+		// DEFINES GO TO MAIN FOLDER FOND INDEX.PHP  AND PASS THE ARRAY OF DATA TO THIS PAGE
+		$this->load->view('main/index.php', $data);
+	}
+
 	//USED TO ADD STARTING BALANCES 
 	function opening_balance()
 	{
@@ -364,5 +399,84 @@ class Statements extends CI_Controller
 			redirect('vouchers/journal_voucher');
 		}
 		redirect('statements');
+	}
+
+
+	//Statements/create_purcahse
+	function create_journal_purchase()
+	{
+		$description = html_escape($this->input->post('description'));
+		$date   = html_escape($this->input->post('date'));	
+		$account_head   = html_escape($this->input->post('account_head'));		
+		$debitamount   = html_escape($this->input->post('debitamount'));	
+		$creditamount   = html_escape($this->input->post('creditamount'));	
+
+		if($date == NULL)
+		{
+			$date = date('Y-m-d');
+		}	
+
+		$count_rows = count($account_head);
+		$status = TRUE;
+
+		for($i = 0; $i < $count_rows; $i++)
+        {
+        	if((($debitamount[$i] > 0 AND $creditamount[$i] == 0) OR ($creditamount[$i] > 0 AND $debitamount[$i] == 0)) AND $account_head[$i] != 0)
+        	{
+
+        	}
+        	else
+        	{
+        		$status = FALSE;
+        	}
+
+			
+		}
+
+		$data = array(
+			'description' => $description, 
+			'date' => $date, 
+			'account_head' => $account_head ,  
+			'debitamount' => $debitamount, 
+			'creditamount' => $creditamount, 
+		);
+
+		if($status)
+		{
+			
+			$this->load->model('Transaction_model');
+			$sukses = $this->Transaction_model->update_pembelian($account_head[1],$debitamount[1],$description);
+			$result = $this->Transaction_model->journal_voucher_entry($data);
+
+
+			if ($result != NULL)
+			{
+				$array_msg = array(
+					'msg' => '<i style="color:#fff" class="fa fa-check-circle-o" aria-hidden="true"></i> Created Successfully',
+					'alert' => 'info'
+				);
+				$this->session->set_flashdata('status', $array_msg);
+			}
+			else
+			{
+				$array_msg = array(
+					'msg' => '<i style="color:#c00" class="fa fa-exclamation-triangle" aria-hidden="true"></i> Error while creating',
+					'alert' => 'danger'
+				);
+				$this->session->set_flashdata('status', $array_msg);
+
+				redirect('purchase');
+			}
+		}
+		else
+		{
+			$array_msg = array(
+					'msg' => '<i style="color:#c00" class="fa fa-exclamation-triangle" aria-hidden="true"></i> Entry must be either a credit or a debit',
+					'alert' => 'danger'
+			);
+			$this->session->set_flashdata('status', $array_msg);
+			redirect('purchase');
+		}
+		redirect('purchase');
 	}
 }

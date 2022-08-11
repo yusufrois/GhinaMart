@@ -115,7 +115,7 @@
                                         <?php echo $single_purchase->total_amount-$single_purchase->cash; ?>
                                     </td>                                   
                                     <td>
-                                        <?php echo $single_purchase->payment_type_id; ?>
+                                        <?php echo $single_purchase->nama_bank; ?>
                                     </td>                                     
                                     <td>
                                         <?php echo $single_purchase->payment_date; ?>
@@ -143,6 +143,8 @@
                                             </button>
                                             <ul class="dropdown-menu" role="menu">
                                                 <li onclick="show_modal_page('<?php echo base_url().'purchase/popup/view_purchase_detail/'.$single_purchase->id; ?>')" ><a href="#"><i class="fa fa-pencil"></i> Lihat</a>
+                                                </li>
+                                                <li onclick="show_modal_page('<?php echo base_url().'statements/journal_purchase/'.$single_purchase->invoice_id; ?>')" ><a href="#"><i class="fa fa-print"></i> bayar</a>
                                                 </li>
                                             </ul>
                                         </div>

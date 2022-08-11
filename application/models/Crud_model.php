@@ -993,10 +993,12 @@ class Crud_model extends CI_Model
     //Invoice/fetch_record_purchased
     function fetch_record_purchased($status = 0,$date1,$date2)
     {
-        $this->db->select("mp_purchase.*,mp_payee.customer_name");
+        $this->db->select("mp_purchase.*,mp_payee.customer_name,mp_head.name as nama_bank");
         $this->db->from('mp_purchase');
         $this->db->join('mp_payee', "mp_purchase.supplier_id = mp_payee.id");
+        $this->db->join('mp_head', "mp_purchase.payment_type_id = mp_head.id");
         $this->db->where(['mp_purchase.status' =>$status]); 
+        $this->db->where(['mp_purchase.payment_type_id' => 5]); 
         $this->db->where('mp_purchase.date >=', $date1);
         $this->db->where('mp_purchase.date <=', $date2); 
         $query = $this->db->get();

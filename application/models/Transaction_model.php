@@ -641,7 +641,7 @@ class Transaction_model extends CI_Model
         $this->db->where(['id' =>$location]);
         $query = $this->db->get('mp_stores');
         $stock_med = $query->result();
-        $query = $this->db->query("UPDATE mp_productslist SET expire = ".$expire.", quantity = quantity + ".$qty.", purchase = ".$purc.", retail = ".$retail." , disc = ".$disc." , location = '".$stock_med[0]->name."' WHERE product_name = '".$nama."' ");
+        $query = $this->db->query("UPDATE mp_productslist SET expire = '".$expire."', quantity = quantity + ".$qty.", purchase = ".$purc.", retail = ".$retail." , disc = ".$disc." , location = '".$stock_med[0]->name."' WHERE product_name = '".$nama."' ");
         return true;
     }
 
@@ -696,6 +696,7 @@ class Transaction_model extends CI_Model
             else if($data_fields['total_amount'] > $data_fields['cash'])
             {   
                 $debithead     = 21; // akun bank pembelian
+                //$credithead    =  $data_fields['credithead']; // akun bank kas  
                 $credithead    =  $data_fields['credithead']; // akun bank kas  
                 $credithead2   = 5; // akun bank hutang usaha AP
 
@@ -860,7 +861,7 @@ class Transaction_model extends CI_Model
         else
         {
             //$payment_type = 'Cheque';
-            $payment_type = 4;
+            $payment_type = 5;
         }
         $args = array(
             'transaction_id' => $tran_id,
@@ -1082,6 +1083,13 @@ class Transaction_model extends CI_Model
         }
 
         return $data;
+    }
+
+    function update_pembelian($id, $bayar, $no_inv)
+    {
+        // $query = $this->db->query("UPDATE mp_productslist SET expire = '".$expire."', quantity = quantity + ".$qty.", purchase = ".$purc.", retail = ".$retail." , disc = ".$disc." , location = '".$stock_med[0]->name."' WHERE product_name = '".$nama."' ");
+        $query = $this->db->query("UPDATE mp_purchase SET payment_type_id = ".$id.", payment_date = CURDATE(), cash = cash + '".$bayar."' WHERE invoice_id = '".$no_inv."'");
+        return true;
     }
 
     //USED TO CREATE A JOURNAL VOUCHER ENTRY
