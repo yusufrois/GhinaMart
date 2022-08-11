@@ -212,7 +212,7 @@
                                 <?php echo $Sales_Record[$i][$counter]->mg.' '.$Sales_Record[$i][$counter]->unit_type; ?>
                             </td>
                             <td>
-                                <?php echo number_format($Sales_Record[$i][$counter]->price,'2','.',''); ?>
+                                <?php echo number_format($Sales_Record[$i][$counter]->price,0,",","."); ?>
                             </td>
                             <td>
                                 <?php echo $Sales_Record[$i][$counter]->qty; ?>
@@ -220,7 +220,7 @@
                             <td>
                                 <?php 
                                 //echo number_format($subtotal,'2','.','');
-                                echo number_format($subtotal,'2','.','');
+                                echo number_format($subtotal,0,",",".");
                                 
                                 ?>
                             </td>
@@ -240,13 +240,13 @@
                         <tr class="text-left" style="border-bottom: 2px dotted #eee;">
                             <th  style="width:50%">Subtotal (<?php echo $currency;?>):</th>
                             <td class="text-center">
-                                <?php echo number_format($total,'2','.',''); ?>
+                                <?php echo number_format($total,0,",","."); ?>
                             </td>
                         </tr>
                          <tr  style="border-bottom: 2px dotted #eee;">
                             <th style="width:50%">Diskon (<?php echo $currency;?>):</th>
                             <td class="text-center">
-                              <?php echo number_format($invoices_Record[$i]->discount,'2','.',''); ?>
+                              <?php echo number_format($invoices_Record[$i]->discount,0,",","."); ?>
                             </td>
                         </tr>
                         <?php 
@@ -256,14 +256,14 @@
                         <th  style="width:50%">Setelah Diskon(
                             <?php echo $currency;?> ):</th>
                         <td class="text-center">
-                            <?php echo number_format($total_after_dis,2,'.',''); ?>
+                            <?php echo number_format($total_after_dis,0,",","."); ?>
                         </td>
                     </tr>
                      <tr  style="border-bottom: 2px dotted #eee;">
                         <th style="width:50%">Pajak (
                             <?php echo $currency ;?>):</th>
                         <td class="text-center">
-                            <?php echo number_format($total_tax,'2','.',''); ?>
+                            <?php echo number_format($total_tax,0,",","."); ?>
                         </td>
                     </tr>    
                         <?php
@@ -273,7 +273,7 @@
                         <th>Total (
                             <?php echo $currency ;?>):</th>
                         <td class="text-center">
-                            <?php echo number_format($new_amount,'2','.',''); ?>
+                            <?php echo number_format($new_amount,0,",","."); ?>
                         </td>
                     </tr>
                     <?php
@@ -306,7 +306,7 @@
                             }
                              ?> 
                              ] [ 
-                             <b> Jumlah Diterima:</b> <?php echo $invoices_Record[$i]->bill_paid; ?> /- ] [ <b>  Sisa:</b> <?php echo $invoices_Record[$i]->total_bill-$invoices_Record[$i]->bill_paid; ?> /- ]
+                             <b> Jumlah Diterima:</b> <?php echo number_format($invoices_Record[$i]->bill_paid,0,",","."); ?> /- ] [ <b>  Sisa:</b> <?php echo number_format($invoices_Record[$i]->total_bill-$invoices_Record[$i]->bill_paid,0,",", "."); ?> /- ]
                         </td>
                     </tr>
                     </table>                    

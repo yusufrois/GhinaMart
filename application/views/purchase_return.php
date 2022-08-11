@@ -113,10 +113,10 @@
                                         <?php echo $single_purchase->customer_name; ?>
                                     </td>
                                     <td>
-                                        <?php echo $single_purchase->total_amount; ?>
+                                        <?php echo number_format($single_purchase->total_amount,0,",","."); ?>
                                     </td>
                                     <td>
-                                        <?php echo $single_purchase->cash; ?>
+                                        <?php echo number_format($single_purchase->cash,0,",","."); ?>
                                     </td>
                                     <td>
                                         <?php echo $single_purchase->total_amount-$single_purchase->cash; ?>
@@ -166,9 +166,9 @@
         </div>
         <div class="row bg-setting-product">
             <div class="col-md-12">
-                <b>Tagihan Retur : </b>  <?php echo number_format($total_bill,'2','.',''); ?>/-
-                <b>Total Diterima : </b>    <?php echo number_format($total_pur,'2','.',''); ?>/-
-                <b>Total Penerimaan  : </b>   <?php echo number_format($total_bal,'2','.',''); ?>/-
+                <b>Tagihan Retur : </b>  <?php echo number_format($total_bill,0,",","."); ?>/-
+                <b>Total Diterima : </b>    <?php echo number_format($total_pur,0,",","."); ?>/-
+                <b>Total Penerimaan  : </b>   <?php echo number_format($total_bal,0,",","."); ?>/-
             </div>
         </div>
 </section>
