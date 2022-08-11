@@ -12,7 +12,7 @@
 </div>
 <div class="row">
     <div class="col-md-6 set-no-padding">
-     <table class="table table-striped table-bordered table_height_set">
+       <table class="table table-striped table-bordered table_height_set">
         <thead style="background-color: gray; color:white;">
             <tr> 
                 <th>Item</th>
@@ -23,13 +23,13 @@
             </tr>
         </thead>
         <tbody style="font-weight: bold;">
-         <?php   
-         $currency =  $this->db->get_where('mp_langingpage', array('id' => 1))->result_array()[0]['currency'];
-         $total_tax   = 0;  
-         $total_gross = 0;
-         $single_tax  = 0; 
-         if($temp_data != NULL)
-         {
+           <?php   
+           $currency =  $this->db->get_where('mp_langingpage', array('id' => 1))->result_array()[0]['currency'];
+           $total_tax   = 0;  
+           $total_gross = 0;
+           $single_tax  = 0; 
+           if($temp_data != NULL)
+           {
 // print "<pre>";
 // print_r($temp_data);
             foreach ($temp_data as $single_val) 
@@ -43,7 +43,7 @@
                     <td><?php echo $single_val->mg.' '.$single_val->unit_type; ?></td>
                     <td>
                         <!-- <input type="number" onkeyup="amend_price(this.value,'<?php echo $single_val->id; ?>')"  value="<?php echo $single_val->price; ?>" /> --> 
-                        <?php echo $single_val->price; ?>
+                        <?php echo  number_format($single_val->price,0,",","."); ?>
 
                     </td>
                     <td>
@@ -67,27 +67,27 @@
     <div class="row total-grid-values">
         <div class="col-md-4 col-sm-12 col-xs-12">
             Total Gross (<?php echo $currency; ?>) :
-            <input type="number" name="total_gross_amt" id="total_gross_amt" disabled="disabled" class=" amount-box  text-center outline-cls" style="border: 0;" value="<?php echo $total_gross; ?>" />
+            <input type="number" name="total_gross_amt" id="total_gross_amt" disabled="disabled" class=" amount-box  text-center outline-cls" style="border: 0;" value="<?php echo number_format($total_gross,0,",","."); ?>" />
         </div>    
         <div class="col-md-4 col-sm-12 col-xs-12">
-           Total Pajak (<?php echo $currency; ?>): 
-           <input type="number" class=" amount-box text-right outline-cls" name="total_tax_amt" id="total_tax_amt" disabled="disabled"style="border: 0;"  value="<?php echo $total_tax; ?>" />
-       </div>
-       <div class="col-md-4 col-sm-12 col-xs-12">
+         Total Pajak (<?php echo $currency; ?>): 
+         <input type="number" class=" amount-box text-right outline-cls" name="total_tax_amt" id="total_tax_amt" disabled="disabled"style="border: 0;"  value="<?php echo number_format($total_tax,0,",","."); ?>" />
+     </div>
+     <div class="col-md-4 col-sm-12 col-xs-12">
         Diskon (<?php echo $currency; ?>) :
         <input type="number" onkeyup="checkDiscount(this.value)" name="discountfield" id="discountfield" step=".01" class=" amount-box text-right"style="border: 0;"  value="0" />
     </div>  
 </div> 
 <div class="row total-grid-values">
     <div class="col-md-4 privious_balance">
-     Hutang Sebelumnya (<?php echo $currency; ?>):
-     <input type="number" disabled="disabled" name="privious_balance" id="privious_balance" class="text-center" step=".01" value="0.00" /> <br>
-     <small><a onclick="open_payment_model()" href="javascript:void(0)">Bayar Hutang sebelumnya</a></small>
- </div>
- <div class="col-md-4 total_amount_area">
+       Hutang Sebelumnya (<?php echo $currency; ?>):
+       <input type="number" disabled="disabled" name="privious_balance" id="privious_balance" class="text-center" step=".01" value="0.00" /> <br>
+       <small><a onclick="open_payment_model()" href="javascript:void(0)">Bayar Hutang sebelumnya</a></small>
+   </div>
+   <div class="col-md-4 total_amount_area">
     <div class="">
         <p > Grand Total (<?php echo $currency; ?>) </p>
-        <h4  id="net_total_amount"> <?php echo number_format($total_tax+$total_gross,'2','.',''); ?>
+        <h4  id="net_total_amount"> <?php echo number_format($total_tax+$total_gross,0,",","."); ?>
     </h4>
 </div>
 </div>
@@ -99,10 +99,10 @@
 </div>        
 <div class="row total_amount_area_row">
     <div class="col-md-4 col-sm-12 col-xs-12">
-       Uang Diterima :
-       <input type="number" onkeyup="amount_refund(this.value)" name="amount_recieved" id="amount_recieved" class=" amount-box  text-center" value="0" />
-   </div>            
-   <div class="col-md-4 col-sm-12 col-xs-12  ">
+     Uang Diterima :
+     <input type="number" onkeyup="amount_refund(this.value)" name="amount_recieved" id="amount_recieved" class=" amount-box  text-center" value="0" />
+ </div>            
+ <div class="col-md-4 col-sm-12 col-xs-12  ">
     Kembali : 
     <span id="cash_given_to_customer">0</span> 
 </div> 
@@ -115,8 +115,8 @@
       <i class="fa fa-arrow-left" aria-hidden="true"></i>  RETUR ITEM
   </a>
   <button type="submit"  id="submit_btn" class="btn btn-danger btn-outline-primary btn-left-side-invoice"> 
-   <i class="fa fa-floppy-o" aria-hidden="true"></i>  SIMPAN DAN CETAK
-</button> 
+     <i class="fa fa-floppy-o" aria-hidden="true"></i>  SIMPAN DAN CETAK
+ </button> 
 
 </div>
 </div>

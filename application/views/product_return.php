@@ -89,16 +89,16 @@
                                             <?php echo $single_item->agent; ?>
                                         </td> 
                                         <td>
-                                            <?php echo $single_item->total_bill; ?>
+                                            <?php echo number_format($single_item->total_bill,0,",","."); ?>
                                         </td> 
                                         <td>
-                                            <?php echo $single_item->discount_given; ?>
+                                            <?php echo number_format($single_item->discount_given,0,",","."); ?>
                                         </td> 
                                         <td>
-                                            <?php echo $single_item->return_amount; ?>
+                                            <?php echo number_format($single_item->return_amount,0,",","."); ?>
                                         </td>
                                         <td>
-                                            <?php echo number_format((($single_item->total_bill-$single_item->discount_given)-$single_item->return_amount),'2','.',''); ?>
+                                            <?php echo number_format((($single_item->total_bill-$single_item->discount_given)-$single_item->return_amount),0,",","."); ?>
                                         </td>
                                         <td>
                                             <div class="btn-group no-print pull pull-right">
@@ -133,10 +133,10 @@
                             <th></th>
                             <th></th>
                             <th></th>
-                            <th><?php echo $currency.' '.$total_return; ?> </th>
-                            <th  ><?php echo $currency.' '.$total_dis; ?></th>
-                            <th  ><?php echo $currency.' '.$total_return_paid; ?></th>
-                            <th><?php echo $currency.' '.(($total_return-$total_dis)-$total_return_paid); ?></th>
+                            <th><?php echo $currency.' '.number_format($total_return,0,",","."); ?> </th>
+                            <th><?php echo $currency.' '.number_format($total_dis,0,",","."); ?></th>
+                            <th><?php echo $currency.' '.number_format($total_return_paid,0,",","."); ?></th>
+                            <th><?php echo $currency.' '.number_format((($total_return-$total_dis)-$total_return_paid),0,",","."); ?></th>
                             <th></th>
                         </tr>
                     </tbody>

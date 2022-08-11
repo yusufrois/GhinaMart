@@ -118,13 +118,13 @@
                                 <?php echo $Sales_collection[$i][$counter]->mg.' '.$Sales_collection[$i][$counter]->unit_type; ?>
                             </td>
                             <td>
-                                <?php echo $Sales_collection[$i][$counter]->price; ?>
+                                <?php echo number_format($Sales_collection[$i][$counter]->price,0,",","."); ?>
                             </td>
                             <td>
                                 <?php echo $Sales_collection[$i][$counter]->qty; ?>
                             </td>
                             <td>
-                                <?php echo $subtotal; ?>
+                                <?php echo number_format($subtotal,0,",","."); ?>
                             </td>
                         </tr>
                     <?php
@@ -155,31 +155,31 @@
                         <td>Total jumlah penjualan (Tanpa diskon)</td>
                         <td class="text-right">
                             <?php echo $this->db->get_where('mp_langingpage', array('id' => 1))->result_array()[0]['currency'] ;?>
-                                <?php echo $total_revenue; ?> /- </td>
+                                <?php echo number_format($total_revenue,0,",","."); ?> /- </td>
                     </tr>
                     <tr>
                         <td>Total Modal / Pengeluaran</td>
                         <td class="text-right">
                             <?php echo $this->db->get_where('mp_langingpage', array('id' => 1))->result_array()[0]['currency'] ;?>
-                                <?php echo $total_expense; ?> /- </td>
+                                <?php echo number_format($total_expense,0,",","."); ?> /- </td>
                     </tr>
                     <tr>
                         <td>Laba / Rugi</td>
                         <td class="text-right">
                             <?php echo $this->db->get_where('mp_langingpage', array('id' => 1))->result_array()[0]['currency'] ;?>
-                                <?php echo $totalprofit; ?> /- </td>
+                                <?php echo number_format($totalprofit,0,",","."); ?> /- </td>
                     </tr>
                     <tr>
                         <td>Total Diskon yang ditawarkan</td>
                         <td class="text-right">
                             <?php echo $this->db->get_where('mp_langingpage', array('id' => 1))->result_array()[0]['currency'] ;?>
-                                <?php echo $discount_offered; ?> /- </td>
+                                <?php echo number_format($discount_offered,0,",","."); ?> /- </td>
                     </tr>
                     <tr>
                         <td>Laba / Rugi bersih</td>
                         <td class="text-right ">
                             <?php echo $this->db->get_where('mp_langingpage', array('id' => 1))->result_array()[0]['currency'] ;?>
-                                <?php echo $totalprofit-$discount_offered; ?> /- </td>
+                                <?php echo number_format($totalprofit-$discount_offered,0,",","."); ?> /- </td>
                     </tr>
                 </table>
             </div>

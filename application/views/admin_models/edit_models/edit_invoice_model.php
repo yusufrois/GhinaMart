@@ -108,13 +108,13 @@
                                 <?php echo $invoice_data[$counter]->mg; ?>
                             </td>
                             <td>
-                                 <input type="number" readonly class="form-control no-border edit_product_price set-input-width" value="<?php echo number_format($invoice_data[$counter]->price,'2','.',''); ?>"  name="product_price[]" />
+                                 <input type="number" readonly class="form-control no-border edit_product_price set-input-width" value="<?php echo number_format($invoice_data[$counter]->price,0,",","."); ?>"  name="product_price[]" />
                             </td>
                             <td>
                                 <input type="number" class="form-control  edit_product_quantity set-input-width" value="<?php echo $invoice_data[$counter]->qty; ?>" id="<?php echo 'quantity'.$invoice_data[$counter]->id; ?>" onkeyup="checkquantity(<?php echo $invoice_data[$counter]->id; ?>,<?php echo $invoice_data[$counter]->qty; ?>,this.value)" name="product_quantity[]">
                             </td> 
                             <td>
-                                <input type="number" readonly class="form-control set-input-width no-border edit_product_subtotal" value="<?php echo number_format($subtotal,'2','.','');?>" name="product_subtotal[]">
+                                <input type="number" readonly class="form-control set-input-width no-border edit_product_subtotal" value="<?php echo number_format($subtotal,0,",",".");?>" name="product_subtotal[]">
                             </td>
                         </tr>
                         <?php
@@ -137,7 +137,7 @@
                                     <b> Gross Total (<?php echo $currency; ?>) </b>
                                 </td>
                                 <td>
-                                    <input type="number" readonly class="form-control no-border Edit_subtotal_amount " style="width:100px; float:right; "  value="<?php echo number_format($total,'2','.','');?>" name="" /> 
+                                    <input type="number" readonly class="form-control no-border Edit_subtotal_amount " style="width:100px; float:right; "  value="<?php echo number_format($total,0,",",".");?>" name="" /> 
                                 </td>
                             </tr>
                             <tr>
@@ -148,15 +148,15 @@
                             </tr>
                             <tr>
                                 <th colspan="3">Total Pajak  (<?php echo $currency; ?>)</th>
-                                <td><input type="number" style="width:100px; float:right; " readonly class="form-control no-border edit_tax_amount " value="<?php echo number_format($total_tax,'2','.',''); ?>" name="edit_tax_amount"/></td>
+                                <td><input type="number" style="width:100px; float:right; " readonly class="form-control no-border edit_tax_amount " value="<?php echo number_format($total_tax,0,",","."); ?>" name="edit_tax_amount"/></td>
                             </tr>   
                             <tr>
                                 <th colspan="3">Jumlah Total (<?php echo $currency; ?>)</th>
-                                <td><input type="number" style="width:100px; float:right; " readonly class="form-control no-border Edit_total_amount " value="<?php echo number_format($total + $total_tax,'2','.',''); ?>" name="total_bill"/></td>
+                                <td><input type="number" style="width:100px; float:right; " readonly class="form-control no-border Edit_total_amount " value="<?php echo number_format($total + $total_tax,0,",","."); ?>" name="total_bill"/></td>
                             </tr>                           
                             <tr>
                                 <th colspan="3">Jumlah Dibayar (<?php echo $currency; ?>)</th>  
-                                <td><input type="number" step=".01" style="width:100px; float:right; " class="form-control amountpaid " value="<?php echo $invoice_data[0]->bill_paid; ?>" name="amountpaid"/></td>
+                                <td><input type="number" step=".01" style="width:100px; float:right; " class="form-control amountpaid " value="<?php echo number_format($invoice_data[0]->bill_paid,0,",","."); ?>" name="amountpaid"/></td>
                             </tr>
                             <tr>
                                 <td colspan="5"><b>Rincian</b><input type="text"  class="form-control edit_description input-lg" placeholder="Plz Provide the reason of edit" value="<?php echo $invoice_data[0]->description; ?>" name="edit_description"/>

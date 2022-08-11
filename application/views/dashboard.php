@@ -210,11 +210,11 @@
 .small-box > .inner {
     padding: 20px;
 }
-@media (min-width: 992px){
+/*@media (min-width: 992px){
 .col-md-10 {
     width: 85.333333%;
 }
-}
+}*/
 </style>
 <?php 
     $this->load->view('script/dashboard_script.php');
