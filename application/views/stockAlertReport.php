@@ -55,7 +55,7 @@
                                             <?php echo $obj_product_List->min_stock; ?>
                                         </td>
                                         <td>
-                                            <?php echo $obj_product_List->retail; ?>
+                                            <?php echo number_format($obj_product_List->retail,'0',',','.'); ?>
                                         </td>
                                         <td>
                                             <?php 

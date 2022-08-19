@@ -77,7 +77,7 @@
             <h4  class="purchase-heading"> <i class="fa fa-check-circle"></i> 
                 Item Pembelian 
             </h4>
-            <div class="table-responsive  ">
+            <div class="table-responsive">
                 <table id="" class="table table-bordered table-striped">
                     <thead>
                         <tr>
@@ -112,19 +112,19 @@
                         ?>
                             <tr>
                                 <td>
-                                    <?php echo $single_ledger->date; ?>
+                                    <?php echo $single_ledger->date;?>
                                 </td>
                                 <td>
-                                    <?php echo $single_ledger->total_bill; ?>
+                                    <?php echo number_format($single_ledger->total_bill,'0',',','.'); ?>
                                 </td>
                                 <td>
-                                    <?php echo $single_ledger->discount; ?>
+                                    <?php echo number_format($single_ledger->discount,'0',',','.'); ?>
                                 </td>
                                 <td>
-                                    <?php echo $single_ledger->bill_paid; ?>
+                                    <?php echo number_format($single_ledger->bill_paid,'0',',','.'); ?>
                                 </td>
                                 <td>
-                                    <?php echo number_format($single_ledger->total_bill-$single_ledger->bill_paid,'2','.',''); ?>
+                                    <?php echo number_format($single_ledger->total_bill-$single_ledger->bill_paid,'0',',','.'); ?>
                                 </td>
                                 <td>
                                     <a href="<?php echo base_url('invoice/single_invoice/').$single_ledger->id; ?>"><?php echo $single_ledger->id; ?></a>
@@ -136,10 +136,10 @@
                                 ?>
                                 <tr>
                                 <th>Total</th>
-                                <th><?php echo $currency.' '.number_format($total,'2','.',''); ?></th>
-                                <th><?php echo $currency.' '.number_format($discount,'2','.',''); ?></th>
-                                <th><?php echo $currency.' '.number_format($paid,'2','.',''); ?></th>
-                                <th><?php echo $currency.' '.number_format($balance,'2','.',''); ?></th>
+                                <th><?php echo $currency.' '.number_format($total,'0',',','.'); ?></th>
+                                <th><?php echo $currency.' '.number_format($discount,'0',',','.'); ?></th>
+                                <th><?php echo $currency.' '.number_format($paid,'0',',','.'); ?></th>
+                                <th><?php echo $currency.' '.number_format($balance,'0',',','.'); ?></th>
                                 <td></td>
                             </tr>
                         </tbody>
@@ -198,7 +198,7 @@
                                 <?php echo $single_return->return_amount; ?>
                             </td>
                             <td>
-                                <?php echo number_format(($single_return->total_bill-$single_return->discount_given)-$single_return->return_amount,'2','.',''); ?>
+                                <?php echo number_format(($single_return->total_bill-$single_return->discount_given)-$single_return->return_amount,'0',',','.'); ?>
                             </td>
                             <td>
                                 <a href="<?php echo base_url('return_items/return_single_invoice/'.$single_return->id); ?>"><?php echo $single_return->invoice_id; ?></a>
@@ -210,10 +210,10 @@
                         <tr>
                             <th>Total</th>
                             
-                            <th><?php echo $currency.' '.number_format($total,'2','.',''); ?></th>
-                            <th><?php echo $currency.' '.number_format($discount,'2','.',''); ?></th>
-                            <th><?php echo $currency.' '.number_format($paid,'2','.',''); ?></th>
-                            <th><?php echo $currency.' '.number_format($balance,'2','.',''); ?></th>
+                            <th><?php echo $currency.' '.number_format($total,'0',',','.'); ?></th>
+                            <th><?php echo $currency.' '.number_format($discount,'0',',','.'); ?></th>
+                            <th><?php echo $currency.' '.number_format($paid,'0',',','.'); ?></th>
+                            <th><?php echo $currency.' '.number_format($balance,'0',',','.'); ?></th>
                         </tr>
                     </tbody>
                 </table>
@@ -278,7 +278,7 @@
                             <th>Total</th>
                             <th></th>
                             <th></th>
-                            <th colspan="2"><?php echo $currency.' '.number_format($total,'2','.',''); ?></th>
+                            <th colspan="2"><?php echo $currency.' '.number_format($total,'0',',','.'); ?></th>
                         </tr>
                         </tbody>
                     </table>
@@ -352,14 +352,14 @@
                             <th></th>
                             <th></th>
                             <th >
-                                <?php echo $currency.' '.number_format($total,'2','.',''); 
+                                <?php echo $currency.' '.number_format($total,'0',',','.'); 
                                 ?> 
                             </th>
                             <th >
-                                <?php echo $currency.' '.number_format($paid,'2','.','');?>
+                                <?php echo $currency.' '.number_format($paid,'0',',','.');?>
                             </th>                                
                             <th >
-                                <?php echo $currency.' '.number_format($total-$paid,'2','.','');?>
+                                <?php echo $currency.' '.number_format($total-$paid,'0',',','.');?>
                             </th>
                         </tr>
                         </tbody>
@@ -479,12 +479,12 @@
 
  <!------------------ From jewel Farazi---------------->
                         <h4 class="purchase-heading" style="background-color:#dd4b39;"><i class="fa fa-check-circle"></i> 
-                            Bauku Besar Customer
+                            Buku Besar Customer
                             <small>Daftar jumlah pembayaran oleh customer berikut sisa hutang. </small>
                         </h4>
                         <h4 style="front-size:18px;">Saldo Pembukaan : <strong><?php echo (!empty($openingblance)?$openingblance->totalamount: '') ?></strong>
                         Total Item Terbeli: <strong><?php echo $currency.' '.$received_total; ?></strong> /-
-                        Total Dibayar: <?php echo $currency.' '.$paid_total; ?> / Total Yang Dibayarkan : <strong><?php echo $currency.' '. (!empty($total)? number_format($total,'2','.',''):''); ?></strong>
+                        Total Dibayar: <?php echo $currency.' '.$paid_total; ?> / Total Yang Dibayarkan : <strong><?php echo $currency.' '. (!empty($total)? number_format($total,'0',',','.'):''); ?></strong>
                         </h4>
                               
 

@@ -100,10 +100,10 @@
                                             <?php echo substr($single_expense->description,0,30); ?>
                                         </td>
                                          <td>
-                                            <?php echo $single_expense->total_bill; ?>
+                                            <?php echo number_format($single_expense->total_bill,'0',',','.'); ?>
                                         </td>
                                         <td>
-                                            <?php echo $single_expense->total_paid; ?>
+                                            <?php echo number_format($single_expense->total_paid,'0',',','.'); ?>
                                         </td>
                                         
                                     </tr>

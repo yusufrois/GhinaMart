@@ -101,7 +101,7 @@
                                         <?php echo $deposit->customer_name; ?>
                                     </td>
                                     <td>
-                                        <?php echo $deposit->amount; ?>
+                                        <?php echo number_format($deposit->amount,'0',',','.'); ?>
                                     </td>
                                     <td>
                                         <?php echo $deposit->ref_no; ?>

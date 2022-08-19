@@ -113,16 +113,16 @@
                                     <?php echo $single_ledger->payment_date; ?>
                                 </td>
                                 <td>
-                                    <?php echo $single_ledger->id; ?>
+                                    <?php echo number_format($single_ledger->id,'0',',','.'); ?>
                                 </td>
                                 <td>
-                                    <?php echo $single_ledger->total_amount; ?>
+                                    <?php echo number_format($single_ledger->total_amount,'0',',','.'); ?>
                                 </td>
                                 <td>
-                                    <?php echo $single_ledger->cash; ?>
+                                    <?php echo number_format($single_ledger->cash,'0',',','.'); ?>
                                 </td>
                                 <td>
-                                    <?php echo $single_ledger->total_amount-$single_ledger->cash; ?>
+                                    <?php echo number_format($single_ledger->total_amount-$single_ledger->cash,'0',',','.'); ?>
                                 </td>
                                  <td>
                                     <?php echo $single_ledger->payment_type_id; ?>
@@ -138,9 +138,9 @@
                              <tr>
                                 <th>Total</th>
                                 <th></th>
-                                <th><?php echo $currency.' '.number_format($total,'2','.',''); ?></th>
-                                <th><?php echo $currency.' '.number_format($paid,'2','.',''); ?></th>
-                                <th><?php echo $currency.' '.number_format($balance,'2','.',''); ?></th>
+                                <th><?php echo $currency.' '.number_format($total,'0',',','.'); ?></th>
+                                <th><?php echo $currency.' '.number_format($paid,'0',',','.'); ?></th>
+                                <th><?php echo $currency.' '.number_format($balance,'0',',','.'); ?></th>
                                 <th></th>
                                 <th></th>
                             </tr>
