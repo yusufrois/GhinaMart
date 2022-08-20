@@ -86,16 +86,16 @@
                                             <?php echo $obj_product_record_list->quantity; ?>
                                         </td>
                                         <td>
-                                            <?php echo $obj_product_record_list->purchase; ?>
+                                            <?php echo number_format($obj_product_record_list->purchase,'0',',','.'); ?>
                                         </td>
                                         <td>
-                                            <?php echo $obj_product_record_list->retail; ?>
+                                            <?php echo number_format($obj_product_record_list->retail,'0',',','.'); ?>
                                         </td>
                                         <td>
-                                            <?php echo $obj_product_record_list->whole_sale; ?>
+                                            <?php echo number_format($obj_product_record_list->whole_sale,'0',',','.'); ?>
                                         </td>
                                         <td>
-                                            <?php echo $obj_product_record_list->tax; ?>
+                                            <?php echo number_format($obj_product_record_list->tax,'0',',','.'); ?>
                                         </td>
                                         <td>
                                             <div class="btn-group no-print pull pull-right">

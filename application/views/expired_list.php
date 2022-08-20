@@ -55,13 +55,13 @@
                                             
                                         </td>
                                         <td>
-                                            <?php echo $single_item->purchase; ?>
+                                            <?php echo number_format($single_item->purchase,'0',',','.'); ?>
                                         </td>
                                         <td>
-                                            <?php echo $single_item->retail; ?>
+                                            <?php echo  number_format($single_item->retail,'0',',','.'); ?>
                                         </td>
                                         <td>
-                                            <?php echo $single_item->quantity*$single_item->retail; ?>
+                                            <?php echo number_format($single_item->quantity*$single_item->retail,'0',',','.'); ?>
                                         </td>
                                         <td>
                                             <?php echo $single_item->location; ?>

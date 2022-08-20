@@ -139,7 +139,7 @@
                                         <?php echo $deposit->customer_name; ?>
                                     </td>
                                     <td>
-                                        <?php echo $deposit->cheque_amount; ?>
+                                        <?php echo number_format($deposit->cheque_amount,'0',',','.'); ?>
                                     </td>
                                 </tr>
 
@@ -149,7 +149,7 @@
                                  ?>
                                  <tr class="balancesheet-row">
                                      <td  colspan="4"> Total Deposito </td>
-                                     <td ><b><?php echo number_format($total_deposits,'2','.',''); ?></b></td>
+                                     <td ><b><?php echo number_format($total_deposits,'0',',','.'); ?></b></td>
                                  </tr>
                                 </tbody>
                             </table>
@@ -205,7 +205,7 @@
                                         <?php echo $cheque->customer_name; ?>
                                     </td>
                                     <td>
-                                        <?php echo $cheque->cheque_amount; ?>
+                                        <?php echo number_format($cheque->cheque_amount,'0',',','.'); ?>
                                     </td>
                                 </tr>
 
@@ -215,7 +215,7 @@
                                  ?>
                                  <tr class="balancesheet-row">
                                      <td  colspan="4"> Total Cek Tertulis </td>
-                                     <td ><b><?php echo number_format($total_cheque,'2','.',''); ?></b></td>
+                                     <td ><b><?php echo number_format($total_cheque,'0',',','.'); ?></b></td>
                                  </tr>
                                 </tbody>
                             </table>

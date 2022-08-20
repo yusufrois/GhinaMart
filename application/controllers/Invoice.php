@@ -954,4 +954,21 @@ class Invoice extends CI_Controller
 
 
     }
+
+  //   function single_invoice($return_id)
+  //   {
+  //   	// DEFINES PAGE TITLE
+		// $data['title'] = 'Invoice';
+
+		// $this->load->model('Accounts_model'); 
+		// $data['invoice_data'] = $this->Accounts_model->fetch_single_invoice_items($return_id);
+
+  //   	// DEFINES WHICH PAGE TO RENDER
+		// $data['main_view'] = 'single_invoice';
+
+		// // DEFINES GO TO MAIN FOLDER FOND INDEX.PHP  AND PASS THE ARRAY OF DATA TO THIS PAGE
+		// $this->load->view('main/index.php', $data);
+
+
+  //   }
 }

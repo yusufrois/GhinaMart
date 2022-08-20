@@ -46,7 +46,7 @@
                                         <?php echo $single_item->mg.' '.$single_item->unit_type; ?>
                                     </td>
                                     <td>
-                                        <?php echo $single_item->manufacturing  ; ?>
+                                        <?php echo $single_item->manufacturing; ?>
                                     </td>
                                     <td>
                                         <?php echo $single_item->expire; ?>
@@ -54,13 +54,13 @@
                                     <td><input type="text" class="supply_fields" name="jml_return" id="jml_return" value="<?php echo $single_item->jumlah; ?>">
                                     </td>
                                     <td>
-                                        <?php echo $single_item->purchase; ?>
+                                        <?php echo number_format($single_item->purchase,'0',',','.'); ?>
                                     </td>
                                     <td>
-                                        <?php echo $single_item->retail; ?>
+                                        <?php echo number_format($single_item->retail,'0',',','.'); ?>
                                     </td>
                                     <td>
-                                        <?php echo $single_item->quantity*$single_item->retail; ?>
+                                        <?php echo number_format($single_item->quantity*$single_item->retail,'0',',','.'); ?>
                                     </td>
                                     <td>
                                         <?php echo $single_item->location; ?>

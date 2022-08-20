@@ -92,7 +92,7 @@
                                             <?php echo $this->db->get_where('mp_payee', array('id' => $single_customer->customer_id))->result_array()[0]['customer_name'] ; ?>
                                         </td>
                                         <td>
-                                            <?php echo $single_customer->amount; ?>
+                                            <?php echo number_format($single_customer->amount,'0',',','.'); ?>
                                         </td>                                        
                                         <td>
                                             <?php echo $single_customer->method; ?>
