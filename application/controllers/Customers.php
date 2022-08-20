@@ -784,7 +784,7 @@ class Customers extends CI_Controller
 		
 		// DEFINES TO LOAD THE DATA USING GIVEN DATES 
 		$this->load->model('Accounts_model');
-		$data['customer_payment']  = $this->Accounts_model->fetch_record_date('mp_customer_payments', $date1, $date2);
+		$data['customer_payment']  = $this->Accounts_model->fetch_record_data('mp_customer_payments', $date1, $date2);
 
 		// DEFINES GO TO MAIN FOLDER FOND INDEX.PHP  AND PASS THE ARRAY OF DATA TO THIS PAGE
 		$this->load->view('main/index.php', $data);

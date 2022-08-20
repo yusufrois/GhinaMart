@@ -203,7 +203,7 @@ class Supplier extends CI_Controller
 		
 		// DEFINES TO LOAD THE DATA USING GIVEN DATES 
 		$this->load->model('Accounts_model');
-		$result = $this->Accounts_model->fetch_record_date('mp_supplier_payments', $date1, $date2);
+		$result = $this->Accounts_model->fetch_record_data('mp_supplier_payments', $date1, $date2);
 		$data['supplier_payment'] = $result;
 
 		// DEFINES GO TO MAIN FOLDER FOND INDEX.PHP  AND PASS THE ARRAY OF DATA TO THIS PAGE
