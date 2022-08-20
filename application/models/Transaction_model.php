@@ -758,7 +758,7 @@ class Transaction_model extends CI_Model
         { 
             $data1  = array(
                 'date'             => date('Y-m-d'), 
-                'naration'         => 'Transaksi dilakukan dari Retur Pembelian', 
+                'naration'         => 'Transaksi dilakukan dari Retur Pembelian'.$data_fields['invoice_id'], 
                 'generated_source'     => 'purchases_return'
                 );
 
@@ -767,7 +767,7 @@ class Transaction_model extends CI_Model
 
             if($data_fields['total_amount'] == $data_fields['cash'])
             {    
-                $debithead    = 2; 
+                $debithead    = $data_fields['credithead']; 
                 $credithead   = 21;  
 
                 $debitamount  = $data_fields['total_amount'];
@@ -796,7 +796,7 @@ class Transaction_model extends CI_Model
             }
             else if($data_fields['total_amount'] > $data_fields['cash'])
             {   
-                $debithead     = 2; 
+                $debithead     = $data_fields['credithead']; 
                 $debithead2    = 4; 
                 $credithead    = 21;  
 
@@ -852,6 +852,7 @@ class Transaction_model extends CI_Model
 
             }
         }
+        //batas return
         // ASSIGN THE VALUES OF TEXTBOX TO ASSOCIATIVE ARRAY
         if($data_fields['total_amount'] == $data_fields['cash'])
         {

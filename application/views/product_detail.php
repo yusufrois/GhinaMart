@@ -354,6 +354,24 @@
                                         echo form_input($data);
                                 ?>
                             </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <?php echo form_label('Diskon Penjualan :'); ?>
+                                <?php
+                                        $data = array('class'=>'form-control input-lg','type'=>'number','name'=>'diskon_sale','value'=>$product[0]->disc,'step'=>'.01','reqiured'=>'');
+                                        echo form_input($data);
+                                ?>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                            <?php echo form_label('Tanggal Promo:'); ?>
+                            <?php               
+                                $data = array('class'=>'form-control input-lg','type'=>'date','id'=>'promo_exp_date','name'=>'promo_exp_date','value'=>date($product[0]->date_disc),'reqiured'=>'');
+                                echo form_input($data);         
+                            ?>
+                            </div>
                         </div>        
                     </div>                    
                     <div class="row">

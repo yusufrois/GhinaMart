@@ -51,8 +51,7 @@
                                     <td>
                                         <?php echo $single_item->expire; ?>
                                     </td>
-                                    <td>
-                                        <?php echo $single_item->quantity; ?>
+                                    <td><input type="text" class="supply_fields" name="jml_return" id="jml_return" value="<?php echo $single_item->jumlah; ?>">
                                     </td>
                                     <td>
                                         <?php echo $single_item->purchase; ?>
@@ -76,7 +75,7 @@
                                             </button>
                                             <ul class="dropdown-menu" role="menu">
                                                  <li >
-                                                    <a onclick="confirmation_alert('update back this to stock  ','<?php echo base_url();?>product/change_status/<?php echo $single_item->id.'/0'; ?>')"  href="javascript:void(0)" > 
+                                                    <a onclick="confirmation_alert('update back this to stock  ','<?php echo base_url();?>product/update_return/<?php echo $single_item->id.'/'; ?>'+ $('#jml_return').val())"  href="javascript:void(0)" > 
                                                         <i class="fa fa-pencil"> </i> Update kembali ke stok
                                                     </a>
                                                 </li>

@@ -98,11 +98,30 @@
                         <h4 class="purchase-heading"><i class="fa fa-check-circle"></i>  Rincian Pembayaran :</h4>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <?php echo form_label('Metode pembayaran'); ?>
-                                <select name="pur_method" id="payment_id" class="form-control input-lg">
+                                <?php echo form_label('Metode Return'); ?>
+                                <!-- <select name="pur_method" id="payment_id" class="form-control input-lg">
                                     <option value="Cash">Tunai</option>
                                      <option value="Cheque">Cek</option>
                                 <
+                                </select> -->
+                                <select name="pur_method" id="payment_id" class="form-control input-lg">
+                                        <?php
+                                        //category_names from mp_category table;
+                                        if($akun_list != NULL)
+                                        {       
+                                            foreach ($akun_list as $single_akun)
+                                            {
+                                        ?>
+                                            <option value="<?php echo $single_akun->id; ?>" ><?php echo $single_akun->name; ?> 
+                                            </option>
+                                        <?php
+                                                }
+                                            }
+                                            else
+                                            {
+                                                echo "No Record Found";
+                                            }
+                                        ?>
                                 </select>
                             </div>
                         </div>                

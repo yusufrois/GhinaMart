@@ -5,7 +5,7 @@
 	<div class="row">
   		<div class="col-md-12">
 		  <footer class="main-footer  text-center">
-		    Copyright ©2019 <a target="blank" href="http://rumahit.id" > Designed & development by: Rumah IT</a> 
+		    Copyright ©2022 <a target="blank" href="http://kantorku.id" > Designed & development by: KantorKU IT APPS</a> 
 		  </footer> 
   		</div>
   </div>

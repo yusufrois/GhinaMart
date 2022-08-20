@@ -480,6 +480,41 @@ class Crud_model extends CI_Model
         }
     }
 
+    public function return_record_product()
+    {
+
+        // DEFINES JOIN QUERY WHICH WOULD RETURN THE CATEGORY NAME OF product FROM
+        // mp_category TABLE INSTEAD OF JUST RETURNING NUMBERIC ID FORM mp_productslist TABLE.
+        // INSEAD OF CATEGORY ID 12 WILL GET THE category_name FROM TABLE.
+        // IF 0 MEANS SELECT ONLY THOSE RECORDS WHORE STATUS IS 0 MEANS VISIBLE OR 1 MEANS FETCH ALL
+        // WEATHER IT WOULD BE VISIBLE OR HIDDEN MEANS STATUS = 0 OR STATUS = 1
+        // if ($arg == 'all')
+        // {
+        //       $this->db->select('mp_productslist.*,mp_category.category_name,mp_brand.name');
+        //     $this->db->from('mp_category');
+        //     $this->db->join('mp_productslist', 'mp_category.id = mp_productslist.category_id and mp_productslist.status != 2');
+        //     $this->db->join('mp_brand', "mp_brand.id = mp_productslist.brand_id");
+        //     $query = $this->db->get();   
+        // }
+        // else
+        // {  
+          $this->db->select('mp_productslist.*,mp_productslist_resturn.id_produk as id_produk, mp_productslist_resturn.jumlah as jumlah');
+            $this->db->from('mp_productslist_resturn');
+            $this->db->join('mp_productslist', "mp_productslist_resturn.id_produk = mp_productslist.id");
+            $this->db->where('jumlah > 0');
+            $query = $this->db->get();
+        //}
+
+        if ($query->num_rows() > 0)
+        {
+            return $query->result();
+        }
+        else
+        {
+            return NULL;
+        }
+    }
+
     public function fetch_record_product_alert()
     {
         //FETCHING THE STOCK LIMIT FROM DATABASE
@@ -629,7 +664,18 @@ class Crud_model extends CI_Model
         $this->db->where('id', $id);
         $this->db->update($table_name, $data);
         return TRUE;
-    }   
+    }
+
+    public function insert_retur($id, $val){
+        $query = $this->db->query("INSERT INTO mp_productslist_resturn (id_produk, jumlah) VALUES ('".$id."','".$val."') ON DUPLICATE KEY UPDATE jumlah = jumlah + '".$val."'");
+        return true;
+    }  
+
+    public function kurang_retur($id, $val){
+        $query = $this->db->query("UPDATE mp_productslist_resturn SET jumlah = jumlah - '".$val."' WHERE id_produk = '".$id."'");
+        $query_s = $this->db->query("UPDATE mp_productslist SET quantity = quantity + '".$val."' WHERE id = '".$id."'");
+        return true;
+    }
 
      public function edit_record_attr($args, $data)
     {
@@ -999,6 +1045,27 @@ class Crud_model extends CI_Model
         $this->db->join('mp_head', "mp_purchase.payment_type_id = mp_head.id");
         $this->db->where(['mp_purchase.status' =>$status]); 
         $this->db->where(['mp_purchase.payment_type_id' => 5]); 
+        $this->db->where('mp_purchase.date >=', $date1);
+        $this->db->where('mp_purchase.date <=', $date2); 
+        $query = $this->db->get();
+        if ($query->num_rows() > 0)
+        {
+            return $query->result();
+        }
+        else
+        {
+            return NULL;
+        }
+    }
+
+    function fetch_record_return($status = 0,$date1,$date2)
+    {
+        $this->db->select("mp_purchase.*,mp_payee.customer_name,mp_head.name as nama_bank");
+        $this->db->from('mp_purchase');
+        $this->db->join('mp_payee', "mp_purchase.supplier_id = mp_payee.id");
+        $this->db->join('mp_head', "mp_purchase.payment_type_id = mp_head.id");
+        $this->db->where(['mp_purchase.status' =>$status]); 
+        //$this->db->where(['mp_purchase.payment_type_id' => 5]); 
         $this->db->where('mp_purchase.date >=', $date1);
         $this->db->where('mp_purchase.date <=', $date2); 
         $query = $this->db->get();

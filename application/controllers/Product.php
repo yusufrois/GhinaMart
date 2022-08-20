@@ -27,6 +27,9 @@ class Product extends CI_Controller
   // DEFINES BUTTON NAME ON THE TOP OF THE TABLE
   $data['page_add_button_name'] = 'Tambah Produk';
 
+  //promo
+  $data['page_promo'] = 'Management promo';
+
   // DEFINES THE TITLE NAME OF THE POPUP
   $data['page_title_model'] = 'Tambah Produk';
 
@@ -149,6 +152,49 @@ class Product extends CI_Controller
     $this->load->view('main/index.php', $data);
  }
 
+public function add_promo(){
+  $item_id   = html_escape($this->input->post('item_id'));
+  $harga_jual   = html_escape($this->input->post('harga_jual'));
+  $disc_jual   = html_escape($this->input->post('disc_jual'));
+  $promo_date   = html_escape($this->input->post('promo_date'));
+    // DEFINES LOAD CRUDS_MODEL FORM MODELS FOLDERS
+  $this->load->model('Crud_model');
+  if($item_id != NULL)
+  {
+    $args = array(
+     'table_name' => 'mp_productslist',
+     'id' => $item_id
+    );
+
+    // DATA ARRAY FOR UPDATE QUERY array('abc'=>abc)
+    $data = array(
+     'retail' => $harga_jual,
+     'disc' =>  $disc_jual,
+     'date_disc' => $promo_date 
+    );
+
+     // CALL THE METHOD FROM Crud_model CLASS FIRST ARG CONTAINES TABLENAME AND OTHER CONTAINS DATA
+     $result_edit = $this->Crud_model->edit_record_id($args, $data);
+  }
+    if ($result_edit == 1)
+    {
+     $array_msg = array(
+      'msg' => '<i style="color:#fff" class="fa fa-check-circle-o" aria-hidden="true"></i> Status changed Successfully!',
+      'alert' => 'info'
+     );
+     $this->session->set_flashdata('status', $array_msg);
+    }
+    else
+    {
+     $array_msg = array(
+      'msg' => '<i style="color:#c00" class="fa fa-exclamation-triangle" aria-hidden="true"></i> Error Status cannot be changed',
+      'alert' => 'danger'
+     );
+     $this->session->set_flashdata('status', $array_msg);
+    }
+    redirect('product');
+
+}
 
  // product/add_stock_item
  public function add_stock_item()
@@ -452,6 +498,14 @@ $data['main_view'] = 'stock_list';
      $data['product_record_list'] = $product_record;
      //model name available in admin models folder
      $this->load->view( 'admin_models/add_models/add_stock_model.php',$data);
+    }
+    else if($page_name  == 'add_promo')
+    {
+     // PARAMETER 0 MEANS ONLY FETCH THAT RECORD WHICH IS VISIBLE 1 MEANS FETCH ALL
+     $product_record = $this->Crud_model->fetch_record_product(0);
+     $data['product_record_list'] = $product_record;
+     //model name available in admin models folder
+     $this->load->view( 'admin_models/add_models/add_promo.php',$data);
     } 
     else if($page_name  == 'edit_stock_model')
     {
@@ -542,6 +596,7 @@ $data['main_view'] = 'stock_list';
   $tax = html_escape($this->input->post('tax'));
   $expiry_date = html_escape($this->input->post('expiry_date'));
   $manufacturing_date = html_escape($this->input->post('manufacturing_date'));
+  $promo_exp_date = html_escape($this->input->post('promo_exp_date'));
   $side_effects = html_escape($this->input->post('side_effects'));
   $description = html_escape($this->input->post('description'));
 
@@ -551,6 +606,7 @@ $data['main_view'] = 'stock_list';
   $unit_symbol = html_escape($this->input->post('unit_symbol'));
   $net_weight = html_escape($this->input->post('net_weight'));
   $whole_sale = html_escape($this->input->post('whole_sale'));
+  $diskon_sale = html_escape($this->input->post('diskon_sale'));
   $product_picture = $this->Crud_model->do_upload_picture("product_picture", "./uploads/products/");
   // $picture = html_escape($this->input->post('picture'));
   // DEFINES LOAD CRUDS_MODEL FORM MODELS FOLDERS
@@ -581,7 +637,9 @@ $data['main_view'] = 'stock_list';
    'brand_sector_id' => $sector_id,
    'unit_type' => $unit_symbol,
    'net_weight' => $net_weight,
-   'whole_sale' => $whole_sale
+   'whole_sale' => $whole_sale,
+   'disc' => $diskon_sale,
+   'date_disc' => $promo_exp_date
   );
 
   $check_barcode_exist = $this->Crud_model->fetch_attr_record_by_id('mp_productslist','barcode',$barcode);
@@ -829,6 +887,7 @@ function random_number()
   $edit_tax = html_escape($this->input->post('edit_tax'));
   $edit_expiry_date = html_escape($this->input->post('edit_expiry_date'));
   $edit_manufacturing_date = html_escape($this->input->post('edit_manufacturing_date'));
+  $promo_exp_date = html_escape($this->input->post('promo_exp_date'));
   $edit_side_effects = html_escape($this->input->post('edit_side_effects'));
   $edit_description = html_escape($this->input->post('edit_description'));
   $edit_barcode = html_escape($this->input->post('edit_barcode'));
@@ -839,6 +898,7 @@ function random_number()
   $unit = html_escape($this->input->post('unit'));
   $net_weight = html_escape($this->input->post('net_weight'));
   $whole_sale = html_escape($this->input->post('whole_sale'));
+  $diskon_sale = html_escape($this->input->post('diskon_sale'));
   $edit_picture = $this->Crud_model->do_upload_picture("edit_product_picture", "./uploads/products/");
     
    $check_barcode_exist = $this->Crud_model->fetch_attr_record_by_id('mp_productslist','barcode',$edit_barcode);
@@ -877,7 +937,9 @@ function random_number()
        'brand_sector_id' => $sector_id,
        'unit_type' => $unit,
        'net_weight' => $net_weight,
-       'whole_sale' => $whole_sale
+       'whole_sale' => $whole_sale,
+       'disc' => $diskon_sale,
+       'date_disc' => $promo_exp_date
       );
     }
     else
@@ -904,7 +966,9 @@ function random_number()
        'brand_sector_id' => $sector_id,
        'unit_type' => $unit,
        'net_weight' => $net_weight,
-       'whole_sale' => $whole_sale
+       'whole_sale' => $whole_sale,
+       'disc' => $diskon_sale,
+       'date_disc' => $promo_exp_date
       );
 
       // DEFINES TO DELETE IMAGE FROM FOLDER PARAMETER REQIURES ARRAY OF IMAGE PATH AND ID
@@ -1013,6 +1077,7 @@ function random_number()
      'status' => $status
     );
 
+
     // DEFINES LOAD CRUDS_MODEL FORM MODELS FOLDERS
     $this->load->model('Crud_model');
 
@@ -1037,6 +1102,68 @@ function random_number()
 
     redirect('product');
  }
+
+ public function update_return($id, $jumlah){
+  $result = $this->Crud_model->kurang_retur($id,$jumlah);
+  if ($result == 1)
+    {
+     $array_msg = array(
+      'msg' => '<i style="color:#fff" class="fa fa-check-circle-o" aria-hidden="true"></i> Status changed Successfully!',
+      'alert' => 'info'
+     );
+     $this->session->set_flashdata('status', $array_msg);
+    }
+    else
+    {
+     $array_msg = array(
+      'msg' => '<i style="color:#c00" class="fa fa-exclamation-triangle" aria-hidden="true"></i> Error Status cannot be changed',
+      'alert' => 'danger'
+     );
+     $this->session->set_flashdata('status', $array_msg);
+    }
+    redirect('product/expired_stock');
+ }
+
+ public function change_return($id, $status, $jumlah, $retur)
+ {
+
+    // TABLENAME AND ID FOR DATABASE Actions
+    $args = array(
+     'table_name' => 'mp_productslist',
+     'id' => $id
+    );
+
+    // DATA ARRAY FOR UPDATE QUERY array('abc'=>abc)
+    $data = array(
+     'status' => $status,
+     'quantity' =>  $jumlah 
+    );
+
+
+    // DEFINES LOAD CRUDS_MODEL FORM MODELS FOLDERS
+    $this->load->model('Crud_model');
+
+    // CALL THE METHOD FROM Crud_model CLASS FIRST ARG CONTAINES TABLENAME AND OTHER CONTAINS DATA
+    $result = $this->Crud_model->edit_record_id($args, $data);
+    $this->Crud_model->insert_retur($id,$retur);
+    if ($result == 1)
+    {
+     $array_msg = array(
+      'msg' => '<i style="color:#fff" class="fa fa-check-circle-o" aria-hidden="true"></i> Status changed Successfully!',
+      'alert' => 'info'
+     );
+     $this->session->set_flashdata('status', $array_msg);
+    }
+    else
+    {
+     $array_msg = array(
+      'msg' => '<i style="color:#c00" class="fa fa-exclamation-triangle" aria-hidden="true"></i> Error Status cannot be changed',
+      'alert' => 'danger'
+     );
+     $this->session->set_flashdata('status', $array_msg);
+    }
+    redirect('product');
+  }
 
  //USED TO DELETE BARCODE
  function delete_barcode($args)
@@ -1249,7 +1376,7 @@ function random_number()
 
       // PARAMETER 0 MEANS ONLY FETCH THAT RECORD WHICH IS VISIBLE 1 MEANS FETCH ALL
       $this->load->model('Crud_model');
-      $data['expire_result'] = $this->Crud_model->fetch_record_product(2);
+      $data['expire_result'] = $this->Crud_model->return_record_product();
       
 
       // DEFINES GO TO MAIN FOLDER FOND INDEX.PHP  AND PASS THE ARRAY OF DATA TO THIS PAGE

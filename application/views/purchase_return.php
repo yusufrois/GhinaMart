@@ -122,7 +122,7 @@
                                         <?php echo $single_purchase->total_amount-$single_purchase->cash; ?>
                                     </td>                                   
                                     <td>
-                                        <?php echo $single_purchase->payment_type_id; ?>
+                                        <?php echo $single_purchase->nama_bank; ?>
                                     </td>                                     
                                     <td>
                                         <?php echo $single_purchase->payment_date; ?>

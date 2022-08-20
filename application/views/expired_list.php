@@ -51,8 +51,8 @@
                                         <td>
                                             <?php echo $single_item->expire; ?>
                                         </td>
-                                        <td>
-                                            <?php echo $single_item->quantity; ?>
+                                        <td><input type="text" class="supply_fields" name="jml_return" id="jml_return" value="<?php echo $single_item->quantity; ?>">
+                                            
                                         </td>
                                         <td>
                                             <?php echo $single_item->purchase; ?>
@@ -74,7 +74,7 @@
                                                     <span class="sr-only">Toggle Dropdown</span>
                                                 </button>
                                                 <ul class="dropdown-menu " role="menu">
-                                                    <li>  <a onclick="confirmation_alert('move this  ','<?php echo base_url().'product/change_status/'.$single_item->id.'/2'; ?>')"  href="javascript:void(0)" ><i class="fa  fa-arrow-circle-o-right"></i> Pindahkan ke kadaluarsa</a>
+                                                    <li>  <a onclick="confirmation_alert('move this  ','<?php echo base_url().'product/change_return/'.$single_item->id.'/0/'; ?>'+ (<?php echo $single_item->quantity ?> - $('#jml_return').val()) + '/'+ $('#jml_return').val())"  href="javascript:void(0)" ><i class="fa  fa-arrow-circle-o-right"></i> Pindahkan ke kadaluarsa</a>
                                                     </li> 
 
                                                 </ul>

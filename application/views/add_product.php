@@ -229,7 +229,7 @@
                                 <?php echo form_label('Tanggal Pembuatan:'); ?>
                                 <?php
                                                     
-                                    $data = array('class'=>'form-control input-lg','type'=>'date','id'=>'manufacturing','name'=>'manufacturing_date','placeholder'=>'e.g 12-08-2018','reqiured'=>'');
+                                    $data = array('class'=>'form-control input-lg','type'=>'date','id'=>'manufacturing','name'=>'manufacturing_date','placeholder'=>'e.g 12-08-2022','reqiured'=>'');
                                     echo form_input($data);         
                                 ?>
                             </div>
@@ -239,7 +239,7 @@
                             <div class="form-group">
                             <?php echo form_label('Tanggal Kadaluarsa:'); ?>
                             <?php               
-                                $data = array('class'=>'form-control input-lg','type'=>'date','id'=>'datepicker','name'=>'expiry_date','placeholder'=>'e.g 12-08-2018','reqiured'=>'');
+                                $data = array('class'=>'form-control input-lg','type'=>'date','id'=>'datepicker','name'=>'expiry_date','placeholder'=>'e.g 12-08-2022','reqiured'=>'');
                                 echo form_input($data);         
                             ?>
                             </div>
@@ -362,6 +362,27 @@
                                 ?>
                             </div>
                             
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <?php echo form_label('Diskon / IDR:'); ?>
+                                <?php
+                                                    
+                                    $data = array('class'=>'form-control input-lg','type'=>'number','id'=>'diskon_sale_rate','name'=>'diskon_sale','placeholder'=>'e.g 145','reqiured'=>'');
+                                    echo form_input($data);         
+                                ?>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <?php echo form_label('Masa Berlaku Promo:'); ?>
+                                <?php
+                                                    
+                                    $data = array('class'=>'form-control input-lg','type'=>'date','id'=>'promo_exp','name'=>'promo_exp_date','placeholder'=>'e.g 12-08-2022','reqiured'=>'');
+                                    echo form_input($data);         
+                                ?>
+                            </div>
+                            <small>Kapan promo berakhir ? </small>
                         </div>
 
                     </div>  
