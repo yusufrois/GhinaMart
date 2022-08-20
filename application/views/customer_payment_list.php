@@ -95,7 +95,7 @@
                                             <?php echo number_format($single_customer->amount,'0',',','.'); ?>
                                         </td>                                        
                                         <td>
-                                            <?php echo $single_customer->method; ?>
+                                            <?php echo $single_customer->name; ?>
                                         </td>
                                         <td>
                                             <?php echo $single_customer->date; ?>

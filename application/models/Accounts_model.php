@@ -5,13 +5,14 @@
 class Accounts_model extends CI_Model
 {
     public function fetch_record_date($tablename, $first_date, $second_date, $customer_id = null) {
+        $this->db->join(' mp_head', "mp_head.id = ".$tablename.".method");
         $this->db->where('date >=', $first_date);
         $this->db->where('date <=', $second_date);
         if(!empty($customer_id)){            
             $this->db->where('cus_id', $customer_id);
         }
         //$this->db->order_by('id', 'DSC');
-        $this->db->order_by("id  desc");
+        $this->db->order_by($tablename.".id  desc");
         $query = $this->db->get($tablename);
         if ($query->num_rows() > 0)
         {

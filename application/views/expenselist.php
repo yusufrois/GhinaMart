@@ -88,7 +88,7 @@
                                             <?php echo $single_expense->customer_name; ?>
                                         </td>
                                         <td>
-                                            <?php echo $single_expense->method; ?>
+                                            <?php echo $single_expense->head_name; ?>
                                         </td>
                                         <td>
                                             <?php echo $single_expense->date; ?>

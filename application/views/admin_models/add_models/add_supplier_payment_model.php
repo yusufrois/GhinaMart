@@ -53,10 +53,25 @@
 			      </div>	
 			     <div class="form-group">
 					<label>Metode Pembayaran : </label>	
-					<select class="form-control input-lg " name="payment_id" id="payment_id"  style="width: 100%;">
-						<option value="Cash" > Tunai </option>
-						<option value="Cheque" > Cek </option>
-					</select>
+					<select name="payment_id" id="payment_id" class="form-control input-lg">
+					<?php
+                                        //category_names from mp_category table;
+					if($akun_list != NULL)
+					{       
+						foreach ($akun_list as $single_akun)
+						{
+							?>
+							<option value="<?php echo $single_akun->id; ?>" ><?php echo $single_akun->name; ?> 
+						</option>
+						<?php
+					}
+				}
+				else
+				{
+					echo "No Record Found";
+				}
+				?>
+			</select>
 				 </div>
 				<div class="bank-section-details">
 					<div class="form-group ">

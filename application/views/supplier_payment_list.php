@@ -105,7 +105,7 @@
                                             <?php echo $single_supplier->amount; ?>
                                         </td>
                                         <td>
-                                            <?php echo $single_supplier->method; ?>
+                                            <?php echo $single_supplier->name; ?>
                                         </td>
                                         <td>
                                             <?php echo $single_supplier->date; ?>
