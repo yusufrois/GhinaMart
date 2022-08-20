@@ -107,6 +107,10 @@ class Expense extends CI_Controller
 		if($page_name  == 'add_expense_model')
 		{
 			 
+			//DEFINES TO LOAD BANK AKUN OR COA MP_HEAD
+			$result = $this->Crud_model->fetch_record('mp_head','pembayaran');
+			$data['akun_list'] = $result;
+
 			// DEFINES TO LOAD THE CATEGORY LIST FROM DATABSE TABLE mp_supplier
 			$data['head_list'] = $this->Crud_model->fetch_attr_record_by_id('mp_head','nature','Expense');
 			//DEFINE TO FETCH THE LIST OF SUPPLIER
@@ -165,7 +169,8 @@ class Expense extends CI_Controller
 				'user' => $added_by,
 				'payee_id' => $payee_id,
 				'bank_id' => $bank_id,
-				'credithead' => ($method_id == 'Cash' ? '2' : '16'),
+				// 'credithead' => ($method_id == 'Cash' ? '2' : '16'),
+				'credithead' => $method_id,
 				'ref_no' => $ref_no
 			);
 

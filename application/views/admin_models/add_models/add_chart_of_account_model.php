@@ -25,6 +25,7 @@
 					<div class="form-group">
 						<label>Kelompok Akun:</label>				
 						<select class="form-control select2 input-lg" onchange="visible_expense(this.value)" name="nature" id="nature"  style="width: 100%;">
+								<option>Pilih</option>
 								<option value="Assets" >Assets</option>
 								<option value="Liability" >Liability</option>
 								<option value="Equity" >Equity</option>
@@ -45,6 +46,7 @@
 							<option value="Beban Kas" >Beban Kas</option>
 							<option value="Beban Non Kas" >Beban Non Kas</option>
 							<option value="Beban Barang" >Beban Barang</option>
+							<option value="pembayaran" >Pembayaran</option>
 						</select>
 					</div>
 					<div class="form-group">
@@ -66,7 +68,7 @@
 	//USED TO VISIBLE EXPENSE TYPE 
 	function visible_expense(value)
 	{
-		if(value == 'Expense')
+		if(value == 'Expense' || value == 'Assets')
 		{
 			$('#expense-type-id').css('display','block');
 		}

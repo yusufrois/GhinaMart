@@ -58,7 +58,7 @@ class Accounts extends CI_Controller
        'nature' => $nature,
        'type' => $type,
        //'relation_id' => $relation,
-       'expense_type' => ($nature == 'Expense' ? $expense_type : '-')
+       'expense_type' => ($nature == 'Expense' || $nature =='Assets' ? $expense_type : '-')
       );
 
       // CHECK WEATHER EMAIL ADLREADY EXISTS OR NOT IN THE TABLE

@@ -315,6 +315,9 @@ class Customers extends CI_Controller
 			} 
 		else if($page_name  == 'add_customer_payment_model')
 		{
+			//DEFINES TO LOAD BANK AKUN OR COA MP_HEAD
+			$result = $this->Crud_model->fetch_record('mp_head','pembayaran');
+			$data['akun_list'] = $result;
 			//DEFINES TO FETCH THE LIST OF BANK ACCOUNTS 
 			$data['bank_list'] = $this->Crud_model->fetch_record('mp_banks','status');
 
@@ -450,7 +453,8 @@ class Customers extends CI_Controller
 				'description' => $description,
 				'agentname' => $user_name['name'],
 				'bank_id' => $bank_id,
-				'credithead' => ($method_id == 'Cash' ? '2' : '16'),
+				//'credithead' => ($method_id == 'Cash' ? '2' : '16'),
+				'credithead' => $method_id,
 				'ref_no' => $ref_no
 			);
 

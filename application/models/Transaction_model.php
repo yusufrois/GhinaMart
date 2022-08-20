@@ -351,7 +351,8 @@ class Transaction_model extends CI_Model
         $data1  = array(
         'date'                 => date('Y-m-d'), 
         'naration'             => 'Transaksi dilakukan dari pengeluaran / expense', 
-        'generated_source'     => 'expense'
+        'generated_source'     => 'expense',
+        'customer_id'          => $data_fields['payee_id']
         );
 
         $this->db->insert('mp_generalentry',$data1);
