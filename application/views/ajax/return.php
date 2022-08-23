@@ -42,6 +42,29 @@ var timmer;
         }
     }
 
+    //KEYBOARD EVENT
+    $(document).keyup(function(e) 
+    {
+       // alert(e.keyCode);
+        if (e.keyCode == 27) //esc
+        { 
+            clear_invoice();
+        }        
+        else if (e.keyCode == 113)//f2
+        { 
+            window.location='<?php echo base_url('invoice/manage')?>';
+        }       
+         else if (e.keyCode == 115) //f4
+        { 
+            window.location='<?php echo base_url('invoice')?>';
+        }         
+        else if (e.keyCode == 13) 
+        { 
+           jQuery('.invoice').focus();
+           $('#submit_btn').submit();
+        }              
+    });
+
     //USED TO CLEAR THE TEMP TABLE
     function clear_invoice()
     {

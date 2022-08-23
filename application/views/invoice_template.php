@@ -116,13 +116,18 @@
   </a>
   <button type="submit"  id="submit_btn" class="btn btn-danger btn-outline-primary btn-left-side-invoice"> 
      <i class="fa fa-floppy-o" aria-hidden="true"></i>  SIMPAN DAN CETAK
- </button> 
-
+ </button>
+ 
 </div>
 </div>
 </div>
 </div>
 <script type="text/javascript">
+
+     function set(){
+//        $this->session->set_userdata('user_id', $userdata);
+console.log(sessionStorage);
+     }
     //USED TO DELETE AN ITEM FROM DATABASE TEMP TABLE
     function delete_item(item_id)
     {

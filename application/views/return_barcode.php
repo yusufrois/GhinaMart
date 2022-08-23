@@ -61,7 +61,7 @@
         </div> 
          <p class="col-md-12">
             <small class="instructions ">
-             <b>ESC</b> Invoice Baru <b>F4</b> Retur item & <b>Enter</b> Simpan invoice <b>F2</b> Lihat invoice
+             <b>ESC</b> Invoice Baru <b>F4</b> POS & <b>Enter</b> Simpan invoice <b>F2</b> Lihat invoice
             </small>
         </p>   
     </div>
@@ -72,3 +72,14 @@
 
  <!-- Return  -->
 <?php $this->load->view('ajax/return.php'); ?>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(document).bind('keydown','f8', function(){
+           window.location(<?php echo base_url('invoice'); ?>); 
+        });
+        // $(document).bind('keydown','f2', function(){
+        //    window.location(<?php echo base_url('return_items');?>);
+        // });
+    });
+</script>

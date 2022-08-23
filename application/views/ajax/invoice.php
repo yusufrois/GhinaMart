@@ -114,17 +114,17 @@ var timmer;
     $(document).keyup(function(e) 
     {
        // alert(e.keyCode);
-        if (e.keyCode == 27) 
+        if (e.keyCode == 27) //esc
         { 
             clear_invoice();
         }        
-        else if (e.keyCode == 113)
+        else if (e.keyCode == 113)//f2
         { 
             window.location='<?php echo base_url('invoice/manage')?>';
         }       
-         else if (e.keyCode == 115) 
+         else if (e.keyCode == 115) //f4
         { 
-            window.location='<?php echo base_url('invoice/manage')?>';
+            window.location='<?php echo base_url('return_items')?>';
         }         
         else if (e.keyCode == 13) 
         { 
