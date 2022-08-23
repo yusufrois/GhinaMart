@@ -48,7 +48,7 @@ class Statement_model extends CI_Model
                          {
                              $form_content .= '<tr>
                             <td>'.$transaction_record->date.'</td><td><a href="#">'. $single_trans->name.'</a></td><td>
-                                <a href="#">'.$single_trans->amount.'</a>
+                                <a href="#">'.number_format($single_trans->amount,'0',',','.');'</a>
                             </td>
                             <td>
                                 <a href="#"></a>
@@ -65,7 +65,7 @@ class Statement_model extends CI_Model
                                 <a href="#"></a>
                             </td>
                             <td>
-                                <a href="#">'.$single_trans->amount.'</a>
+                                <a href="#">'.number_format($single_trans->amount,'0',',','.');'</a>
                             </td>           
                             </tr>';
                              
@@ -163,7 +163,9 @@ class Statement_model extends CI_Model
                         $total_ledger = number_format($total_ledger,'2','.','');
 
                         $form_content .= '<tr>
-                        <td>'.$single_ledger->date.'</td><td><a href="#">'. $single_ledger->naration.'</a></td><td>
+                        <td>'.$single_ledger->date.'</td>
+                        <td><a href="#">'. $single_ledger->naration.'</a></td>
+                        <td>
                             <a href="#">'.$debitamount.'</a>
                         </td>
                         <td>
@@ -265,7 +267,11 @@ class Statement_model extends CI_Model
                             $total_credit = $total_credit+$creditamt ;
                         }
 
-                       $from_creator .= '<tr><td style=text-align:left;><h4>'.$single_head->name.'</h4></td><td><h4>'.$debitamt.'</h4></td><td><h4>'.$creditamt.'</h4></td></tr>';
+                       $from_creator .= '<tr>
+                       <td style=text-align:left;><h4>'.$single_head->name.'</h4></td>
+                       <td><h4>'.$debitamt.'</h4></td>
+                       <td><h4>'.$creditamt.'</h4></td>
+                       </tr>';
                    }
                 }
 

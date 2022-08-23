@@ -420,7 +420,8 @@
                                             <?php echo $single_trans->customer_name; ?>
                                         </td>
                                         <td>
-                                            <?php echo $single_trans->cheque_amount; ?>
+                                            <?php echo number_format($single_trans->cheque_amount,'0',',','.'); ?>
+
                                         </td>
                                         <td >
                                             <?php echo $single_trans->ref_no; ?>
@@ -463,11 +464,11 @@
                                 ?>
                                 <tr>
                                     <th>Total Diterima</th>
-                                    <th> <?php echo $currency.' '.$received_total; ?> /- </th>
+                                    <th> <?php echo $currency.' '.number_format($received_total,'0',',','.'); ?> /- </th>
                                 </tr>
                                 <tr>
                                     <th>Total Dibayar</th>
-                                    <th> <?php echo $currency.' '.$paid_total; ?> /- </th>
+                                    <th> <?php echo $currency.' '.number_format($paid_total,'0',',','.'); ?> /- </th>
                                 </tr>
                                 </tbody>
                             </table>
@@ -483,8 +484,8 @@
                             <small>Daftar jumlah pembayaran oleh customer berikut sisa hutang. </small>
                         </h4>
                         <h4 style="front-size:18px;">Saldo Pembukaan : <strong><?php echo (!empty($openingblance)?$openingblance->totalamount: '') ?></strong>
-                        Total Item Terbeli: <strong><?php echo $currency.' '.$received_total; ?></strong> /-
-                        Total Dibayar: <?php echo $currency.' '.$paid_total; ?> / Total Yang Dibayarkan : <strong><?php echo $currency.' '. (!empty($total)? number_format($total,'0',',','.'):''); ?></strong>
+                        Total Item Terbeli: <strong><?php echo $currency.' '.number_format($received_total,'0',',','.');?></strong> /-
+                        Total Dibayar: <?php echo $currency.' '.number_format($paid_total,'0',',','.'); ?> / Total Yang Dibayarkan : <strong><?php echo $currency.' '. (!empty($total)? number_format($total,'0',',','.'):''); ?></strong>
                         </h4>
                               
 

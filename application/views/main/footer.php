@@ -5,8 +5,8 @@
 	<div class="row">
   		<div class="col-md-12">
 		  <footer class="main-footer  text-center">
-		    Copyright ©2022 <a target="blank" href="http://kantorku.id" > Designed & development by: KantorKU IT APPS</a> 
-		  </footer> 
+		   Copyright ©<script>document.write(new Date().getFullYear());</script> All rights reserved | made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="#" target="_blank"> Kantorku IT Media </a>  
+		  </footer>   
   		</div>
   </div>
 </div>
