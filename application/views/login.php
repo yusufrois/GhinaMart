@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title> Sistem Akuntansi dan Penjualan | GhinaMart </title>
+    <title> Login | GhinaMart </title>
      <meta http-equiv="Content-Security-Policy" content="frame-ancestors 'none'">
-    <link rel="icon" type="image/png" sizes="96x96" href="<?php echo base_url();?>assets/img/favicon.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="<?php echo base_url();?>assets/img/logo.png">
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.6 -->
@@ -26,15 +26,18 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 </head>
-<body class="hold-transition login-page " style="background-image:url('<?php echo base_url(); ?>uploads/systemimgs/bg-login.png'); background-size:cover; position: relative;">
+<body class="hold-transition login-page " style="background-color: #ff6f02; position: relative;">
    <br/><br/><br/><br/> <br/>
-  <div class="col-md-4 col-md-offset-4" style="border:1px solid gray; background: rgba(40, 41, 41, 0.48); padding:10px; border-radius:7px;">
+  <div class="col-md-4 col-md-offset-4" style="background: #febd59; padding:10px; border-radius:7px;">
   <br/><br/>   
         <h3 class="text-center" style="font-family: cursive;">
-            <a href="<?php echo base_url('login'); ?>"> <b style="color:#faffbd;">Sistem Akuntansi dan Penjualan (GhinaMart) </b></a>
+            <a href="<?php echo base_url('login'); ?>"> <b style="color:#faffbd;">Sistem Akuntansi dan Penjualan</b></a>
         </h3>
+        <div class="text-center">
+            <img src="<?php echo base_url();?>assets/img/gm.png" style="width: 60%;">
+        </div>
         <div class="login-box-body">
-            <p class="login-box-msg" style="color: #fffdfde0;font-size: 18px;">Silahkan masukkan Email dan Kata Sandi untuk melanjutkan</p>
+           
             <?php
                   $attributes = array('id'=>'Customer_form','method'=>'post','class'=>'form-horizontal');
               ?>
@@ -53,7 +56,7 @@
                 </div>
                 <div class="row">
                         <?php
-                              $data = array('class'=>'btn btn-primary btn-block btn-outline-secondary','name'=>'btn_submit_signin','value'=>$page_title_model_button_Signin);
+                              $data = array('class'=>'btn btn-success btn-block btn-outline-secondary','name'=>'btn_submit_signin','value'=>$page_title_model_button_Signin);
 
                               echo form_submit($data);
                            ?>

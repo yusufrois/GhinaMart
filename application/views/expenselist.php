@@ -113,8 +113,8 @@
                     				?>
                                     <tr>
                                         <th colspan="7">Total</th>
-                                        <th><?php echo $this->db->get_where('mp_langingpage', array('id' => 1))->result_array()[0]['currency'] ;?> <?php echo number_format($total_bill,'2','.','') ?></th>
-                                        <th ><?php echo $this->db->get_where('mp_langingpage', array('id' => 1))->result_array()[0]['currency'] ;?> <?php echo number_format($total_paid,'2','.','') ?></th>
+                                        <th><?php echo $this->db->get_where('mp_langingpage', array('id' => 1))->result_array()[0]['currency'] ;?> <?php echo number_format($total_bill,'0',',','.'); ?></th>
+                                        <th ><?php echo $this->db->get_where('mp_langingpage', array('id' => 1))->result_array()[0]['currency'] ;?> <?php echo number_format($total_paid,'0',',','.'); ?></th>
                                     </tr>
                                     <?php 
                                         }

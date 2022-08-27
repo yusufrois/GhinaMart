@@ -197,13 +197,13 @@
                                         <?php echo $single_ledger->id; ?>
                                     </td>
                                     <td>
-                                        <?php echo $single_ledger->total_amount; ?>
+                                        <?php echo number_format($single_ledger->total_amount,'0',',','.'); ?>
                                     </td>
                                     <td>
-                                        <?php echo $single_ledger->cash; ?>
+                                        <?php echo number_format($single_ledger->cash,'0',',','.'); ?>
                                     </td>
                                     <td>
-                                        <?php echo $single_ledger->total_amount-$single_ledger->cash; ?>
+                                        <?php echo number_format($single_ledger->total_amount-$single_ledger->cash,'0',',','.'); ?>
                                     </td>
                                      <td>
                                         <?php echo $single_ledger->payment_type_id; ?>
@@ -219,9 +219,9 @@
                                  <tr>
                                     <th>Total</th>
                                     <th></th>
-                                    <th><?php echo $currency.' '.number_format($total,'2','.',''); ?></th>
-                                    <th><?php echo $currency.' '.number_format($paid,'2','.',''); ?></th>
-                                    <th><?php echo $currency.' '.number_format($balance,'2','.',''); ?></th>
+                                    <th><?php echo $currency.' '.number_format($total,'0',',','.'); ?></th>
+                                    <th><?php echo $currency.' '.number_format($paid,'0',',','.'); ?></th>
+                                    <th><?php echo $currency.' '.number_format($balance,'0',',','.'); ?></th>
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -274,7 +274,7 @@
                                             <?php echo $single_paid->id; ?>
                                         </td>
                                         <td>
-                                            <?php echo $single_paid->amount; ?>
+                                            <?php echo number_format($single_paid->amount,'0',',','.'); ?>
                                         </td>
                                         <td>
                                             <?php echo $single_paid->method; ?>
@@ -290,7 +290,7 @@
                                      <tr>
                                         <th>Total yang dibayar ke supplier</th>
                                         <th></th>
-                                        <th colspan="5"><?php echo $currency.' '.number_format($total,'2','.',''); ?> /-</th> 
+                                        <th colspan="5"><?php echo $currency.' '.number_format($total,'0',',','.'); ?> /-</th> 
                                     </tr>
                             </tbody>
                         </table>
@@ -339,7 +339,7 @@
                                             <?php echo $single_recieve->id; ?>
                                         </td>
                                         <td>
-                                            <?php echo $single_recieve->amount; ?>
+                                            <?php echo number_format($single_recieve->amount,'0',',','.'); ?>
                                         </td>
                                         <td>
                                             <?php echo $single_recieve->method; ?>
@@ -356,7 +356,7 @@
                                      <tr>
                                         <th>Total yang diterima dari supplier</th>
                                         <th></th>
-                                        <th colspan="5"><?php echo $currency.' '.number_format($total,'2','.',''); ?> /-
+                                        <th colspan="5"><?php echo $currency.' '.number_format($total,'0',',','.'); ?> /-
                                         </th>
                                     </tr>
                             </tbody>
@@ -412,13 +412,13 @@
                                             <?php echo $single_single->user; ?>
                                         </td>
                                         <td>
-                                            <?php echo $single_single->total_bill; ?>
+                                            <?php echo number_format($single_single->total_bill,'0',',','.'); ?>
                                         </td> 
                                         <td>
-                                            <?php echo $single_single->total_paid; ?>
+                                            <?php echo number_format($single_single->total_paid,'0',',','.'); ?>
                                         </td>
                                         <td>
-                                            <?php echo $single_single->total_paid-$single_single->total_paid; ?>
+                                            <?php echo number_format($single_single->total_paid-$single_single->total_paid,'0',',','.'); ?>
                                         </td>
                                         <td >
                                             <?php echo $single_single->description; ?>
@@ -433,14 +433,14 @@
                                 <th></th>
                                 <th></th>
                                 <th >
-                                    <?php echo $currency.' '.number_format($total,'2','.',''); 
+                                    <?php echo $currency.' '.number_format($total,'0',',','.'); 
                                     ?> 
                                 </th>
                                 <th >
-                                    <?php echo $currency.' '.number_format($paid,'2','.','');?>
+                                    <?php echo $currency.' '.number_format($paid,'0',',','.');?>
                                 </th>                                
                                 <th >
-                                    <?php echo $currency.' '.number_format($total-$paid,'2','.','');?>
+                                    <?php echo $currency.' '.number_format($total-$paid,'0',',','.');?>
                                 </th>
                             </tr>
                             </tbody>
