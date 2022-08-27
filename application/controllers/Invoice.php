@@ -33,6 +33,10 @@ class Invoice extends CI_Controller
 		$customer_record = $this->Crud_model->fetch_payee_record('customer','status');
 		$data['customer_record'] = $customer_record;
 
+		//DEFINES TO LOAD BANK AKUN OR COA MP_HEAD
+		$result = $this->Crud_model->fetch_record('mp_head','pembayaran');
+		$data['akun_list'] = $result;
+
 		//LOAD FRESH CONTENT AVAILABLE IN TEMP TABLE
 		$data['temp_data'] = $this->Crud_model->fetch_userid_source('mp_temp_barcoder_invoice','pos',$user_name['id']);
 		$data['temp_view'] = 'invoice_template';
@@ -72,6 +76,10 @@ class Invoice extends CI_Controller
 		
 		//USER ID
 		$user_name = $this->session->userdata('user_id');
+
+		//DEFINES TO LOAD BANK AKUN OR COA MP_HEAD
+		$result = $this->Crud_model->fetch_record('mp_head','pembayaran');
+		$data['akun_list'] = $result;
 
 		//LOAD FRESH CONTENT AVAILABLE IN TEMP TABLE
 		$data['temp_data'] = $this->Crud_model->fetch_userid_source('mp_temp_barcoder_invoice','pos',$user_name['id']);
@@ -119,10 +127,14 @@ class Invoice extends CI_Controller
 			$this->Crud_model->delete_record_by_userid('mp_temp_barcoder_invoice','pos',$user_name['id']);
 		}
 
-			//LOAD FRESH CONTENT AVAILABLE IN TEMP TABLE
-			$data['temp_data'] = $this->Crud_model->fetch_userid_source('mp_temp_barcoder_invoice','pos',$user_name['id']);
+			//DEFINES TO LOAD BANK AKUN OR COA MP_HEAD
+		$result = $this->Crud_model->fetch_record('mp_head','pembayaran');
+		$data['akun_list'] = $result;
 
-			$this->load->view('invoice_template.php',$data);
+			//LOAD FRESH CONTENT AVAILABLE IN TEMP TABLE
+		$data['temp_data'] = $this->Crud_model->fetch_userid_source('mp_temp_barcoder_invoice','pos',$user_name['id']);
+
+		$this->load->view('invoice_template.php',$data);
 	}
 
 	//invoice/add_barcode_item
@@ -176,17 +188,19 @@ class Invoice extends CI_Controller
 
 					// ASSIGN THE VALUES OF TEXTBOX TO ASSOCIATIVE ARRAY FOR EVERY ITERATION
 					$temp_data = array(
-					'barcode' => $result[0]->barcode,
-					'product_no' => $result[0]->sku,
-					'product_id' => $result[0]->id,
-					'product_name' => $result[0]->product_name,
-					'mg' => $result[0]->mg,
-					'price' => $result[0]->retail,
-					'purchase' => $result[0]->purchase,
-					'qty' => 1,
-					'tax' => $tax_amount,
-					'agentid' => $user_name['id'],
-					'source' => 'pos'
+						'barcode' => $result[0]->barcode,
+						'product_no' => $result[0]->sku,
+						'product_id' => $result[0]->id,
+						'product_name' => $result[0]->product_name,
+						'mg' => $result[0]->mg,
+						'price' => $result[0]->retail,
+						'purchase' => $result[0]->purchase,
+						'qty' => 1,
+						'tax' => $tax_amount,
+						'agentid' => $user_name['id'],
+						'source' => 'pos',
+						'disc' => $result[0]->disc, 
+						'date_disc' => $result[0]->date_disc
 					);
 
 					// DEFINES CALL THE FUNCTION OF insert_data FORM Crud_model CLASS
@@ -196,6 +210,11 @@ class Invoice extends CI_Controller
 		}
 		//LOAD FRESH CONTENT AVAILABLE IN TEMP TABLE
 		$data['temp_data'] = $this->Crud_model->fetch_userid_source('mp_temp_barcoder_invoice','pos',$user_name['id']);
+
+
+		//DEFINES TO LOAD BANK AKUN OR COA MP_HEAD
+		$result = $this->Crud_model->fetch_record('mp_head','pembayaran');
+		$data['akun_list'] = $result;
 		
 		$this->load->view('invoice_template.php',$data);
 	}
@@ -215,64 +234,69 @@ class Invoice extends CI_Controller
 			$check_item_in_temp = $this->Crud_model->fetch_attr_record_by_userid_source('mp_temp_barcoder_invoice','product_id',$id,$user_name['id'],'pos');
 
 
-				if($result[0]->quantity >= 0)
+			if($result[0]->quantity >= 0)
+			{
+				$stockargs   = array(
+					'table_name' =>'mp_productslist', 
+					'id' =>$result[0]->id, 
+				);
+
+				$stockdata = array(
+					'quantity' => $result[0]->quantity-1
+				);
+
+				$this->Crud_model->edit_record_id($stockargs, $stockdata);
+
+				if($check_item_in_temp != NULL)
 				{
-					$stockargs   = array(
-						'table_name' =>'mp_productslist', 
-						'id' =>$result[0]->id, 
+					$qty = $check_item_in_temp[0]->qty+1;
+
+					$args = array(
+						'table_name' => 'mp_temp_barcoder_invoice',
+						'id' => $check_item_in_temp[0]->id
 					);
 
-					$stockdata = array(
-						'quantity' => $result[0]->quantity-1
+					$data = array(
+						'qty' => $qty
 					);
 
-					$this->Crud_model->edit_record_id($stockargs, $stockdata);
-
-					if($check_item_in_temp != NULL)
+					$this->Crud_model->edit_record_id($args, $data);
+				}
+				else
+				{
+					if($result != NULL)
 					{
-						$qty = $check_item_in_temp[0]->qty+1;
-
-						$args = array(
-							'table_name' => 'mp_temp_barcoder_invoice',
-							'id' => $check_item_in_temp[0]->id
-						);
-
-						$data = array(
-							'qty' => $qty
-						);
-
-						$this->Crud_model->edit_record_id($args, $data);
-					}
-					else
-					{
-						if($result != NULL)
-						{
-							$tax_amount = ($result[0]->tax/100)*$result[0]->retail;
+						$tax_amount = ($result[0]->tax/100)*$result[0]->retail;
 
 							// ASSIGN THE VALUES OF TEXTBOX TO ASSOCIATIVE ARRAY FOR EVERY ITERATION
-								$args = array(
-									'barcode' => $result[0]->barcode,
-									'product_no' => $result[0]->sku,
-									'product_id' => $result[0]->id,
-									'product_name' => $result[0]->product_name,
-									'mg' => $result[0]->mg,
-									'price' => $result[0]->retail,
-									'purchase' => $result[0]->purchase,
-									'qty' => 1,
-									'tax' => $tax_amount,
-									'agentid' => $user_name['id'],
-									'source' => 'pos'
-								);
+						$args = array(
+							'barcode' => $result[0]->barcode,
+							'product_no' => $result[0]->sku,
+							'product_id' => $result[0]->id,
+							'product_name' => $result[0]->product_name,
+							'mg' => $result[0]->mg,
+							'price' => $result[0]->retail,
+							'purchase' => $result[0]->purchase,
+							'qty' => 1,
+							'tax' => $tax_amount,
+							'agentid' => $user_name['id'],
+							'source' => 'pos',
+							'disc' => $result[0]->disc, 
+							'date_disc' => $result[0]->date_disc
+						);
 								// DEFINES CALL THE FUNCTION OF insert_data FORM Crud_model CLASS
-								$result = $this->Crud_model->insert_data('mp_temp_barcoder_invoice', $args);
-						}
+						$result = $this->Crud_model->insert_data('mp_temp_barcoder_invoice', $args);
+					}
 				}
 
 			}
 				//LOAD FRESH CONTENT AVAILABLE IN TEMP TABLE
-				$data['temp_data'] = $this->Crud_model->fetch_userid_source('mp_temp_barcoder_invoice','pos',$user_name['id']);
+			$data['temp_data'] = $this->Crud_model->fetch_userid_source('mp_temp_barcoder_invoice','pos',$user_name['id']);
 
-				$this->load->view('invoice_template.php',$data);
+			//DEFINES TO LOAD BANK AKUN OR COA MP_HEAD
+			$result = $this->Crud_model->fetch_record('mp_head','pembayaran');
+			$data['akun_list'] = $result;
+			$this->load->view('invoice_template.php',$data);
 		}
 	}
 
@@ -544,7 +568,7 @@ class Invoice extends CI_Controller
 				{
 
 				//UPDATING PARTS STOCK
-				$this->Crud_model->add_return_item_stock($edit_product_id[$i],$get_med_quantity);
+					$this->Crud_model->add_return_item_stock($edit_product_id[$i],$get_med_quantity);
 
 				}
 				$i++;
@@ -571,7 +595,7 @@ class Invoice extends CI_Controller
 			);
 
 			//FETCHING UPDATED SALE TO PRINT
-			 $data['item_data']   =  $this->Crud_model->fetch_attr_record_by_id('mp_sales','order_id',$edit_invoice_id);
+			$data['item_data']   =  $this->Crud_model->fetch_attr_record_by_id('mp_sales','order_id',$edit_invoice_id);
 
 			//CUSTOMER NAME
 			$result = $this->Crud_model->fetch_record_by_id('mp_payee',$get_invoice_result[0]->cus_id);
@@ -585,11 +609,11 @@ class Invoice extends CI_Controller
 			$result = $this->Crud_model->fetch_attr_record_by_id('mp_printer','set_default',1);
 			if($result != NULL)
 			{
-			  $printer_name = $result[0]->printer_name; 
+				$printer_name = $result[0]->printer_name; 
 			}
 			else
 			{
-			  $printer_name = '';
+				$printer_name = '';
 			}
 			
         	//ADDRESS 
@@ -639,7 +663,7 @@ class Invoice extends CI_Controller
 			$array_msg = array(
 				'msg' => '<i style="color:#fff" class="fa fa-check-circle-o" aria-hidden="true"></i> Invoice editted',
 				'alert' => 'info'
-				);
+			);
 			$this->session->set_flashdata('status', $array_msg);
 		}
 		else
@@ -660,10 +684,11 @@ class Invoice extends CI_Controller
 	{
 
 		$this->load->model('Transaction_model');
-	    $customer_id 	 = html_escape($this->input->post('customer_id'));
+		$customer_id 	 = html_escape($this->input->post('customer_id'));
 		$discountfield 	 = html_escape($this->input->post('discountfield'));
 		$total_bill 	 = html_escape($this->input->post('total_bill'));
 		$bill_paid 	 	 = html_escape($this->input->post('bill_paid'));
+		$pur_method 	 = html_escape($this->input->post('pur_method'));
 		$date 			 = date('Y-m-d');
 		$status 		 = 0;
 		$user_name 	     = $this->session->userdata('user_id');
@@ -685,6 +710,7 @@ class Invoice extends CI_Controller
 				'cus_id' => $customer_id,
 				'total_bill' => $total_bill,
 				'bill_paid' => $bill_paid,
+				'pur_method' => $pur_method,
 				'cus_previous' => ''
 			);
 
@@ -705,11 +731,11 @@ class Invoice extends CI_Controller
 				$result = $this->Crud_model->fetch_attr_record_by_id('mp_printer','set_default',1);
 				if($result != NULL)
 				{
-				  $printer_name = $result[0]->printer_name; 
+					$printer_name = $result[0]->printer_name; 
 				}
 				else
 				{
-				  $printer_name = '';
+					$printer_name = '';
 				}
 				
             	//ADDRESS 
@@ -762,7 +788,7 @@ class Invoice extends CI_Controller
 				$array_msg = array(
 					'msg' => '<i style="color:#fff" class="fa fa-check-circle-o" aria-hidden="true"></i> Created successfully',
 					'alert' => 'info'
-					);
+				);
 
 				$this->session->set_flashdata('status', $array_msg);
 			}
@@ -783,7 +809,7 @@ class Invoice extends CI_Controller
 			);
 			$this->session->set_flashdata('status', $array_msg);
 		}
-			
+
 		redirect('invoice'); 
 	}
 
@@ -792,7 +818,7 @@ class Invoice extends CI_Controller
 	function search_previous_cus_balance($cus_id)
 	{
 		$this->load->model('Accounts_model');
-	    $result = $this->Accounts_model->previous_balance($cus_id);
+		$result = $this->Accounts_model->previous_balance($cus_id);
 		echo $result;
 	}	
 
@@ -801,145 +827,149 @@ class Invoice extends CI_Controller
 	function return_previous_cus_balance($cus_id)
 	{
 		$this->load->model('Accounts_model');
-	    return $this->Accounts_model->previous_balance($cus_id);
+		return $this->Accounts_model->previous_balance($cus_id);
 	}
 
 	//USED TO UPDATE QUANTITY 
     //Invoice/update_qty
-    function update_qty($val = '' , $id = '', $customprice = null)
-    {	
-    	
-      $this->load->model('Crud_model'); 
-      $this->load->model('Pos_transaction_model'); 
-      $user_name = $this->session->userdata('user_id');
-      $val = intval($val);
+	function update_qty($val = '' , $id = '', $customprice = null)
+	{	
 
-      if($val != '' AND $id != '' AND  $val > -1)
-      {
+		$this->load->model('Crud_model'); 
+		$this->load->model('Pos_transaction_model'); 
+		$user_name = $this->session->userdata('user_id');
+		$val = intval($val);
 
-        $result = $this->Crud_model->fetch_attr_record_by_userid_source('mp_temp_barcoder_invoice','id',$id,$user_name['id'],'pos');
+		if($val != '' AND $id != '' AND  $val > -1)
+		{
 
-        $result_stk = $this->Crud_model->fetch_record_by_id('mp_productslist',$result['0']->product_id);
+			$result = $this->Crud_model->fetch_attr_record_by_userid_source('mp_temp_barcoder_invoice','id',$id,$user_name['id'],'pos');
 
-        $bal = 0;
-        $new_qty = 0;
+			$result_stk = $this->Crud_model->fetch_record_by_id('mp_productslist',$result['0']->product_id);
 
-        if($result[0]->qty > $val)
-        {
-			
-          $bal = $result[0]->qty-$val;
-          $new_qty = $result_stk[0]->quantity+$bal;
-        }
-        else if($result[0]->qty < $val)
-        {
-           $bal = $val-$result[0]->qty;
-           $new_qty = $result_stk[0]->quantity-$bal;
+			$bal = 0;
+			$new_qty = 0;
 
-        }
+			if($result[0]->qty > $val)
+			{
 
-        if($result[0]->qty != $val AND $new_qty >= 0)
-        {
-	          $new_args = array(
-	            'table_name' => 'mp_productslist',
-	            'id' => $result['0']->product_id
-	          );
+				$bal = $result[0]->qty-$val;
+				$new_qty = $result_stk[0]->quantity+$bal;
+			}
+			else if($result[0]->qty < $val)
+			{
+				$bal = $val-$result[0]->qty;
+				$new_qty = $result_stk[0]->quantity-$bal;
 
-              $new_data = array(
-                'quantity' => $new_qty
-              );
+			}
 
-              $temp_args = array(
-                  'table_name' => 'mp_temp_barcoder_invoice',
-                  'id' => $id
-                );
+			if($result[0]->qty != $val AND $new_qty >= 0)
+			{
+				$new_args = array(
+					'table_name' => 'mp_productslist',
+					'id' => $result['0']->product_id
+				);
 
-			
+				$new_data = array(
+					'quantity' => $new_qty
+				);
+
+				$temp_args = array(
+					'table_name' => 'mp_temp_barcoder_invoice',
+					'id' => $id
+				);
+
+
 				$temp_data = array(
 					'qty' => $val
 				);	
-			
-			 
 
-            $this->Pos_transaction_model->general_pos_transaction($new_args, $new_data ,$temp_args ,$temp_data);
-        }
 
-      }
+
+				$this->Pos_transaction_model->general_pos_transaction($new_args, $new_data ,$temp_args ,$temp_data);
+			}
+
+		}
         //LOAD FRESH CONTENT AVAILABLE IN TEMP TABLE
 		$data['temp_data'] = $this->Crud_model->fetch_userid_source('mp_temp_barcoder_invoice','pos',$user_name['id']);
-		
-        $this->load->view('invoice_template.php',$data);
+		//DEFINES TO LOAD BANK AKUN OR COA MP_HEAD
+		$result = $this->Crud_model->fetch_record('mp_head','pembayaran');
+		$data['akun_list'] = $result;
+		$this->load->view('invoice_template.php',$data);
 	}
 
 	//USED TO UPDATE QUANTITY 
     //Invoice/update_qty
-    function update_price($val = '', $id = '')
-    {	
-    	
-      $this->load->model('Crud_model'); 
-      $this->load->model('Pos_transaction_model'); 
-      $user_name = $this->session->userdata('user_id');
-      $val = intval($val);
+	function update_price($val = '', $id = '')
+	{	
 
-      if($val != '' AND $id != '' AND  $val > -1)
-      {
+		$this->load->model('Crud_model'); 
+		$this->load->model('Pos_transaction_model'); 
+		$user_name = $this->session->userdata('user_id');
+		$val = intval($val);
 
-        $result = $this->Crud_model->fetch_attr_record_by_userid_source('mp_temp_barcoder_invoice','id',$id,$user_name['id'],'pos');
+		if($val != '' AND $id != '' AND  $val > -1)
+		{
 
-        $result_stk = $this->Crud_model->fetch_record_by_id('mp_productslist',$result['0']->product_id);
+			$result = $this->Crud_model->fetch_attr_record_by_userid_source('mp_temp_barcoder_invoice','id',$id,$user_name['id'],'pos');
 
-        $bal = 0;
-        $new_qty = 0;
+			$result_stk = $this->Crud_model->fetch_record_by_id('mp_productslist',$result['0']->product_id);
 
-        if($result[0]->qty > $val)
-        {
-			
-          $bal = $result[0]->qty-$val;
-          $new_qty = $result_stk[0]->quantity+$bal;
-        }
-        else if($result[0]->qty < $val)
-        {
-           $bal = $val-$result[0]->qty;
-           $new_qty = $result_stk[0]->quantity-$bal;
+			$bal = 0;
+			$new_qty = 0;
 
-        }
+			if($result[0]->qty > $val)
+			{
 
-        if($result[0]->qty != $val AND $new_qty >= 0)
-        {
-	          $new_args = array(
-	            'table_name' => 'mp_productslist',
-	            'id' => $result['0']->product_id
-	          );
+				$bal = $result[0]->qty-$val;
+				$new_qty = $result_stk[0]->quantity+$bal;
+			}
+			else if($result[0]->qty < $val)
+			{
+				$bal = $val-$result[0]->qty;
+				$new_qty = $result_stk[0]->quantity-$bal;
 
-              $new_data = array(
-                'quantity' => $new_qty
-              );
+			}
 
-              $temp_args = array(
-                  'table_name' => 'mp_temp_barcoder_invoice',
-                  'id' => $id
-                );
+			if($result[0]->qty != $val AND $new_qty >= 0)
+			{
+				$new_args = array(
+					'table_name' => 'mp_productslist',
+					'id' => $result['0']->product_id
+				);
+
+				$new_data = array(
+					'quantity' => $new_qty
+				);
+
+				$temp_args = array(
+					'table_name' => 'mp_temp_barcoder_invoice',
+					'id' => $id
+				);
 
 				$temp_data = array(
 					'price'=>$val
 				);
-			 
 
-            $this->Pos_transaction_model->general_pos_transaction($new_args, $new_data ,$temp_args ,$temp_data);
-        }
 
-      }
+				$this->Pos_transaction_model->general_pos_transaction($new_args, $new_data ,$temp_args ,$temp_data);
+			}
+
+		}
         //LOAD FRESH CONTENT AVAILABLE IN TEMP TABLE
 		$data['temp_data'] = $this->Crud_model->fetch_userid_source('mp_temp_barcoder_invoice','pos',$user_name['id']);
-		
-        $this->load->view('invoice_template.php',$data);
+		//DEFINES TO LOAD BANK AKUN OR COA MP_HEAD
+		$result = $this->Crud_model->fetch_record('mp_head','pembayaran');
+		$data['akun_list'] = $result;
+		$this->load->view('invoice_template.php',$data);
 	}
 	
 	
 
     //USED TO SHOW THE DETAIL OF  RETURN INVOICE 
     //Invoice/single_invoice/ID
-    function single_invoice($return_id)
-    {
+	function single_invoice($return_id)
+	{
     	// DEFINES PAGE TITLE
 		$data['title'] = 'Invoice';
 
@@ -953,7 +983,7 @@ class Invoice extends CI_Controller
 		$this->load->view('main/index.php', $data);
 
 
-    }
+	}
 
   //   function single_invoice($return_id)
   //   {

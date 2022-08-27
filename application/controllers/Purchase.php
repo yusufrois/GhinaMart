@@ -252,8 +252,11 @@ class Purchase extends CI_Controller
 						$disc = html_escape($this->input->post('supply_dis['.$i.']'));
 						$nama = html_escape($this->input->post('supply_nama['.$i.']'));
 						$this->Transaction_model->update_stock($expire,$qty,$purc,$retail,$disc, $pur_store,$nama);
+						//$this->Transaction_model->insert_buy($product_id,$product_no,$pur_invoice,$nama,$pur_supplier,$retail,$purc,$qty,0);
 					}
 					$user_name = $this->session->userdata('user_id')['id'];
+					$this->Transaction_model->insert_buy($pur_supplier,$pur_invoice,$user_name);
+					$this->Transaction_model->insert_label($pur_supplier,$pur_invoice,$user_name);
 					$this->Transaction_model->delete_tmp_barcode($user_name);
 				}
 				if ($result != NULL)

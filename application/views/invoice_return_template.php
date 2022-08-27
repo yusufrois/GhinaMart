@@ -22,8 +22,8 @@ if($temp_data != NULL)
     foreach ($temp_data as $single_val) 
     {
         $sub_total_tax = $single_val->qty * $single_val->tax;
-        $total_tax = number_format($total_tax + $sub_total_tax,2,'.','');
-        $total_gross = number_format($total_gross+($single_val->price*$single_val->qty),2,'.','');
+        $total_tax = number_format($total_tax + $sub_total_tax,0,'.','');
+        $total_gross = number_format($total_gross+($single_val->price*$single_val->qty),0,'.','');
  ?>
     <tr > 
         <td><?php echo $single_val->product_name; ?></td>
@@ -74,14 +74,37 @@ if($temp_data != NULL)
             </div> 
         </div>        
          <div class="row total_amount_area_row">
-                <div class="col-md-5 total_amount_area pull-right">
-                    <div class="margin">
-                        <p class="text-center"> Grand Total (<?php echo $currency;?>)</p>
-                        <h3 class="text-center" id="net_total_amount"> <?php echo number_format($total_tax+$total_gross,'2','.',''); ?>
-                        </h3>
+            <div>
+                Bank Account
+                <!-- <label>Bank account: </label>                -->
+                <select name="pur_method" id="payment_id" class="form-control input-lg">
+                    <?php
+                                        //category_names from mp_category table;
+                    if($akun_list != NULL)
+                    {       
+                        foreach ($akun_list as $single_akun)
+                        {
+                            ?>
+                            <option value="<?php echo $single_akun->id; ?>" ><?php echo $single_akun->name; ?> 
+                        </option>
+                        <?php
+                    }
+                }
+                else
+                {
+                    echo "No Record Found";
+                }
+                ?>
+            </select>
+        </div>
+        <div class="col-md-5 total_amount_area pull-right">
+            <div class="margin">
+                <p class="text-center"> Grand Total (<?php echo $currency;?>)</p>
+                <h3 class="text-center" id="net_total_amount"> <?php echo number_format($total_tax+$total_gross,'2','.',''); ?>
+            </h3>
 
-                    </div>
-                </div>
+        </div>
+    </div>
          </div>
          <div class="row row-buttons text-center">
                 <button  type="button" onclick="clear_invoice()" class="btn btn-primary btn-outline-primary btn-left-side-invoice"> 
@@ -121,20 +144,23 @@ if($temp_data != NULL)
            var total_gross_amt =  $('#total_gross_amt').val();
            var total_tax_amt   =  $('#total_tax_amt').val();
 
-            if(dis_amt > 0 && dis_amt <= 100)
+//            if(dis_amt > 0 && dis_amt <= 100)
+            if(dis_amt > 0)
             {
               // var disamt = (total_gross_amt/100)*dis_amt;
-               var newamt = parseFloat(total_gross_amt-dis_amt)+parseFloat(total_tax_amt); 
-               $('#net_total_amount').html(newamt.toFixed(2));
-               $('#amount_recieved').val(newamt.toFixed(2));
-               $('#total_bill').val(newamt.toFixed(2));
+               //var newamt = parseFloat(total_gross_amt-dis_amt)+parseFloat(total_tax_amt);
+               var newamt = (parseFloat(total_gross_amt.replace('.','')) - parseFloat(dis_amt.replace('.','')))+parseFloat(total_tax_amt.replace('.','')); 
+               $('#net_total_amount').html(newamt.toFixed(0));
+               $('#amount_recieved').val(newamt.toFixed(0));
+               $('#total_bill').val(newamt.toFixed(0));
             }
             else
             {   
                  var pre_val =  parseFloat(total_gross_amt)+parseFloat(total_tax_amt);
-                 $('#net_total_amount').html(pre_val.toFixed(2));
-                 $('#amount_recieved').val(pre_val.toFixed(2));
-                 $('#total_bill').val(newamt.toFixed(2));
+                 var pre_val =  parseFloat(total_gross_amt.replace('.',''))+parseFloat(total_tax_amt.replace('.',''));
+                 $('#net_total_amount').html(pre_val.toFixed(0));
+                 $('#amount_recieved').val(pre_val.toFixed(0));
+                 $('#total_bill').val(newamt.toFixed(0));
             }
           },500)
     }

@@ -23,6 +23,9 @@ class Return_items extends CI_Controller
 		$customer_record = $this->Crud_model->fetch_payee_record('customer','status');
 		$data['customer_record'] = $customer_record;
 
+		$result = $this->Crud_model->fetch_record('mp_head','pembayaran');
+		$data['akun_list'] = $result;
+
 		//LOAD FRESH CONTENT AVAILABLE IN TEMP TABLE
 		//LOAD FRESH CONTENT AVAILABLE IN TEMP TABLE
 		$data['temp_data'] = $this->Crud_model->fetch_userid_source('mp_temp_barcoder_invoice','return',$user_name['id']);
@@ -47,6 +50,9 @@ class Return_items extends CI_Controller
 		//USER ID
 		$user_name = $this->session->userdata('user_id');
 
+		$result = $this->Crud_model->fetch_record('mp_head','pembayaran');
+		$data['akun_list'] = $result;
+
 		//LOAD FRESH CONTENT AVAILABLE IN TEMP TABLE	
 		$data['temp_data'] = $this->Crud_model->fetch_userid_source('mp_temp_barcoder_invoice','return',$user_name['id']);
 
@@ -64,6 +70,9 @@ class Return_items extends CI_Controller
 		$user_name = $this->session->userdata('user_id');
 
 		$this->Crud_model->delete_record_by_userid('mp_temp_barcoder_invoice','return',$user_name['id']);
+
+		$result = $this->Crud_model->fetch_record('mp_head','pembayaran');
+		$data['akun_list'] = $result;
 
 		//LOAD FRESH CONTENT AVAILABLE IN TEMP TABLE
 		$data['temp_data'] = $this->Crud_model->fetch_userid_source('mp_temp_barcoder_invoice','return',$user_name['id']);
@@ -131,6 +140,9 @@ class Return_items extends CI_Controller
 		//LOAD FRESH CONTENT AVAILABLE IN TEMP TABLE
 		$data['temp_data'] = $this->Crud_model->fetch_userid_source('mp_temp_barcoder_invoice','return',$user_name['id']);
 
+		$result = $this->Crud_model->fetch_record('mp_head','pembayaran');
+		$data['akun_list'] = $result;
+
 		$this->load->view('invoice_return_template.php',$data);
 		//redirect('invoice/pos2');	
 	}
@@ -197,6 +209,9 @@ class Return_items extends CI_Controller
 
 			//LOAD FRESH CONTENT AVAILABLE IN TEMP TABLE
 			$data['temp_data'] = $this->Crud_model->fetch_userid_source('mp_temp_barcoder_invoice','return',$user_name['id']);
+
+			$result = $this->Crud_model->fetch_record('mp_head','pembayaran');
+		$data['akun_list'] = $result;
 
 			$this->load->view('invoice_return_template.php',$data);
 		}
@@ -320,6 +335,8 @@ class Return_items extends CI_Controller
 		$total_bill = html_escape($this->input->post('total_bill'));
 		$bill_paid = html_escape($this->input->post('bill_paid'));
 		$discountfield = html_escape($this->input->post('discountfield'));
+		$pur_method 	 = html_escape($this->input->post('pur_method'));
+		//var_dump($pur_method);
 		$date = date('Y-m-d');
 		$user_name = $this->session->userdata('user_id');
 		$agent = $user_name['name'];
@@ -336,10 +353,11 @@ class Return_items extends CI_Controller
 				'return_amount' => $bill_paid,
 				'total_bill' => $total_bill,
 				'discount' => $discountfield,
+				'pur_method' => $pur_method,
 				'date' => $date,
 				'agent' => $agent
 			);
-
+			//var_dump($data);
 			//LOADING TRASACTION FUNCTION FROM MODEL
 			$result = $this->Transaction_model->add_return_items_transaction($data);
 
@@ -412,6 +430,9 @@ class Return_items extends CI_Controller
         }
 
       }
+
+      	$result = $this->Crud_model->fetch_record('mp_head','pembayaran');
+		$data['akun_list'] = $result;
 
         //LOAD FRESH CONTENT AVAILABLE IN TEMP TABLE
         $data['temp_data'] = $this->Crud_model->fetch_record('mp_temp_barcoder_invoice',NULL);

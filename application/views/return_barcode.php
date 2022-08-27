@@ -73,13 +73,13 @@
  <!-- Return  -->
 <?php $this->load->view('ajax/return.php'); ?>
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
     $(document).ready(function(){
         $(document).bind('keydown','f8', function(){
-           window.location(<?php echo base_url('invoice'); ?>); 
+           window.location(<?php //echo base_url('invoice'); ?>); 
         });
         // $(document).bind('keydown','f2', function(){
-        //    window.location(<?php echo base_url('return_items');?>);
+        //    window.location(<?php //echo base_url('return_items');?>);
         // });
     });
-</script>
+</script> -->

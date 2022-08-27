@@ -254,9 +254,9 @@ class Printer
             $printer -> selectPrintMode(P::MODE_UNDERLINE);
             $printer -> setTextSize(1, 1);
             $printer -> setFont(0);
-            $printer -> text("PT. SiAP System\n");
+            $printer -> text("GhinaMart\n");
             $printer -> setJustification(P::JUSTIFY_CENTER);
-            $printer -> text("083814305092\n");
+            $printer -> text("088999000111\n");
             // $printer -> setJustification(P::JUSTIFY_RIGHT);
             // $printer -> text("");
             $printer -> feed();

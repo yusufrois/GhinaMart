@@ -18,7 +18,7 @@ class Transaction_model extends CI_Model
 
         if($data['total_bill'] == $data['bill_paid'])
         {
-            $debithead = 2; // CASH
+            $debithead = $data['pur_method']; // CASH
             $credithead = 3; // INVENTORY
             
             $debitamount = $data['total_bill'];
@@ -26,7 +26,7 @@ class Transaction_model extends CI_Model
         }
         else if($data['total_bill'] != $data['bill_paid'] AND $data['bill_paid'] > 0)
         {
-            $debithead = 2;
+            $debithead = $data['pur_method'];
             $debithead2 = 4; //AR
             $credithead  = 3;
 
@@ -169,7 +169,7 @@ class Transaction_model extends CI_Model
         if($data_fields['total_bill'] == $data_fields['return_amount'])
         {
             $debithead = 3; // INVENTORY
-            $credithead = 2; // CASH 
+            $credithead = $data_fields['pur_method'];; // CASH 
 
             $debitamount = $data_fields['return_amount'];
             $creditamount = $data_fields['total_bill'];
@@ -178,7 +178,7 @@ class Transaction_model extends CI_Model
         {
             $debithead = 3;
             $credithead2 = 5; //AP
-            $credithead  = 2;
+            $credithead  = $data_fields['pur_method'];;
 
             $debitamount = $data_fields['total_bill'] ;
             $creditamount2 = $data_fields['total_bill']-$data_fields['return_amount'];
@@ -643,6 +643,18 @@ class Transaction_model extends CI_Model
         $query = $this->db->get('mp_stores');
         $stock_med = $query->result();
         $query = $this->db->query("UPDATE mp_productslist SET expire = '".$expire."', quantity = quantity + ".$qty.", purchase = ".$purc.", retail = ".$retail." , disc = ".$disc." , location = '".$stock_med[0]->name."' WHERE product_name = '".$nama."' ");
+        return true;
+    }
+
+    function insert_buy($sup,$inv,$id){
+        //mp_temp_record_purc
+        $query = $this->db->query("INSERT INTO mp_temp_record_purc(SELECT null, barcode,product_no, product_id, product_name, mg, price, purchase, qty, tax, source, pack, sales, disc, date_ex,'".$sup."','".$inv."', CURRENT_DATE FROM mp_temp_barcoder_purchase WHERE agentid = '".$id."')");
+        return true;
+    }
+
+    function insert_label($sup,$inv,$id){
+        //mp_temp_record_purc
+        $query = $this->db->query("INSERT INTO mp_label(SELECT null, mp_temp_barcoder_purchase.barcode,mp_temp_barcoder_purchase.product_no, mp_temp_barcoder_purchase.product_id, mp_temp_barcoder_purchase.product_name, mp_temp_barcoder_purchase.mg, mp_temp_barcoder_purchase.price, mp_temp_barcoder_purchase.purchase, mp_temp_barcoder_purchase.qty, mp_temp_barcoder_purchase.tax, mp_temp_barcoder_purchase.source, mp_temp_barcoder_purchase.pack, mp_temp_barcoder_purchase.sales, mp_temp_barcoder_purchase.disc, mp_temp_barcoder_purchase.date_ex,'".$sup."','".$inv."', unit_type, category_id,1 FROM mp_temp_barcoder_purchase JOIN mp_productslist on mp_productslist.id = product_id WHERE agentid = '1')");
         return true;
     }
 

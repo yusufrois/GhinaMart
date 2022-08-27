@@ -24,6 +24,27 @@ class Accounts_model extends CI_Model
         }
     }
 
+    public function fetch_record_purch($tablename, $first_date, $second_date, $customer_id = null) {
+        $this->db->where('date_purc >=', $first_date);
+        $this->db->where('date_purc <=', $second_date);
+        if(!empty($customer_id)){            
+            $this->db->where('agentid', $customer_id);
+        }
+        $this->db->join('mp_payee', 'mp_payee.id = agentid');
+        //$this->db->order_by('id', 'DSC');
+        $this->db->order_by($tablename.".id  desc");
+        $query = $this->db->get($tablename);
+        if ($query->num_rows() > 0)
+        {
+             
+            return $query->result();
+        }
+        else
+        {
+            return NULL;
+        }
+    }
+
     public function fetch_record_data($tablename, $first_date, $second_date, $customer_id = null) {
         $this->db->join(' mp_head', "mp_head.id = ".$tablename.".method");
         $this->db->where('date >=', $first_date);
