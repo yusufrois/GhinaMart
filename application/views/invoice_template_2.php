@@ -68,11 +68,15 @@
    
 
 <div class="col-md-6" style="font-weight: bold;">
-    <div class="row total-grid-values">
-        <div class="col-md-4 col-sm-12 col-xs-12">
-            Total Gross (<?php echo $currency; ?>) :
-            <input type="number" name="total_gross_amt" id="total_gross_amt" disabled="disabled" class=" amount-box  text-center outline-cls" style="border: 0;" value="<?php echo number_format($total_gross,0,",","."); ?>" />
-        </div>    
+    <div class="row total-grid-values" style="padding-top: 0;">
+           <div class="card" style="background-color: white;">
+            <div class="judul">
+                <span class="text-left" style="color:black; margin: 0;">
+                    <h3 style="margin:0;">Total</h3>
+                </span>
+            </div>
+            <input type="number" class="text-right col-md-12" name="total_gross_amt" id="total_gross_amt" disabled="disabled" value="<?php echo number_format($total_gross,0,",","."); ?>" style="background-color:white; border:0; font-size:3.5em; margin-bottom: 12px;">
+        </div>
         <div class="col-md-4 col-sm-12 col-xs-12">
          Total Pajak (<?php echo $currency; ?>): 
          <input type="number" class=" amount-box text-right outline-cls" name="total_tax_amt" id="total_tax_amt" disabled="disabled"style="border: 0;"  value="<?php echo number_format($total_tax,0,",","."); ?>" />

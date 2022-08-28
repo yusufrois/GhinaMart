@@ -3,7 +3,7 @@
         <div class="col-lg-3 col-xs-6">
             <div class="small-box bg-yellow">
                 <div class="inner">
-                    <h3><label class="label "><?php echo number_format($cash_in_hand,0,'.','');?></label></h3>
+                    <h3><label class="label "><?php echo number_format($cash_in_hand,0,",",".");?></label></h3>
 
                     <h4 class="paragraph">Saldo Kas <?php echo $currency; ?></h4>
                 </div>
@@ -36,7 +36,7 @@
         <div class="col-lg-3 col-xs-6">
             <div class="small-box bg-green ">
                 <div class="inner">
-                    <h3><label class="label"><?php echo number_format($account_recieveble,0,'.','');?></label></h3>
+                    <h3><label class="label"><?php echo number_format($account_recieveble,0,",",".");?></label></h3>
 
                     <h4 class="paragraph">Piutang Usaha (AR) <?php echo $currency; ?></h4>
                 </div>
@@ -143,7 +143,7 @@
         <div class="col-lg-3 col-xs-6">
             <div class="small-box custom-bg-color-second">
                 <div class="inner">
-                    <h3><label class="label"><?php  echo number_format($purchase_amount,0,'.',''); ?></label></h3>
+                    <h3><label class="label"><?php  echo number_format($purchase_amount,0,",","."); ?></label></h3>
                     <h4 class="paragraph">Pembelian Bulan Ini <?php echo $currency; ?></h4>
                 </div>
                 <div class="icon">
@@ -155,7 +155,7 @@
         <div class="col-lg-3 col-xs-6">
             <div class="small-box custom-bg-color-second">
                 <div class="inner">
-                    <h3><label class="label"><?php  echo number_format($expense_amount,0,'.',''); ?></label></h3>
+                    <h3><label class="label"><?php  echo number_format($expense_amount,0,",","."); ?></label></h3>
                     <h4 class="paragraph">Pengeluaran Bulan Ini <?php echo $currency; ?></h4>
 
                 </div>

@@ -102,7 +102,7 @@
                                             ?>
                                         </td>
                                         <td>
-                                            <?php echo $single_supplier->amount; ?>
+                                            <?php echo number_format($single_supplier->amount,0,",","."); ?>
                                         </td>
                                         <td>
                                             <?php echo $single_supplier->name; ?>
