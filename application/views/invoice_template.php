@@ -36,7 +36,7 @@
             foreach ($temp_data as $single_val) 
             {   
                 if($single_val->date_disc >= date('Y-m-d')){
-                    $diskon = $diskon + $single_val->disc;
+                    $diskon = $diskon + ($single_val->disc * $single_val->qty);
                 }
                 $sub_total_tax = $single_val->qty * $single_val->tax;
                 $total_tax = number_format($total_tax + $sub_total_tax,2,'.','');
