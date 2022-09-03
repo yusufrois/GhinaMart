@@ -78,20 +78,23 @@ class CI_Email {
 	 * @var	string
 	 */
 	public $smtp_host	= 'smtp.googlemail.com';
+	//public $smtp_host	= 'ghinamart.com';
 
 	/**
 	 * SMTP Username
 	 *
 	 * @var	string
 	 */
-	public $smtp_user	= 'anaksoleh07.pro@gmail.com';
+	public $smtp_user	= 'ghinamart.apps@gmail.com';
+	// public $smtp_user	= 'anaksoleh07.pro@gmail.com';
 
 	/**
 	 * SMTP Password
 	 *
 	 * @var	string
 	 */
-	public $smtp_pass	= 'kzatxonevjoihnjx';
+	// public $smtp_pass	= 'kzatxonevjoihnjx';
+	public $smtp_pass	= 'eyxhmgebvwgkoono';
 
 	/**
 	 * SMTP Server port

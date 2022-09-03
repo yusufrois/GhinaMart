@@ -170,7 +170,7 @@ include 'back-end/koneksi.php';
           data.push(input_password);
           data.push(input_jabatan);
           //data.push(input_outvar);
-          xhr.open('POST', 'http://localhost/GhinaMart/label/back-end/insert-user.php?q=' + data, false); xhr.send();
+          xhr.open('POST', 'https://ghinamart.com/label/back-end/insert-user.php?q=' + data, false); xhr.send();
           location.reload();
         }
       }

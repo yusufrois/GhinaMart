@@ -246,7 +246,7 @@
       data.push(input_satuan);
           //data.push(input_outvar);
           //console.log(data);
-          xhr.open('POST', 'http://localhost/GhinaMart/label/back-end/insert-barang.php?q=' + data, false); xhr.send();
+          xhr.open('POST', 'https://ghinamart.com/label/back-end/insert-barang.php?q=' + data, false); xhr.send();
           location.reload();
         }  
       }
@@ -272,7 +272,7 @@
           data.push(user_login);
           //data.push(input_outvar);
           //console.log(data);
-          xhr.open('POST', 'http://localhost/GhinaMart/label/back-end/update-barang.php?q=' + data, false); xhr.send();
+          xhr.open('POST', 'https://ghinamart.com/label/back-end/update-barang.php?q=' + data, false); xhr.send();
           location.reload();
         }
       }

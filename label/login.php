@@ -52,7 +52,7 @@
           data.push(input_username);
           data.push(input_password);
           //data.push(input_outvar);
-          xhr.open('POST', 'http://localhost/GhinaMart/label/back-end/auth-user.php?q=' + data, false); xhr.send();
+          xhr.open('POST', 'https://ghinamart.com/label/back-end/auth-user.php?q=' + data, false); xhr.send();
           var myObj = JSON.parse(xhr.responseText);
           if (myObj.status) {
             if (myObj.status=='1') {
