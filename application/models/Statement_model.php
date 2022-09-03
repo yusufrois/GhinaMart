@@ -139,7 +139,8 @@ class Statement_model extends CI_Model
                              <th class="col-md-2">SALDO</th>
                         </thead>
                         <tbody>';
-                
+                        $amount1 =  $this->count_head_amount($single_head->id,$date1,$date2);
+                    //var_dump($amount1);
                     foreach ($this->get_ledger_transactions($single_head->id,$date1,$date2) as $single_ledger) 
                     {
                         $debitamount = '';
@@ -149,18 +150,20 @@ class Statement_model extends CI_Model
                         {
                             $debitamount = $single_ledger->amount;        
                             $total_ledger = $total_ledger+$debitamount;
+                            $debitamount = number_format($debitamount,'0',',','.');
                         }
                         else if($single_ledger->type == 1)
                         {
                             $creditamount = $single_ledger->amount;        
                             $total_ledger = $total_ledger-$creditamount;
+                            $creditamount = number_format($creditamount,'0',',','.');
                         }
                         else
                         {
 
                         }
 
-                        $total_ledger = number_format($total_ledger,'2','.','');
+                        //$total_ledger = number_format($total_ledger,'2','.',',');
 
                         $form_content .= '<tr>
                         <td>'.$single_ledger->date.'</td>
@@ -171,7 +174,7 @@ class Statement_model extends CI_Model
                         <td>
                             <a href="#">'.$creditamount.'</a>
                         </td>
-                        <td>'.($total_ledger < 0 ? '('.-$total_ledger.')' : $total_ledger ).'</td>            
+                        <td>'.($total_ledger < 0 ? '('.number_format(-$total_ledger,'0','','.').')' : number_format($total_ledger,'0','','.') ).'</td>            
                     </tr>';
                         }
                     }
