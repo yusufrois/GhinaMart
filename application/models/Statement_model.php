@@ -4,7 +4,7 @@
 */
 class Statement_model extends CI_Model
 {
-	//USED TO FETCH TRANSACTIONS FOR GENERAL JOURNAL
+    //USED TO FETCH TRANSACTIONS FOR GENERAL JOURNAL
     public function fetch_transasctions($date1,$date2)
     {
 
@@ -139,8 +139,9 @@ class Statement_model extends CI_Model
                              <th class="col-md-2">SALDO</th>
                         </thead>
                         <tbody>';
-                        $amount1 =  $this->count_head_amount($single_head->id,$date1,$date2);
+                         $amount1 =  $this->count_head_amount($single_head->id,$date1,$date2);
                     //var_dump($amount1);
+                
                     foreach ($this->get_ledger_transactions($single_head->id,$date1,$date2) as $single_ledger) 
                     {
                         $debitamount = '';
@@ -156,14 +157,14 @@ class Statement_model extends CI_Model
                         {
                             $creditamount = $single_ledger->amount;        
                             $total_ledger = $total_ledger-$creditamount;
-                            $creditamount = number_format($creditamount,'0',',','.');
+                            $creditamount = number_format ($creditamount,'0',',','.');
                         }
                         else
                         {
 
                         }
 
-                        //$total_ledger = number_format($total_ledger,'2','.',',');
+                        //$total_ledger = number_format($total_ledger,'2','.','');
 
                         $form_content .= '<tr>
                         <td>'.$single_ledger->date.'</td>
@@ -263,11 +264,13 @@ class Statement_model extends CI_Model
                         {
                             $debitamt    = $amount;
                             $total_debit = $total_debit+$amount;
+                            $debitamt = number_format ($debitamt,'0',',','.');
                         }
                         else
                         {
                             $creditamt    = ($amount == 0 ? $amount : -$amount);
                             $total_credit = $total_credit+$creditamt ;
+                            $creditamt = number_format ($creditamt,'0',',','.');
                         }
 
                        $from_creator .= '<tr>
@@ -277,10 +280,19 @@ class Statement_model extends CI_Model
                        </tr>';
                    }
                 }
+                    $total_debit = number_format ($total_debit,'0',',','.');
+                    $total_credit = number_format ($total_credit,'0',',','.');
 
-                    $from_creator .= '<tr class="balancesheet-row"><td></td><td><h4>'.$total_debit.'</h4></td><td><h4>'.$total_credit.'</h4></td></tr>';
+                    $from_creator .= '
+                    <tr class="balancesheet-row">
+                    <td></td>
+                    <td><h4>'.$total_debit.'</h4></td>
+                    <td><h4>'.$total_credit.'</h4></td>
+                    </tr>';
             }
         }
+         // <td><h4>'.number_format($total_debit,'0',',','.');'</h4></td>
+         //            <td><h4>'.number_format($total_credit,'0',',','.');'</h4></td>
 
         return  $from_creator;
     }
@@ -312,11 +324,14 @@ class Statement_model extends CI_Model
 
                         $amount = ($amount < 0 ? -$amount  : $amount );
                         $total_revenue = $total_revenue+$amount;
-                        $from_creator .= '<tr><td><h4>'.$single_head->name.'</h4></td><td class="pull-right"><h4>'.number_format($amount,'2','.','').'</h4></td></tr>'; 
+                        $from_creator .= '<tr>
+                        <td><h4>'.$single_head->name.'</h4></td>
+                        <td class="pull-right"><h4>'.number_format($amount,'0',',','.');'</h4></td>
+                        </tr>'; 
                     }
                 }
 
-                    $from_creator .= '<tr><td> Total Revenue </td><td class="pull-right"><h4><b>'.number_format($total_revenue,'2','.','').'</b></h4></td></tr>';
+                    $from_creator .= '<tr><td> Total Revenue </td><td class="pull-right"><h4><b>'.number_format($total_revenue,'0',',','.');'</b></h4></td></tr>';
             }
         }
 
@@ -338,13 +353,13 @@ class Statement_model extends CI_Model
                     if( $amount != 0)
                     {
                         $total_expense = $total_expense+$amount;
-                        $from_creator .= '<tr><td><h4>'.$single_head->name.'</h4></td><td class="pull-right"><h4>'.number_format($amount,'2','.','').'</h4></td></tr>';
+                        $from_creator .= '<tr><td><h4>'.$single_head->name.'</h4></td><td class="pull-right"><h4>'.number_format($amount,'0',',','.');'</h4></td></tr>';
                     }
 
                 }
-                    $from_creator .= '<tr><td> Total Expense </td><td class="pull-right">'.number_format($total_expense,'2','.','').'</td></tr>'; 
+                    $from_creator .= '<tr><td> Total Expense </td><td class="pull-right">'.number_format($total_expense,'0',',','.');'</td></tr>'; 
 
-                    $from_creator .= '<tr class=" total-income"><td> Total Net Lost / Profit </td><td class="pull-right">'.number_format($total_revenue-$total_expense,'2','.','').'</td></tr>';
+                    $from_creator .= '<tr class=" total-income"><td> Total Net Lost / Profit </td><td class="pull-right">'.number_format($total_revenue-$total_expense,'0',',','.');'</td></tr>';
             }
         }
 
@@ -387,11 +402,14 @@ class Statement_model extends CI_Model
                     }
                      $total_current = $total_current+$amt;
 
-                    $current_assets .= '<tr><td style=text-align:left;><h4>'.$single_head->name.'</h4></td>
-                                <td style="text-align:right" ><h4>'.$amt.'</h4></td></tr>';
+                    $amt = number_format ($amt,'0',',','.');
 
+                    $current_assets .= '<tr>
+                    <td style=text-align:left;><h4>'.$single_head->name.'</h4></td>
+                    <td style="text-align:right" ><h4>'.$amt.'</h4></td>
+                    </tr>';
                 }
-                    $current_assets .= '<tr class="balancesheet-row"><td ><h4><i>Total Aktiva Lancar</i></h4></td><td style="text-align:right;" ><h4><i>'.$total_current.'</i></h4></td></tr>';
+                    $current_assets .= '<tr class="balancesheet-row"><td ><h4><i>Total Aktiva Lancar</i></h4></td><td style="text-align:right;" ><h4><i>'.number_format ($total_current,'0',',','.');'</i></h4></td></tr>';
             }
         }
 
@@ -425,15 +443,18 @@ class Statement_model extends CI_Model
 
                     $total_noncurrent = $total_noncurrent+$amt ;
 
+                    $amt = number_format ($amt,'0',',','.');
+
                     $noncurrent_assets .= '<tr><td><h4>'.$single_head->name.'</h4></td>
-                                <td style="text-align:right" ><h4>'.$amt.'</h4></td></tr>';
+                                <td style="text-align:right;"><h4>'.$amt.'</h4></td></tr>';
 
                 }
-                    $noncurrent_assets .= '<tr class="balancesheet-row"><td><h4><i>Total Aktiva Tetap</i></h4></td><td style=" text-align:right;" ><h4><i>'.$total_noncurrent.'</i></h4></td></tr>';
+                    $noncurrent_assets .= '<tr class="balancesheet-row"><td><h4><i>Total Aktiva Tetap</i></h4></td><td style="text-align:right;" ><h4><i>'.number_format ($total_noncurrent,'0',',','.');'</i></h4></td></tr>';
             }
         }
 
-        $total_current_nc .= '<tr class="balancesheet-row"><td><h4><b><i>Total Aset / Aktiva</i></b></h4></td><td style=" text-align:right;" ><h4><b><i>'.($total_noncurrent+$total_current).'</i></b></h4></td></tr>';
+
+        $total_current_nc .= '<tr class="balancesheet-row"><td><h4><b><i>Total Aset / Aktiva</i></b></h4></td><td style=" text-align:right;" ><h4><b><i>'.number_format($total_noncurrent+$total_current,'0',',','.');'</i></b></h4></td></tr>';
        
        //CURRENT LIBILTY
         $total_cur_libility       = 0;
@@ -464,11 +485,13 @@ class Statement_model extends CI_Model
 
                     $total_cur_libility = $total_cur_libility+$amt;
 
+                     $amt = number_format ($amt,'0',',','.');
+
                     $current_libility .= '<tr><td><h4>'.$single_head->name.'</h4></td>
                                 <td style="text-align:right" ><h4>'.$amt.'</h4></td></tr>';
 
                 }
-                    $current_libility .= '<tr class="balancesheet-row"><td><h4><i>Total Kewajiban Lancar</i></h4></td><td style=" text-align:right;" ><h4><i>'.$total_cur_libility.'</i></h4></td></tr>';
+                    $current_libility .= '<tr class="balancesheet-row"><td><h4><i>Total Kewajiban Lancar</i></h4></td><td style=" text-align:right;" ><h4><i>'. number_format ($total_cur_libility,'0',',','.');'</i></h4></td></tr>';
             }
         }              
 
@@ -502,15 +525,18 @@ class Statement_model extends CI_Model
 
                     $total_noncurrent_libility = $total_noncurrent_libility+$amt ;
 
+                     $amt = number_format ($amt,'0',',','.');
+
+
                     $noncurrent_libility .= '<tr><td><h4>'.$single_head->name.'</h4></td>
                                 <td style="text-align:right" ><h4><i>'.$amt.'</i></h4></td></tr>';
 
                 }
-                    $noncurrent_libility .= '<tr class="balancesheet-row"><td><h4>Total Kewajiban Jangka Panjang</h4></td><td style="text-align:right;" ><h4><i>'.$total_noncurrent_libility.'</i></h4></td></tr>';
+                    $noncurrent_libility .= '<tr class="balancesheet-row"><td><h4>Total Kewajiban Jangka Panjang</h4></td><td style="text-align:right;" ><h4><i>'.number_format($total_noncurrent_libility,'0',',','.');'</i></h4></td></tr>';
             }
         }
 
-        $total_current_nc_libility .= '<tr class="balancesheet-row"><td><h4><i>Total Liability / Kewajiban </i></h4></td><td style="text-align:right;" ><h4><i>'.($total_cur_libility+$total_noncurrent_libility).'</i></h4></td></tr>';
+        $total_current_nc_libility .= '<tr class="balancesheet-row"><td><h4><i>Total Liability / Kewajiban </i></h4></td><td style="text-align:right;" ><h4><i>'.number_format($total_cur_libility+$total_noncurrent_libility,'0',',','.');'</i></h4></td></tr>';
 
         //EQUITY
         $total_equity              = 0;
@@ -540,6 +566,8 @@ class Statement_model extends CI_Model
 
                     $total_equity = $total_equity+$amt;
 
+                    $amt = number_format ($amt,'0',',','.');
+
                     $equity .= '<tr><td><h4><i>'.$single_head->name.'</i></h4></td>
                                 <td style="text-align:right" ><h4><i>'.$amt.'</i></h4></td></tr>';
                 }   
@@ -549,11 +577,19 @@ class Statement_model extends CI_Model
         $retained_earnings = $this->retained_earnings($date1,$date2);
         $total_libility_equity_retained = $total_equity+$total_cur_libility+$total_noncurrent_libility+$retained_earnings;
 
-         $equity .= '<tr><td><h4> Laba Ditahan </h4></td>
-                                <td style="text-align:right" ><h4><i>'.$retained_earnings.'</i></h4></td></tr>';
-         $equity .= '<tr class="balancesheet-row"><td><h4><i>Total Equity / Modal </i></h4></td><td style="text-align:right;" ><h4><i>'.$total_equity.'</i></h4></td></tr>'; 
+         $equity .= '<tr>
+         <td><h4> Laba Ditahan </h4></td>
+         <td style="text-align:right" ><h4><i>'.number_format($retained_earnings,'0',',','.');'</i></h4></td>
+         </tr>';
+         $equity .= '<tr class="balancesheet-row">
+         <td><h4><i>Total Equity / Modal </i></h4></td>
+         <td style="text-align:right;"><h4><i>'.number_format($total_equity,'0',',','.');'</i></h4></td>
+         </tr>'; 
          
-         $total_libility_and_equity .= '<tr class="balancesheet-row"><td ><h4><b><i>Total Kewajiban and Modal</i></b></h4></td><td style=" text-align:right;" ><h4<b><i>'.$total_libility_equity_retained.'</i></b></h4></td></tr>';                       
+         $total_libility_and_equity .= '<tr class="balancesheet-row">
+         <td ><h4><b><i>Total Kewajiban and Modal</i></b></h4></td>
+         <td style=" text-align:right;" ><h4<b><i>'.number_format(  $total_libility_equity_retained,'0',',','.');'</i></b></h4></td>
+         </tr>';                       
          return  array('current_assets'=>$current_assets,'noncurrent_assets'=>$noncurrent_assets,'total_assets'=>$total_current_nc,'current_libility'=>$current_libility,'noncurrent_libility'=>$noncurrent_libility,'total_currentnoncurrent_libility'=>$total_current_nc_libility,'equity'=>$equity,'total_libility_equity'=>$total_libility_and_equity);
     }
 
