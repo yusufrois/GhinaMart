@@ -69,7 +69,7 @@
         </div> 
          <p class="col-md-12">
             <small class="instructions ">
-             <b>ESC</b> Invoice Baru | <b>F4</b>Retur item | <b>Enter</b> Simpan invoice | <b>F2</b> Lihat invoice
+             <b>ESC</b> Invoice Baru | <b>F4</b> Retur item | <b>Enter</b> Simpan invoice | <b>F2</b> Lihat invoice
             </small>
         </p>   
 
@@ -82,3 +82,12 @@
 
  <!-- AJAX FUNCTIONS   -->
 <?php $this->load->view('ajax/invoice.php'); ?>
+<script type="text/javascript">
+    $('#barcode_scan_area').on('keyup keypress', function(e) {
+      var keyCode = e.keyCode || e.which;
+      if (keyCode === 13) { 
+        e.preventDefault();
+        return false;
+    }
+});
+</script>
