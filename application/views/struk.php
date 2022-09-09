@@ -35,6 +35,9 @@
             display: none !important;
         }
     }
+    .ve{
+        border-right:solid 1px #222;
+    }
 </style>
 <div class="content-wrapper">
         <section class="content text-center">
@@ -138,23 +141,29 @@
 
                                                 <tr>
                                                     <td>
-                                                        <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                                                        <table border="0" cellspacing="0" cellpadding="0" width="100%" style="margin-bottom: 12px;">
                                                             <tr>
-                                                                <td width="50%" valign="top" align="center">
+                                                                <td width="25%" valign="top" align="center" class="ve">
                                                                     <strong><p style="min-height: 10px;">9897878</p></strong>
                                                                 </td>
-                                                                <td width="50%" valign="top" align="center">
-                                                                    <strong><p style="min-height: 10px;">23/08/2022</p></strong>
+                                                                <td width="25%" valign="top" align="center" class="ve">
+                                                                    <strong><p style="min-height: 10px;">Kasir: Ghina</p></strong>
+                                                                </td>
+                                                                <td width="25%" valign="top" align="center" class="ve">
+                                                                    <strong><p style="min-height: 10px;">23/08/2022 </p></strong>
+                                                                </td>
+                                                                 <td width="25%" valign="top" align="center">
+                                                                    <strong><p style="min-height: 10px;">20:17</p></strong>
                                                                 </td>
                                                             </tr>
-                                                            <tr>
+                                                          <!--   <tr>
                                                                 <td width="50%" valign="top" align="center">
                                                                     <strong><p style="min-height: 10px;">Kasir: Ghina</p></strong>
                                                                 </td>
                                                                 <td width="50%" valign="top" align="center">
                                                                     <strong><p style="min-height: 10px;">20:19</p></strong>
                                                                 </td>
-                                                            </tr>
+                                                            </tr> -->
                                                         </table>
                                                     </td>
                                                 </tr>
