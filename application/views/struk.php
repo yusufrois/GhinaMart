@@ -1,10 +1,10 @@
 
 
-<section class="content">
+<section class="">
        <!--  <div class="box-header text-center">
             <h3 class="box-title"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> <?php echo $title1; ?></h3>
         </div> -->
-    <div class="box-body">
+    <div class="">
 
         <style type="text/css">
         p {
@@ -34,10 +34,10 @@
          <div class="wrapper">
             <div class="container">
                 <div id="print">
-                    <table border="0" cellspacing="0" cellpadding="5" width="302.362px" bgcolor="white" align="center">
+                    <table border="0" cellspacing="0" cellpadding="5" width="302.36220px" bgcolor="white" align="center" style="width: 302.36220px;">
                         <tr>
                             <td>
-                                <table border="0" cellspacing="0" cellpadding="15" width="100%">
+                                <table border="0" cellspacing="0" cellpadding="0" width="100%">
                                     <tr>
                                         <td>
                                             <table border="0" cellspacing="0" cellpadding="0" width="100%">
@@ -47,14 +47,15 @@
                                                         <table border="0" cellspacing="0" cellpadding="0" width="100%" style="text-align: center;">
                                                             <tr>
                                                                 <td width="100%">
-                                                                     <img src="<?php echo base_url();?>assets/img/logogm.png" width="50%" height="auto" style="vertical-align: sub; margin-bottom: 10px;" alt="">
+                                                                     <img src="<?php echo base_url();?>assets/img/logoinv.png" width="55%" height="auto" style="vertical-align: sub; margin-bottom:5px;" alt="">
+                                                                     <strong><p style="font-size:.80em;">Dekat | Hemat | Bersahabat</p></strong>
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <td>
-                                                                    <p style="margin-bottom: 10px;"><strong>GHINA MART</strong><br>
-                                                                        Jl Simpang 4 Pasar Batu Bintang<br> Batumarmar Pamekasan Jawa Timur<br>
-                                                                        Telp. 081913714045
+                                                                    <p style="margin-bottom: 10px; font-size:.70em;">
+                                                                         Jl simpang 4 pasar batubintang<br>
+                                                                        Email. admin@ghinamart.com
                                                                     </p>
                                                                 </td>
                                                             </tr>
@@ -67,7 +68,7 @@
                                                         <table border="0" cellspacing="0" cellpadding="0" width="100%">
                                                             <tr>
                                                                 <td width="50%" valign="top" align="center">
-                                                                    <strong><p style="min-height: 10px;"><?php echo $general_info['receipt'];?></p></strong>
+                                                                    <strong><p style="min-height: 10px;">Invoice: <?php echo $general_info['receipt'];?></p></strong>
                                                                 </td>
                                                                 <td width="50%" valign="top" align="center">
                                                                     <strong><p style="min-height: 10px;"><?php echo date('d-m-Y');?></p></strong>
@@ -113,10 +114,10 @@
                                                                             <p style="min-height: 0;"><?=$item->qty;?></p>
                                                                         </td>
                                                                         <td width="20%" valign="top" align="right">
-                                                                            <p style="min-height: 0;"><?=$item->price;?></p>
+                                                                            <p style="min-height: 0;"><?=number_format($item->price,0,",",".");?></p>
                                                                         </td>
                                                                         <td width="20%" valign="top" align="right">
-                                                                            <p style="min-height: 0;"><?=$item->price * $item->qty ;?></p>
+                                                                            <p style="min-height: 0;"><?=number_format($item->price * $item->qty,0,",",".");?></p>
                                                                         </td>
                                                                     </tr>
                                                                 <?php }?>
@@ -143,7 +144,7 @@
                                                                     <p style="min-height: 0;">Subtotal :</p>
                                                                 </td>
                                                                 <td width="20%" valign="top" align="right">
-                                                                    <p style="min-height: 0;"><?php echo $data_prod['total_bill'] + $data_prod['discount'];?></p>
+                                                                    <p style="min-height: 0;"><?php echo number_format($data_prod['total_bill'] + $data_prod['discount'],0,",",".");?></p>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -157,7 +158,7 @@
                                                                     <p style="min-height: 0;">Diskon :</p>
                                                                 </td>
                                                                 <td width="20%" valign="top" align="right">
-                                                                    <p style="min-height: 0;"><?php echo $data_prod['discount'];?></p>
+                                                                    <p style="min-height: 0;"><?php echo number_format($data_prod['discount'],0,",",".");?></p>
                                                                 </td>
                                                             </tr>
                                                         </table>
@@ -182,7 +183,7 @@
                                                                     <p style="min-height: 0;">Total :</p>
                                                                 </td>
                                                                 <td width="20%" valign="top" align="right">
-                                                                    <p style="min-height: 0;"><?php echo $data_prod['total_bill'];?></p>
+                                                                    <p style="min-height: 0;"><?php echo number_format($data_prod['total_bill'],0,",",".");?></p>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -196,7 +197,7 @@
                                                                     <p style="min-height: 0;">Tunai :</p>
                                                                 </td>
                                                                 <td width="20%" valign="top" align="right">
-                                                                    <p style="min-height: 0;"><?php echo $amount_recieved;?></p>
+                                                                    <p style="min-height: 0;"><?php echo number_format($amount_recieved,0,",",".");?></p>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -210,7 +211,7 @@
                                                                     <p style="min-height: 0;">Kembali :</p>
                                                                 </td>
                                                                 <td width="20%" valign="top" align="right">
-                                                                    <p style="min-height: 0;"><?php echo $amount_recieved - $data_prod['total_bill'];?></p>
+                                                                    <p style="min-height: 0;"><?php echo number_format($amount_recieved - $data_prod['total_bill'],0,",",".");?></p>
                                                                 </td>
                                                             </tr>
 
@@ -225,7 +226,8 @@
                                                 <tr align="center" >
                                                     <td >
                                                         <p style="margin-top: 10px;"><strong>TERIMA KASIH</strong><br>
-                                                            ---------- Selamat belanja kembali -----------
+                                                            ---------------- <strong>Selamat Belanja Kembali</strong> ----------------
+
                                                         </p>
                                                     </td>
                                                 </tr>
@@ -247,7 +249,7 @@
     </div>
     </div>
 </section>
-<script type="text/javascript">
+ <script type="text/javascript">
     const $btnPrint = document.querySelector("#btnPrint");
 $btnPrint.addEventListener("click", () => {
     window.print();
