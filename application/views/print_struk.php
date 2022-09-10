@@ -67,18 +67,18 @@
                                                         <table border="0" cellspacing="0" cellpadding="0" width="100%">
                                                             <tr>
                                                                 <td width="50%" valign="top" align="center">
-                                                                    <strong><p style="min-height: 10px;"><?php echo $general_info['receipt'];?></p></strong>
+                                                                    <strong><p style="min-height: 10px;">9897878</p></strong>
                                                                 </td>
                                                                 <td width="50%" valign="top" align="center">
-                                                                    <strong><p style="min-height: 10px;"><?php echo date('d-m-Y');?></p></strong>
+                                                                    <strong><p style="min-height: 10px;">23/08/2022</p></strong>
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <td width="50%" valign="top" align="center">
-                                                                    <strong><p style="min-height: 10px;">Kasir: <?php echo $general_info['served'];?></p></strong>
+                                                                    <strong><p style="min-height: 10px;">Kasir: Ghina</p></strong>
                                                                 </td>
                                                                 <td width="50%" valign="top" align="center">
-                                                                    <strong><p style="min-height: 10px;"><?php echo date('h:i:sa');?></p></strong>
+                                                                    <strong><p style="min-height: 10px;">20:19</p></strong>
                                                                 </td>
                                                             </tr>
                                                         </table>
@@ -104,7 +104,7 @@
                                                             </thead>
 
                                                             <tbody>
-                                                                <?php foreach ($data_prod['item_data'] as $item) {?>
+                                                                <?php foreach ($items as $item) {?>
                                                                     <tr>
                                                                         <td width="50%" valign="top" align="left">
                                                                             <p style="min-height: 0;"><?=$item->product_name;?></p>
@@ -143,7 +143,7 @@
                                                                     <p style="min-height: 0;">Subtotal :</p>
                                                                 </td>
                                                                 <td width="20%" valign="top" align="right">
-                                                                    <p style="min-height: 0;"><?php echo $data_prod['total_bill'] + $data_prod['discount'];?></p>
+                                                                    <p style="min-height: 0;">12.000</p>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -157,7 +157,7 @@
                                                                     <p style="min-height: 0;">Diskon :</p>
                                                                 </td>
                                                                 <td width="20%" valign="top" align="right">
-                                                                    <p style="min-height: 0;"><?php echo $data_prod['discount'];?></p>
+                                                                    <p style="min-height: 0;">0</p>
                                                                 </td>
                                                             </tr>
                                                         </table>
@@ -182,7 +182,7 @@
                                                                     <p style="min-height: 0;">Total :</p>
                                                                 </td>
                                                                 <td width="20%" valign="top" align="right">
-                                                                    <p style="min-height: 0;"><?php echo $data_prod['total_bill'];?></p>
+                                                                    <p style="min-height: 0;">12.000</p>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -196,7 +196,7 @@
                                                                     <p style="min-height: 0;">Tunai :</p>
                                                                 </td>
                                                                 <td width="20%" valign="top" align="right">
-                                                                    <p style="min-height: 0;"><?php echo $amount_recieved;?></p>
+                                                                    <p style="min-height: 0;">20.000</p>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -210,7 +210,7 @@
                                                                     <p style="min-height: 0;">Kembali :</p>
                                                                 </td>
                                                                 <td width="20%" valign="top" align="right">
-                                                                    <p style="min-height: 0;"><?php echo $amount_recieved - $data_prod['total_bill'];?></p>
+                                                                    <p style="min-height: 0;">8.000</p>
                                                                 </td>
                                                             </tr>
 
@@ -239,10 +239,10 @@
                     </table>
 
                 </div>
-                <!-- <div style="padding-top: 20px;">
+                <div style="padding-top: 20px;">
                     <button type="button" class="hidden-print" id="btnPrint"
                     style="background-color:gray; color: white; padding: .25rem .5rem; line-height: 1.5; border-radius: .25rem; cursor: pointer; border-width: 0;">Print</button>
-                </div> -->
+                </div>
         </div>
     </div>
     </div>
@@ -252,17 +252,4 @@
 $btnPrint.addEventListener("click", () => {
     window.print();
 });
-</script>
-
-<script type="text/javascript">
-
-$(document).ready(function() {
-    window.print();
-    window.onafterprint = (event) => {
-        var url = '<?php echo base_url('invoice')?>';
-        window.location = url;
-    };
-    
-});
-
 </script>

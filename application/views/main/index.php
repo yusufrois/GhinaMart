@@ -68,7 +68,7 @@
 <div class="wrapper">
   <?php $this->load->view('main/stylings.php'); ?>
   <?php
-   if(uri_string() != 'invoice' AND uri_string() != 'invoice_2' AND uri_string() != 'return_items')
+   if(uri_string() != 'invoice' AND uri_string() != 'invoice_2' AND uri_string() != 'invoice/add_auto_invoice' AND uri_string() != 'return_items')
   {
   ?>
    <!-- Header  -->
@@ -85,7 +85,7 @@
   </div>
   <!-- /.content-wrapper -->
   <?php
-  if(uri_string() != 'invoice' AND uri_string() != 'invoice_2' AND uri_string() != 'return_items')
+  if(uri_string() != 'invoice' AND uri_string() != 'invoice_2' AND uri_string() != 'invoice/add_auto_invoice' AND uri_string() != 'return_items')
   {
   ?>
   <!-- Footer  -->

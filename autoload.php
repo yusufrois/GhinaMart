@@ -9,8 +9,8 @@ spl_autoload_register ( function ($class) {
 	 * https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-4-autoloader-examples.md
 	 */
 	$prefix = "Mike42\\";
-	$base_dir = __DIR__ . "/src/Mike42/";
-	
+	$base_dir = "C:\htdocs" . "/src/Mike42/";
+	//var_dump('hasil '.__DIR__);
 	/* Only continue for classes in this namespace */
 	$len = strlen ( $prefix );
 	if (strncmp ( $prefix, $class, $len ) !== 0) {
@@ -20,6 +20,7 @@ spl_autoload_register ( function ($class) {
 	/* Require the file if it exists */
 	$relative_class = substr ( $class, $len );
 	$file = $base_dir . str_replace ( '\\', '/', $relative_class ) . '.php';
+	var_dump($file);
 	if (file_exists ( $file )) {
 		require $file;
 	}

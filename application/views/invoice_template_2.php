@@ -83,7 +83,7 @@
      </div>
      <div class="col-md-4 col-sm-12 col-xs-12">
         Diskon (<?php echo $currency; ?>) :
-        <input type="number" onkeyup="checkDiscount(this.value)" name="discountfield" id="discountfield" step=".01" class=" amount-box text-right"style="border: 0;"  value="<?php echo number_format($diskon,0,",","."); ?>" readonly />
+        <input type="number" onkeyup="checkDiscount(this.value)" name="discountfield" id="discountfield" step=".01" class=" amount-box text-right"style="border: 0;"  value="<?php echo $diskon; ?>" readonly />
     </div>  
 </div> 
 <div class="row total-grid-values">

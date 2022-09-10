@@ -446,7 +446,9 @@ public function export()
    'Sektor Merk',   
    'Unit',   
    'Net Weight', 
-   'Harga Grosir'   
+   'Harga Grosir',
+   'Diskon',
+   'Tanggal diskon'   
  );
 
   $args_table_header  = array(
@@ -473,7 +475,9 @@ public function export()
    'brand_sector_id',   
    'unit_type',   
    'net_weight',   
-   'whole_sale'   
+   'whole_sale',
+   'disc',
+   'date_disc'   
  );
 
     //DEFINED IN HELPER FOLDER

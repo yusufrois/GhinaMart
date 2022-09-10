@@ -682,13 +682,14 @@ class Invoice extends CI_Controller
 	//USED TO ADD AUTOMATIC INVOICE
 	function add_auto_invoice()
 	{
-
+//amount_recieved
 		$this->load->model('Transaction_model');
 		$customer_id 	 = html_escape($this->input->post('customer_id'));
 		$discountfield 	 = html_escape($this->input->post('discountfield'));
 		$total_bill 	 = html_escape($this->input->post('total_bill'));
 		$bill_paid 	 	 = html_escape($this->input->post('bill_paid'));
 		$pur_method 	 = html_escape($this->input->post('pur_method'));
+		$amount_recieved 	 = html_escape($this->input->post('amount_recieved'));
 		$date 			 = date('Y-m-d');
 		$status 		 = 0;
 		$user_name 	     = $this->session->userdata('user_id');
@@ -742,8 +743,12 @@ class Invoice extends CI_Controller
 				$result = $this->Crud_model->fetch_record_by_id('mp_contactabout',1);
 				$address = $result[0]->address;
 				
+				// if($printer_name != '')
+				// {
+				// 	$this->struk->print($general_info,$data);
+				// }
 
-				/* Hapus Tanda ini jika aplikasi sudah terkoneksi dengan printer Thermal
+				/* Hapus Tanda ini jika aplikasi sudah terkoneksi dengan printer Thermal*/
 				if($printer_name != '')
 				{
 					//BUSINESS AND OTHER INFO THAT MENTIONED ON THE TOP
@@ -764,10 +769,14 @@ class Invoice extends CI_Controller
 					);
 
 					//UN COMMENT THE BELOW LINE WHEN CONNETED RO PRINTER 
-				    $this->load->library('printer');
-				    $printer_result =  $this->printer->generate_print($general_info,$data);
+					//$this->load('struk');
+					$this->print($general_info,$data,$amount_recieved);
+					//redirect('invoice/print/'+$general_info+'/'+$data); 
+				 //    $this->load->library('printer');
+				 //    $printer_result =  $this->printer->generate_print($general_info,$data);
+					// var_dump($printer_result);
 				}
-
+/*
 				if($printer_result != 'success')
 				{
 					$array_msg = array(
@@ -782,8 +791,8 @@ class Invoice extends CI_Controller
 					'alert' => 'info'
 					);
 				}
-				*/
 				
+				*/
 
 				$array_msg = array(
 					'msg' => '<i style="color:#fff" class="fa fa-check-circle-o" aria-hidden="true"></i> Created successfully',
@@ -810,7 +819,20 @@ class Invoice extends CI_Controller
 			$this->session->set_flashdata('status', $array_msg);
 		}
 
-		redirect('invoice'); 
+		//redirect('invoice'); 
+	}
+
+	public function print($general_info,$data_prod,$amount_recieved)
+	{
+		//var_dump($general_info);
+		//var_dump($data_prod);
+		$data['title'] = 'Struk Baru';
+		$data['main_view'] = 'struk';
+		$data['general_info'] = $general_info;
+		$data['amount_recieved'] = $amount_recieved;
+		$data['data_prod'] = $data_prod;
+		//$data['items'] = $this->Crud_model->view_letter();
+		$this->load->view('main/index.php', $data);
 	}
 
 	//USED TO SEARCH CUSTOMERS PRIVIOUS BALANCE 

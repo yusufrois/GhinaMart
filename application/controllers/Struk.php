@@ -19,5 +19,15 @@ class Struk extends CI_Controller
 		$this->load->view('main/index.php', $data);
 	}
 
+	public function print($general_info,$data_prod)
+	{
+		$data['title'] = 'Struk Baru';
+		$data['main_view'] = 'struk';
+		$data['general_info'] = $general_info;
+		$data['data_prod'] = $data_prod;
+		//$data['items'] = $this->Crud_model->view_letter();
+		$this->load->view('main/index.php', $data);
+	}
+
 
 }

@@ -128,8 +128,9 @@ var timmer;
         }         
         else if (e.keyCode == 13) 
         { 
-           jQuery('.invoice').focus();
-           $('#submit_btn').submit();
+            console.log('sssss')
+        //   jQuery('.invoice').focus();
+          // $('#submit_btn').submit();
         }              
     });
 
