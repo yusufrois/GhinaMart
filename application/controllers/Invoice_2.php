@@ -693,7 +693,14 @@ class Invoice_2 extends CI_Controller
 		$status 		 = 0;
 		$user_name 	     = $this->session->userdata('user_id');
 		$agent 			 = $user_name['name'];
-		
+		if ($amount_recieved == '0') {
+			$array_msg = array(
+					'msg' => '<i style="color:#c00" class="fa fa-exclamation-triangle" aria-hidden="true"></i> Dibayarkan kosong',
+					'alert' => 'danger'
+				);
+				$this->session->set_flashdata('status', $array_msg);
+				redirect('invoice'); 
+		}
 		$this->load->model('Crud_model');
 		$result = $this->Crud_model->fetch_attr_record_by_id('mp_temp_barcoder_invoice','agentid',1980);
 

@@ -683,6 +683,7 @@ class Invoice extends CI_Controller
 	function add_auto_invoice()
 	{
 //amount_recieved
+		
 		$this->load->model('Transaction_model');
 		$customer_id 	 = html_escape($this->input->post('customer_id'));
 		$discountfield 	 = html_escape($this->input->post('discountfield'));
@@ -694,12 +695,19 @@ class Invoice extends CI_Controller
 		$status 		 = 0;
 		$user_name 	     = $this->session->userdata('user_id');
 		$agent 			 = $user_name['name'];
-		
+		if ($amount_recieved == '0') {
+			$array_msg = array(
+					'msg' => '<i style="color:#c00" class="fa fa-exclamation-triangle" aria-hidden="true"></i> Dibayarkan kosong',
+					'alert' => 'danger'
+				);
+				$this->session->set_flashdata('status', $array_msg);
+				redirect('invoice'); 
+		}
 		$this->load->model('Crud_model');
 		$result = $this->Crud_model->fetch_attr_record_by_id('mp_temp_barcoder_invoice','agentid',$user_name['id']);
 
 		$customer_previous = $this->return_previous_cus_balance($customer_id);
-
+		var_dump($amount_recieved);
 		if($result != NULL)
 		{
 			//ASSIGNING DATA TO ARRAY

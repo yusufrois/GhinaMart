@@ -149,7 +149,7 @@
   <a href="<?php echo base_url('return_items');?>"  class="btn btn-warning btn-outline-primary btn-left-side-invoice" > 
       <i class="fa fa-arrow-left" aria-hidden="true"></i>  RETUR ITEM
   </a>
-  <button type="submit"  id="submit_btn" class="btn btn-danger btn-outline-primary btn-left-side-invoice"> 
+  <button type="submit"  id="submit_btn" name="submit_btn" class="btn btn-danger btn-outline-primary btn-left-side-invoice"> 
      <i class="fa fa-floppy-o" aria-hidden="true"></i>  SIMPAN DAN CETAK
  </button>
  

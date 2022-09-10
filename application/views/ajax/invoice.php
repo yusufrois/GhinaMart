@@ -126,11 +126,11 @@ var timmer;
         { 
             window.location='<?php echo base_url('return_items')?>';
         }         
-        else if (e.keyCode == 13) 
+        else if (e.keyCode == 16) 
         { 
             console.log('sssss')
-        //   jQuery('.invoice').focus();
-          // $('#submit_btn').submit();
+           jQuery('.invoice').focus();
+           $('#submit_btn').submit();
         }              
     });
 

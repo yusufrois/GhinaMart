@@ -309,3 +309,13 @@
 
  <!-- AJAX FUNCTIONS   -->
 <?php $this->load->view('ajax/purchase.php'); ?>
+
+<script type="text/javascript">
+    $('#barcode_scan_area').on('keyup keypress', function(e) {
+      var keyCode = e.keyCode || e.which;
+      if (keyCode === 13) { 
+        e.preventDefault();
+        return false;
+    }
+});
+</script>
