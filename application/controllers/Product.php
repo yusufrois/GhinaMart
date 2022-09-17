@@ -30,6 +30,7 @@ class Product extends CI_Controller
   //promo
     $data['page_promo'] = 'Management promo';
     $data['page_opname'] = 'Stock Opname';
+    $data['export_opname'] = 'Export Opname';
 
   // DEFINES THE TITLE NAME OF THE POPUP
     $data['page_title_model'] = 'Tambah Produk';
@@ -156,6 +157,11 @@ class Product extends CI_Controller
   public function add_opname(){
     $item_id   = html_escape($this->input->post('item_id'));
     $jumlah_real   = html_escape($this->input->post('jumlah_real'));
+    $jumlah_sistem   = html_escape($this->input->post('jumlah_sistem'));
+    $selisih   = html_escape($this->input->post('selisih'));
+    $jual   = html_escape($this->input->post('jual'));
+    $hutang   = html_escape($this->input->post('hutang'));
+    $nama   = html_escape($this->input->post('nama'));
 
     // DEFINES LOAD CRUDS_MODEL FORM MODELS FOLDERS
     $this->load->model('Crud_model');
@@ -173,6 +179,7 @@ class Product extends CI_Controller
 
      // CALL THE METHOD FROM Crud_model CLASS FIRST ARG CONTAINES TABLENAME AND OTHER CONTAINS DATA
       $result_edit = $this->Crud_model->edit_record_id($args, $data);
+      $this->Crud_model->insert_opname($item_id,$nama,$jumlah_sistem,$jumlah_real,$selisih,$jual,$hutang,'process');
     }
     if ($result_edit == 1)
     {
@@ -199,6 +206,7 @@ class Product extends CI_Controller
     $harga_jual   = html_escape($this->input->post('harga_jual'));
     $disc_jual   = html_escape($this->input->post('disc_jual'));
     $promo_date   = html_escape($this->input->post('promo_date'));
+    $start_date   = html_escape($this->input->post('start_date'));
     // DEFINES LOAD CRUDS_MODEL FORM MODELS FOLDERS
     $this->load->model('Crud_model');
     if($item_id != NULL)
@@ -212,7 +220,8 @@ class Product extends CI_Controller
       $data = array(
        'retail' => $harga_jual,
        'disc' =>  $disc_jual,
-       'date_disc' => $promo_date 
+       'date_disc' => $promo_date, 
+       'start_disc' => $start_date 
      );
 
      // CALL THE METHOD FROM Crud_model CLASS FIRST ARG CONTAINES TABLENAME AND OTHER CONTAINS DATA
@@ -333,6 +342,44 @@ function pending_stock()
   $this->load->view('main/index.php', $data);
 }
 
+
+function opname_report()
+{
+
+  // DEFINES PAGE TITLE
+  $data['title'] = 'Opname stok';
+
+  // DEFINES NAME OF TABLE HEADING
+  $data['table_name'] = 'Daftar Opname Stok :';
+
+  // DEFINES BUTTON NAME ON THE TOP OF THE TABLE
+  $data['page_stock_button_name'] = 'Opname';
+
+  // DEFINES WHICH PAGE TO RENDER
+  $data['main_view'] = 'stock_opname';
+
+  // DEFINES THE TABLE HEAD
+  $data['table_heading_names_of_coloums'] = array(
+   'No',
+   'Nama Produk',
+   'Jumlah Sistem',
+   'Jumlah Real',
+   'Selisih',
+   'Harga Jual',
+   'Total Bayar',
+   'Tanggal',
+   'Tindakan'
+ );
+
+  //  FETCH ALL PENDING STOCK
+  $this->load->model('Crud_model');
+  $result = $this->Crud_model->fetch_stock_opname();
+  $data['stock_list'] = $result;
+
+  // DEFINES GO TO MAIN FOLDER FOND INDEX.PHP  AND PASS THE ARRAY OF DATA TO THIS PAGE
+  $this->load->view('main/index.php', $data);
+}
+
  //USE FOR UPLOADING CSV FILE
  //product/upload_csv
 function upload_csv()
@@ -374,7 +421,10 @@ function upload_csv()
      'brand_sector_id' => $importdata[20],   
      'unit_type' => $importdata[21],   
      'net_weight' => $importdata[22],   
-     'whole_sale' => $importdata[23]  
+     'whole_sale' => $importdata[23],  
+     'disc' => $importdata[24],
+     'date_disc' => $importdata[25], 
+     'start_disc' => $importdata[26]  
 
    );
 
@@ -448,7 +498,8 @@ public function export()
    'Net Weight', 
    'Harga Grosir',
    'Diskon',
-   'Tanggal diskon'   
+   'Tanggal diskon',
+   'Start diskon'   
  );
 
   $args_table_header  = array(
@@ -477,11 +528,86 @@ public function export()
    'net_weight',   
    'whole_sale',
    'disc',
-   'date_disc'   
+   'date_disc',   
+   'start_disc'   
  );
 
     //DEFINED IN HELPER FOLDER
   export_csv('products_list',$args_fileheader,$args_table_header,'mp_productslist');
+
+  redirect('product');
+
+}
+
+
+public function export_opname()
+{
+  $item_id   = html_escape($this->input->post('item_id'));
+  $args_fileheader  = array(
+   // 'ID product_stock_list', 
+   // 'ID Kategori', 
+   'Nama Produk',
+   //'Mg',   
+   'Quantity',
+   'Opname',
+   'Status'   
+   // 'Purchase',  
+   // 'Eceran',  
+   // 'Kadaluarsa',  
+   // 'Manufaktur',
+   // 'Efek samping',
+   // 'Deskripsi', 
+   // 'Barcode', 
+   // 'Minimum Level', 
+   // 'Total Unit', 
+   // 'Packsize',   
+   // 'SKU',   
+   // 'Lokasi',  
+   // 'Pajak(%)',   
+   // 'Tipe Produk',   
+   // 'ID Merk',   
+   // 'Sektor Merk',   
+   // 'Unit',   
+   // 'Net Weight', 
+   // 'Harga Grosir',
+   // 'Diskon',
+   // 'Tanggal diskon'   
+ );
+
+  $args_table_header  = array(
+   //'id',  
+   //'category_id',  
+   'product_name',
+   //'mg',   
+   'quantity'  
+   // 'purchase',  
+   // 'retail',
+   // 'expire',  
+   // 'manufacturing',  
+   // 'sideeffects',  
+   // 'description',
+   // 'barcode', 
+   // 'min_stock', 
+   // 'total_units', 
+   // 'packsize',   
+   // 'sku',  
+   // 'location',   
+   // 'tax',   
+   // 'type',   
+   // 'brand_id',   
+   // 'brand_sector_id',   
+   // 'unit_type',   
+   // 'net_weight',   
+   // 'whole_sale',
+   // 'disc',
+   // 'date_disc'   
+ );
+$args_table_where  = array(
+      'category_id'=>
+      $item_id
+    );
+    //DEFINED IN HELPER FOLDER
+  export_csv('products_list',$args_fileheader,$args_table_header,'mp_productslist',$args_table_where);
 
   redirect('product');
 
@@ -559,6 +685,12 @@ function popup($page_name = '',$param = '')
    $data['product_record_list'] = $product_record;
      //model name available in admin models folder
    $this->load->view( 'admin_models/add_models/add_opname.php',$data);
+ }else if ($page_name == 'add_export') {
+   // code...
+  $product_record = $this->Crud_model->fetch_record_ketogori(0);
+   $data['product_record_list'] = $product_record;
+     //model name available in admin models folder
+   $this->load->view( 'admin_models/add_models/add_export.php',$data);
  } 
  else if($page_name  == 'edit_stock_model')
  {
@@ -892,6 +1024,53 @@ function update_to_stock($stock_id = '')
 redirect('product/pending_stock');
 }
 
+
+
+function update_opname($stock_id = '')
+{
+
+ if($stock_id != '')
+ {
+  $this->load->model('Crud_model');
+
+   // DATA ARRAY FOR UPDATE QUERY array('abc'=>abc)
+   $data_edit = array(
+    'status' => 'dibayar'
+  );
+
+   // TABLENAME AND ID FOR DATABASE Actions
+   $args_edit = array(
+    'table_name' => 'mp_opname',
+    'id' => $stock_id
+  );
+
+
+  $result_edit = $this->Crud_model->edit_record_id($args_edit, $data_edit);
+   if ($result_edit == 1)
+   {
+    $array_msg = array(
+     'msg' => '<i style="color:#fff" class="fa fa-check-circle-o" aria-hidden="true"/> Stock added',
+     'alert' => 'info'
+   );
+
+    $this->session->set_flashdata('status', $array_msg);
+
+    $this->Crud_model->delete_record('mp_stock',$stock_id);
+
+  }
+  else
+  {
+    $array_msg = array(
+     'msg' => '<i style="color:#c00" class="fa fa-exclamation-triangle" aria-hidden="true"/> Sorry stock cannot be added',
+     'alert' => 'danger'
+   );
+
+    $this->session->set_flashdata('status', $array_msg);
+  }
+ }
+
+ redirect('product/opname_report');
+}
 
  // product/delete_stock
 public function delete_stock($args)

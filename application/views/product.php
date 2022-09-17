@@ -2,6 +2,9 @@
     <div class="row">
         <div class="col-md-12">
             <div class="pull pull-right">
+                <button type="button" onclick="show_modal_page('<?php echo base_url();?>product/popup/add_export')" class="btn btn-flat btn-outline-primary" ><i class="fa fa-plus-square" aria-hidden="true"></i>
+                    <?php echo $export_opname; ?>
+                </button> 
                 <button type="button" onclick="show_modal_page('<?php echo base_url();?>product/popup/add_opname')" class="btn btn-danger btn-outline-primary" ><i class="fa fa-plus-square" aria-hidden="true"></i>
                     <?php echo $page_opname; ?>
                 </button> 

@@ -38,7 +38,7 @@ class Invoice_2 extends CI_Controller
 		$data['akun_list'] = $result;
 
 		//LOAD FRESH CONTENT AVAILABLE IN TEMP TABLE
-		$data['temp_data'] = $this->Crud_model->fetch_userid_source('mp_temp_barcoder_invoice','pos',1980);
+		$data['temp_data'] = $this->Crud_model->fetch_userid_source('mp_temp_barcoder_invoice','pos',1980 + $user_name['id']);
 		$data['temp_view'] = 'invoice_template_2';
 
 		// DEFINES GO TO MAIN FOLDER FOND INDEX.PHP  AND PASS THE ARRAY OF DATA TO THIS PAGE
@@ -82,7 +82,7 @@ class Invoice_2 extends CI_Controller
 		$data['akun_list'] = $result;
 
 		//LOAD FRESH CONTENT AVAILABLE IN TEMP TABLE
-		$data['temp_data'] = $this->Crud_model->fetch_userid_source('mp_temp_barcoder_invoice','pos',1980);
+		$data['temp_data'] = $this->Crud_model->fetch_userid_source('mp_temp_barcoder_invoice','pos',1980 + $user_name['id']);
 		
 		$this->load->view('invoice_template_2.php',$data);
 	}
@@ -98,7 +98,7 @@ class Invoice_2 extends CI_Controller
 		$user_name = $this->session->userdata('user_id');
 
 		//FETCH THE ITEM FROM DATABSE TABLE TO ADD AGAIN TO STOCK
-		$result = $this->Crud_model->fetch_userid_source('mp_temp_barcoder_invoice','pos',1980);
+		$result = $this->Crud_model->fetch_userid_source('mp_temp_barcoder_invoice','pos',1980 + $user_name['id']);
 
 		if($result  != NULL)
 		{
@@ -124,7 +124,7 @@ class Invoice_2 extends CI_Controller
 
 			}
 
-			$this->Crud_model->delete_record_by_userid('mp_temp_barcoder_invoice','pos',1980);
+			$this->Crud_model->delete_record_by_userid('mp_temp_barcoder_invoice','pos',1980 + $user_name['id']);
 		}
 
 			//DEFINES TO LOAD BANK AKUN OR COA MP_HEAD
@@ -132,7 +132,7 @@ class Invoice_2 extends CI_Controller
 		$data['akun_list'] = $result;
 
 			//LOAD FRESH CONTENT AVAILABLE IN TEMP TABLE
-		$data['temp_data'] = $this->Crud_model->fetch_userid_source('mp_temp_barcoder_invoice','pos',1980);
+		$data['temp_data'] = $this->Crud_model->fetch_userid_source('mp_temp_barcoder_invoice','pos',1980 + $user_name['id']);
 
 		$this->load->view('invoice_template_2.php',$data);
 	}
@@ -150,7 +150,7 @@ class Invoice_2 extends CI_Controller
 		if($result != NULL)
 		{
 
-			$check_item_in_temp = $this->Crud_model->fetch_attr_record_by_userid_source('mp_temp_barcoder_invoice','barcode',$barcode,1980,'pos');
+			$check_item_in_temp = $this->Crud_model->fetch_attr_record_by_userid_source('mp_temp_barcoder_invoice','barcode',$barcode,1980 + $user_name['id'],'pos');
 
 			if($result[0]->quantity > 0)
 			{
@@ -197,10 +197,11 @@ class Invoice_2 extends CI_Controller
 						'purchase' => $result[0]->purchase,
 						'qty' => 1,
 						'tax' => $tax_amount,
-						'agentid' => 1980,
+						'agentid' => 1980 + $user_name['id'],
 						'source' => 'pos',
 						'disc' => $result[0]->disc, 
-						'date_disc' => $result[0]->date_disc
+						'date_disc' => $result[0]->date_disc,
+						'start_disc' => $result[0]->start_disc
 					);
 
 					// DEFINES CALL THE FUNCTION OF insert_data FORM Crud_model CLASS
@@ -209,7 +210,7 @@ class Invoice_2 extends CI_Controller
 			}
 		}
 		//LOAD FRESH CONTENT AVAILABLE IN TEMP TABLE
-		$data['temp_data'] = $this->Crud_model->fetch_userid_source('mp_temp_barcoder_invoice','pos',1980);
+		$data['temp_data'] = $this->Crud_model->fetch_userid_source('mp_temp_barcoder_invoice','pos',1980 + $user_name['id']);
 
 
 		//DEFINES TO LOAD BANK AKUN OR COA MP_HEAD
@@ -231,7 +232,7 @@ class Invoice_2 extends CI_Controller
 		{
 			$result = $this->Crud_model->fetch_record_by_id('mp_productslist',$id);
 
-			$check_item_in_temp = $this->Crud_model->fetch_attr_record_by_userid_source('mp_temp_barcoder_invoice','product_id',$id,1980,'pos');
+			$check_item_in_temp = $this->Crud_model->fetch_attr_record_by_userid_source('mp_temp_barcoder_invoice','product_id',$id,1980 + $user_name['id'],'pos');
 
 
 			if($result[0]->quantity >= 0)
@@ -279,10 +280,11 @@ class Invoice_2 extends CI_Controller
 							'purchase' => $result[0]->purchase,
 							'qty' => 1,
 							'tax' => $tax_amount,
-							'agentid' => 1980,
+							'agentid' => 1980 + $user_name['id'],
 							'source' => 'pos',
 							'disc' => $result[0]->disc, 
-							'date_disc' => $result[0]->date_disc
+							'date_disc' => $result[0]->date_disc,
+							'start_disc' => $result[0]->start_disc
 						);
 								// DEFINES CALL THE FUNCTION OF insert_data FORM Crud_model CLASS
 						$result = $this->Crud_model->insert_data('mp_temp_barcoder_invoice', $args);
@@ -291,7 +293,7 @@ class Invoice_2 extends CI_Controller
 
 			}
 				//LOAD FRESH CONTENT AVAILABLE IN TEMP TABLE
-			$data['temp_data'] = $this->Crud_model->fetch_userid_source('mp_temp_barcoder_invoice','pos',1980);
+			$data['temp_data'] = $this->Crud_model->fetch_userid_source('mp_temp_barcoder_invoice','pos',1980 + $user_name['id']);
 
 			//DEFINES TO LOAD BANK AKUN OR COA MP_HEAD
 			$result = $this->Crud_model->fetch_record('mp_head','pembayaran');
@@ -702,7 +704,7 @@ class Invoice_2 extends CI_Controller
 				redirect('invoice'); 
 		}
 		$this->load->model('Crud_model');
-		$result = $this->Crud_model->fetch_attr_record_by_id('mp_temp_barcoder_invoice','agentid',1980);
+		$result = $this->Crud_model->fetch_attr_record_by_id('mp_temp_barcoder_invoice','agentid',1980 + $user_name['id']);
 
 		$customer_previous = $this->return_previous_cus_balance($customer_id);
 
@@ -850,7 +852,7 @@ class Invoice_2 extends CI_Controller
 		if($val != '' AND $id != '' AND  $val > -1)
 		{
 
-			$result = $this->Crud_model->fetch_attr_record_by_userid_source('mp_temp_barcoder_invoice','id',$id,1980,'pos');
+			$result = $this->Crud_model->fetch_attr_record_by_userid_source('mp_temp_barcoder_invoice','id',$id,1980 + $user_name['id'],'pos');
 
 			$result_stk = $this->Crud_model->fetch_record_by_id('mp_productslist',$result['0']->product_id);
 
@@ -898,7 +900,7 @@ class Invoice_2 extends CI_Controller
 
 		}
         //LOAD FRESH CONTENT AVAILABLE IN TEMP TABLE
-		$data['temp_data'] = $this->Crud_model->fetch_userid_source('mp_temp_barcoder_invoice','pos',1980);
+		$data['temp_data'] = $this->Crud_model->fetch_userid_source('mp_temp_barcoder_invoice','pos',1980 + $user_name['id']);
 		//DEFINES TO LOAD BANK AKUN OR COA MP_HEAD
 		$result = $this->Crud_model->fetch_record('mp_head','pembayaran');
 		$data['akun_list'] = $result;
@@ -918,7 +920,7 @@ class Invoice_2 extends CI_Controller
 		if($val != '' AND $id != '' AND  $val > -1)
 		{
 
-			$result = $this->Crud_model->fetch_attr_record_by_userid_source('mp_temp_barcoder_invoice','id',$id,1980,'pos');
+			$result = $this->Crud_model->fetch_attr_record_by_userid_source('mp_temp_barcoder_invoice','id',$id,1980 + $user_name['id'],'pos');
 
 			$result_stk = $this->Crud_model->fetch_record_by_id('mp_productslist',$result['0']->product_id);
 
@@ -964,7 +966,7 @@ class Invoice_2 extends CI_Controller
 
 		}
         //LOAD FRESH CONTENT AVAILABLE IN TEMP TABLE
-		$data['temp_data'] = $this->Crud_model->fetch_userid_source('mp_temp_barcoder_invoice','pos',1980);
+		$data['temp_data'] = $this->Crud_model->fetch_userid_source('mp_temp_barcoder_invoice','pos',1980 + $user_name['id']);
 		//DEFINES TO LOAD BANK AKUN OR COA MP_HEAD
 		$result = $this->Crud_model->fetch_record('mp_head','pembayaran');
 		$data['akun_list'] = $result;

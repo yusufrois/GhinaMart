@@ -200,7 +200,8 @@ class Invoice extends CI_Controller
 						'agentid' => $user_name['id'],
 						'source' => 'pos',
 						'disc' => $result[0]->disc, 
-						'date_disc' => $result[0]->date_disc
+						'date_disc' => $result[0]->date_disc,
+						'start_disc' => $result[0]->start_disc
 					);
 
 					// DEFINES CALL THE FUNCTION OF insert_data FORM Crud_model CLASS
@@ -282,7 +283,8 @@ class Invoice extends CI_Controller
 							'agentid' => $user_name['id'],
 							'source' => 'pos',
 							'disc' => $result[0]->disc, 
-							'date_disc' => $result[0]->date_disc
+							'date_disc' => $result[0]->date_disc,
+						'start_disc' => $result[0]->start_disc
 						);
 								// DEFINES CALL THE FUNCTION OF insert_data FORM Crud_model CLASS
 						$result = $this->Crud_model->insert_data('mp_temp_barcoder_invoice', $args);

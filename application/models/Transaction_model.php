@@ -642,7 +642,8 @@ class Transaction_model extends CI_Model
         $this->db->where(['id' =>$location]);
         $query = $this->db->get('mp_stores');
         $stock_med = $query->result();
-        $query = $this->db->query("UPDATE mp_productslist SET expire = '".$expire."', quantity = quantity + ".$qty.", purchase = ".$purc.", retail = ".$retail." , disc = ".$disc." , location = '".$stock_med[0]->name."' WHERE product_name = '".$nama."' ");
+        // $query = $this->db->query("UPDATE mp_productslist SET expire = '".$expire."', quantity = quantity + ".$qty.", purchase = ".$purc.", retail = ".$retail." , disc = ".$disc." , location = '".$stock_med[0]->name."' WHERE product_name = '".$nama."' ");
+        $query = $this->db->query("UPDATE mp_productslist SET expire = '".$expire."', quantity = quantity + ".$qty.", purchase = ".$purc.", retail = ".$retail." , location = '".$stock_med[0]->name."' WHERE product_name = '".$nama."' ");
         return true;
     }
 

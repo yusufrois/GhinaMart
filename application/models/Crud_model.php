@@ -372,6 +372,22 @@ class Crud_model extends CI_Model
         }
     }
 
+    public function fetch_stock_opname()
+    {
+        $this->db->select("id,nama_barang,jumlah_sistem,jumlah_real,selisih,harga,hutang,tanggal,`status`");
+        $this->db->from('mp_opname');
+        $this->db->where('status','process');
+        $query = $this->db->get();
+        if ($query->num_rows() > 0)
+        {
+            return $query->result();
+        }
+        else
+        {
+            return NULL;
+        }
+    }
+
     public function fetch_record_expense($date1,$date2)
     {
         $this->db->select("mp_expense.*,mp_payee.customer_name, mp_head.name as head_name,mp_head.nature");
@@ -435,6 +451,23 @@ class Crud_model extends CI_Model
         $this->db->where('mp_expense.payee_id',$payee_id);
         $this->db->where('mp_expense.method', $method);
         $query = $this->db->get();
+        if ($query->num_rows() > 0)
+        {
+            return $query->result();
+        }
+        else
+        {
+            return NULL;
+        }
+    }
+
+    public function fetch_record_ketogori($arg)
+    { 
+            $this->db->select('category_name,id');
+            $this->db->from('mp_category');
+            $query = $this->db->get();
+        
+
         if ($query->num_rows() > 0)
         {
             return $query->result();
@@ -666,10 +699,23 @@ class Crud_model extends CI_Model
         return TRUE;
     }
 
+    public function update_opname($args, $data)
+    {
+        extract($args);
+        $this->db->where('id', $id);
+        $this->db->update($table_name, $data);
+        return TRUE;
+    }
+
     public function insert_retur($id, $val){
         $query = $this->db->query("INSERT INTO mp_productslist_resturn (id_produk, jumlah) VALUES ('".$id."','".$val."') ON DUPLICATE KEY UPDATE jumlah = jumlah + '".$val."'");
         return true;
     }  
+
+    public function insert_opname($id_barang,$nama_barang,$jumlah_sistem,$jumlah_real,$selisih,$harga,$hutang,$status){
+        $query = $this->db->query("INSERT INTO mp_opname (id_barang,nama_barang,jumlah_sistem,jumlah_real,selisih,harga,hutang,tanggal,`status`) VALUES ('".$id_barang."','".$nama_barang."','".$jumlah_sistem."','".$jumlah_real."','".$selisih."','".$harga."','".$hutang."',CURDATE(),'".$status."')");
+        return true;
+    }
 
     public function kurang_retur($id, $val){
         $query = $this->db->query("UPDATE mp_productslist_resturn SET jumlah = jumlah - '".$val."' WHERE id_produk = '".$id."'");

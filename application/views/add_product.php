@@ -3,10 +3,13 @@
         <div class="col-xs-12 col-md-12 col-sm-12">
             <div class="box " id="print-section">
                 <div class="box-header">
-                    <h3 class="box-title"><i class="fa fa-plus" aria-hidden="true"></i> 
-                        Tambah Produk
-                    </h3>
-                </div>
+            <h3 class="box-title purchase-top-header"><i class="fa fa-hand-o-right" aria-hidden="true"></i> Tambah Produk
+            </h3>
+            <div class="pull pull-right purchase-top-header">
+                <a type="button" class="btn btn-danger btn-flat btn-sm" href="<?php echo base_url('product');?>" ><i class="fa fa-times" aria-hidden="true"></i> Batalkan Produk
+                </a>
+            </div>
+        </div>
                 <?php
                     $attributes = array('id'=>'product_form','method'=>'post','class'=>'');
                 ?>

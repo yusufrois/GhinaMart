@@ -28,7 +28,7 @@
 								foreach ($product_record_list as $single_product_list)
 								{	
 							?>
-								    <option data-packsize="<?php echo $single_product_list->packsize; ?>" data-disc="<?php echo $single_product_list->disc; ?>" data-retail="<?php echo $single_product_list->retail; ?>" data-promo="<?php echo $single_product_list->date_disc; ?>" value="<?php echo $single_product_list->id; ?>" ><?php echo 'Produk : '.$single_product_list->product_name.' | Weight '.$single_product_list->mg.' '.$single_product_list->unit_type.' | Quantity '.$single_product_list->quantity.
+								    <option data-packsize="<?php echo $single_product_list->packsize; ?>" data-disc="<?php echo $single_product_list->disc; ?>" data-retail="<?php echo $single_product_list->retail; ?>" data-promo="<?php echo $single_product_list->date_disc; ?>" data-start="<?php echo $single_product_list->start_disc; ?>" value="<?php echo $single_product_list->id; ?>" ><?php echo 'Produk : '.$single_product_list->product_name.' | Weight '.$single_product_list->mg.' '.$single_product_list->unit_type.' | Quantity '.$single_product_list->quantity.
 								  	  ' | Barcode '.$single_product_list->barcode.
 								  	  ' | Min stock level '.$single_product_list->min_stock; ?> 
 								  	</option>	 
@@ -56,8 +56,15 @@
 					echo form_input($data);
 			  	?>
                 </div>
+                <div class="form-group">
+			   <?php echo form_label('Tanggal Start Promo:'); ?>
+               <?php
+					$data = array('class'=>'form-control input-lg','type'=>'date','id'=>'start_date','name'=>'start_date','placeholder'=>'e.g 10','reqiured'=>'');
+					echo form_input($data);
+			  ?>
+                </div>
 			   <div class="form-group">
-			   <?php echo form_label('Tanggal Promo:'); ?>
+			   <?php echo form_label('Tanggal End Promo:'); ?>
                <?php
 					$data = array('class'=>'form-control input-lg','type'=>'date','id'=>'promo_date','name'=>'promo_date','placeholder'=>'e.g 10','reqiured'=>'');
 					echo form_input($data);
@@ -95,10 +102,12 @@ $(function(){
        var jual = selected.data('retail'); 
        var disc = selected.data('disc'); 
        var promo = selected.data('promo'); 
+       var start = selected.data('start'); 
        //$('#packsize').val(extra);
        $('#disc_jual').val(disc);
        $('#harga_jual').val(jual);
        $('#promo_date').val(promo);
+       $('#start_date').val(start);
     });
 
     // $('#packs').keyup(function(value){
